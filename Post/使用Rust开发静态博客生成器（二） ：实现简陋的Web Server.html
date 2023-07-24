@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <link rel="stylesheet" href="/simple.css">
+  <link rel="stylesheet" href="/custom.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Candlest's Blog</title>
+</head>
+
+<body>
+  <div>
+    <header>
+      <nav>
+        <h1 align="center">
+          # Candlest's Blog
+        </h1>
+        <ul>
+          <li><a href="/">主页</a></li>
+          <li><a href="/friends.html">友链</a></li>
+          <li><a href="/about.html">关于我</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div>
+      
+<header>
+  <h1>（二）实现简陋的Web Server</h1>
+  <p align="center"><small><span>2023&#x2F;07&#x2F;19 | <a>使用Rust开发静态博客生成器</a> | <a>#Rust#</a> <a>#Blog#</a> </span></small></p>
+</header>
+<section>
+  <p>模仿<code>hexo s</code>，我们也得在我们的程序中实现本地预览的功能。要实现本地预览的功能，最直接的办法就是运行一个根目录为<code>public</code>下的网络服务器。在<a href="https://crates.io">crates.io</a>中，不但有<a href="https://crates.io/crates/actix_web">actix_web</a>和<a href="https://crates.io/crates/rocket">rocket</a>这样的重量级实现，也有<a href="https://crates.io/crates/tiny_http">tiny-http</a>这样的轻量级实现。不过，我们连线程池都不需要，只需要实现最基础的HTTP协议访问文件即可。</p>
+<h2>实现TCP的监听</h2>
+<p>TCP是一个数据流传输协议，用于设备间的信息交换。Rust的标准库中提供了<code>std::net</code>模块，我们可以使用它来监听 TCP ：</p>
+<pre><code class="language-rust">fn run(){
+    let listener = std::net::TcpListener::bind(&quot;127.0.0.1:7878&quot;).unwrap();
+    
+    for stream in listener.incoming() {
+        println!(&quot;Connection established!&quot;);
+    }
+}
+</code></pre>
+<p>运行程序，并打开浏览器访问<code>127.0.0.1:7878</code>，我们可以看到一行行<code>Connection established!</code>被输出。这是浏览器向服务器请求数据的缘故。</p>
+<h2>读取TCP数据流并响应HTTP协议</h2>
+<p>HTTP协议的请求格式如下：</p>
+<pre><code class="language-rust">Method Request-URI HTTP-Version CRLF
+headers CRLF
+message-body
+</code></pre>
+<p><code>CRLF</code>是<code>\r\n</code>作为行间分隔。</p>
+<p>作为静态网页的Server，我们要面对的<code>Method</code>主要是<code>GET</code>，而<code>GET</code>请求没有<code>message-body</code>。同时，<code>headers</code>我们暂且也不需要理会。所以，我们只需要关注第一行，请求行。</p>
+<p>下面是一个我们将面临的典型请求：</p>
+<pre><code class="language-http">GET / HTTP/1.1
+</code></pre>
+<p>作为静态网页的Server，我们只需要关注第二个参数<code>Request-URI</code>，用户请求什么文件，我们就返回什么文件的内容。</p>
+<blockquote>
+<p>这里采用了<code>std::thread</code>提供的多线程，其实大可不必</p>
+</blockquote>
+<p>在<code>fn run()</code>中，我们读取<code>stream</code>：</p>
+<pre><code class="language-rust">for stream in listener.incoming() {
+    let stream = stream.unwrap();
+     std::thread::spawn(|| {
+            handle_connection(stream);
+    });
+}
+</code></pre>
+<p>我们将处理连接的函数独立出来：</p>
+<pre><code class="language-rust">fn handle_connection(mut stream: TcpStream){
+    let buf_reader = BufReader::new(&amp;mut stream);
+	let request_line = buf_reader.lines().next().unwrap().unwrap();
+}
+</code></pre>
+<p>这里的<code>request_line</code>就是HTTP请求的第一行，也就是我们真正需要关注的那一行。</p>
+<p>在我们响应请求时，我们需要关注两点：<code>status_line</code>和返回内容。</p>
+<blockquote>
+<p>前置条件：我们要在程序目录下放置<code>index.html</code>和<code>404.html</code></p>
+</blockquote>
+<p>在<code>fn handle_connection</code>中：</p>
+<pre><code class="language-rust">let (status_line, filename) = match &amp;request_line[..] {
+        &quot;GET / HTTP/1.1&quot; =&gt; (&quot;HTTP/1.1 200 OK&quot;, &quot;index.html&quot;),
+        _ =&gt; (&quot;HTTP/1.1 404 NOT FOUND&quot;, &quot;404.html&quot;),
+};
+
+let contents = fs::read_to_string(filename).unwrap();
+let length = contents.len();
+let response = format!(&quot;{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}&quot;);
+stream.write_all(response.as_bytes()).unwrap();
+</code></pre>
+<p>上面的代码做了两件事：</p>
+<ul>
+<li>解析<code>request_line</code>并选择不同答复内容</li>
+<li>拼接符合HTTP协议的返回内容并答复</li>
+</ul>
+<p>运行程序，手动修改浏览器的<code>url</code>并请求网页，我们会发现：除却<code>127.0.0.1:7878</code>的请求可以被<code>OK</code>答复并返回<code>index.html</code>的内容，其他诸如<code>127.0.0.1:7878/index.html</code>等都会被答复<code>404</code>并返回<code>404.html</code>的内容。</p>
+<p>令人欣慰的是，我们成功响应了HTTP的请求；令人失望的是，我们答复的规则显然不能满足我们的需求。</p>
+<h2>从本地文件读取内容并返回</h2>
+<p>我们的目的是：读取HTTP请求的<code>uri</code>，并返回与之相匹配的文件内容：</p>
+<ul>
+<li>对于<code>/</code>的请求，返回<code>index.html</code></li>
+<li>对于文件的请求，如果存在则返回内容，如果不存在则返回<code>404.html</code></li>
+</ul>
+<p>同时考虑到我们的文件名可能包含非<code>ASCII</code>遭到百分转义，我们采用<code>percent_encoding</code>库处理文件：</p>
+<p>（这段代码写得很乱，待优化）</p>
+<pre><code class="language-rust">const PUBLIC_DIR: &amp;str = &quot;public&quot;;
+//...
+/*Tackle HTTP 
+Read the uri of the HTTP request and return the matching file content:
+For requests to /, index.html is returned
+For file requests, return the content if it exists, or return 404.html if it does not exist
+*/
+fn handle_connection(mut stream: std::net::TcpStream){
+    let buf_reader = std::io::BufReader::new(&amp;mut stream);
+    let request_line = std::io::BufRead::lines(buf_reader).next().unwrap().unwrap();
+    let (status_line, filename) = match &amp;request_line[..] {
+        &quot;GET / HTTP/1.1&quot; =&gt; (&quot;HTTP/1.1 200 OK&quot;, &quot;/index.html&quot;.to_string()),
+        _ =&gt; {
+            let url_phase: Vec&lt;&amp;str&gt; = request_line[..].split(' ').collect();
+            let url_raw = url_phase[1]; /*get uri */
+            let iter = percent_encoding::percent_decode(url_raw.as_bytes());
+            let decoded = iter.decode_utf8().unwrap().to_string();
+            let path_str = format!(&quot;{}{}&quot;, utils::PUBLIC_DIR, decoded);
+            let path_str = path_str.as_str();
+            if std::path::Path::exists(std::path::Path::new(path_str)){
+                (&quot;HTTP/1.1 200 OK&quot;, decoded)
+            }
+            else {
+                crate::utils::info(utils::Info::RUN, &quot;cannot found&quot;, &amp;decoded);
+                (&quot;HTTP/1.1 404 NOT FOUND&quot;, &quot;/404.html&quot;.to_string())
+            }
+        }
+    };
+
+    let contents = std::fs::read_to_string(format!(&quot;{}{}&quot;, utils::PUBLIC_DIR, filename).as_str()).unwrap();
+    let length = contents.len();
+    let response = format!(&quot;{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}&quot;);
+    std::io::Write::write_all(&amp;mut stream, response.as_bytes()).unwrap();
+}
+</code></pre>
+<p>由此，我们实现了我们对本地Web Server的基本需求。</p>
+<p>下一节我们会运用<a href="https://github.com/Keats/tera">tera</a>这样的类<code>Jinja2/Django</code>库，结合<code>pulldown_cmark</code>库，实现从<code>markdown</code>到<code>html</code>的转换，同时创建索引，并使用<code>pico.css</code>或者<code>simple.css</code>美化我们的网页。</p>
+<p><em><strong>Fin.</strong></em></p>
+
+</section>
+
+    </div>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    <footer>
+      <p align="center">
+        <i>generated by <a href="https://github.com/Candlest/rublog">rublog</a>, beautified by <a href="https://simplecss.org/">simple.css</a>.</i>
+      </p>
+    </footer>
+  </div>
+</body>
+
+</html>

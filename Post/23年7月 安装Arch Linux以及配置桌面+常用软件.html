@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <link rel="stylesheet" href="/simple.css">
+  <link rel="stylesheet" href="/custom.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Candlest's Blog</title>
+</head>
+
+<body>
+  <div>
+    <header>
+      <nav>
+        <h1 align="center">
+          # Candlest's Blog
+        </h1>
+        <ul>
+          <li><a href="/">主页</a></li>
+          <li><a href="/friends.html">友链</a></li>
+          <li><a href="/about.html">关于我</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div>
+      
+<header>
+  <h1>安装Arch Linux以及配置桌面+常用软件</h1>
+  <p align="center"><small><span>2023&#x2F;7&#x2F;16 | <a>Arch Linux日用</a> | <a>#Linux#</a> <a>#Arch Linux#</a> </span></small></p>
+</header>
+<section>
+  <h2>前言</h2>
+<p>在一切开始之前，我需要说明以下三件事：（爹味溢出，可以跳到后面）</p>
+<ol>
+<li>Arch Linux一个月一个新版本，安装过程常常有改变，且软件库常有变动，<u><strong>不能保证这篇文章永远正确，最好的安装方式应该是对照英语版的<a href="https://wiki.archlinux.org/title/Installation_guide">ArchLinuxWiki</a></strong></u></li>
+<li>学会安装Arch Linux，学会使用Vim和Emacs<u><strong>并不能使你的编程能力有什么提高</strong></u>，好比擅长安装Office套件和灵活使用Office，二者不可同日而语焉。（当然，Geetoo和LFS的安装和使用能够让你熟悉Linux的文件结构和软件从源代码到可执行文件的编译过程，前提是<u><strong>逃离舒适区，专注于探索与解决问题</strong></u>）</li>
+<li><u><strong>美化是没有尽头的，配置是没有尽头的</strong></u>，在二者身上浪费太多的时间，是忽略电脑生产工具事实的本末倒置，是不可取的。<u><strong>时间很宝贵，要用在产出比更高的事情上</strong></u>，要给思考留出时间，给重要的人留出时间。</li>
+<li><u><strong>希望你过得幸福快乐</strong></u>。</li>
+</ol>
+<h2>安装前的准备</h2>
+<h3>下载映像文件</h3>
+<p>建议使用国内的镜像以加快速度，比如：</p>
+<ul>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn">Tsinghua - TUNA</a></li>
+<li><a href="http://mirrors.ustc.edu.cn/">LUG@USTC</a></li>
+<li><a href="https://mirrors.sjtug.sjtu.edu.cn/">SJTUG</a></li>
+</ul>
+<p>通过这些网站稳定、快速、现代的镜像服务，我们能够轻松地下载镜像。</p>
+<h3>刻录镜像</h3>
+<p>准备一个至少1G的USB Disk作为刻录设备。当然，如果你愿意可以使用Grub2直接引导镜像文件（如果有的话），方法见附录。</p>
+<p>在Windows下，建议使用<a href="https://rufus.ie/">rufus</a>刻录。</p>
+<p>在Linux/Unix like，可以尝试<code>dd</code>命令烧录。</p>
+<p>（当然，这并不是最好的方法。事实上对支持iso模式启动的映像来说，直接将其解压放入USB Disk是一个更加轻松的做法）</p>
+<pre><code class="language-bash">sudo dd if=$archlinux.iso of=$USB_Disk #自己替换内容
+</code></pre>
+<h3>更改BIOS设置（如果有）</h3>
+<blockquote>
+<p>关于如何进入BIOS，根据主板类型有不同的快捷键，比如Dell的是F11，可自行查询。</p>
+</blockquote>
+<ul>
+<li>
+<p>关闭 安全启动（Secure Boot）</p>
+</li>
+<li>
+<p>关闭 快速存储技术（Intel Rapid Storage Technology，RST）</p>
+</li>
+<li>
+<p>关闭 Windows的快速启动</p>
+</li>
+</ul>
+<h2>安装Arch Linux</h2>
+<p>重启，选择启动项，进入USB Disk中的Live系统。</p>
+<h3>配置网络</h3>
+<p>有线连接使用<code>dhcpcd</code>，无线连接使用<code>iwctl</code>。</p>
+<p>首先开启网卡：</p>
+<pre><code class="language-bash">ip link
+</code></pre>
+<p>这里以我的输出为例子：</p>
+<blockquote>
+<p>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT g
+roup default qlen 1000 
+link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 
+2: enp3s0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc fq_codel state DOWN 
+mode DEFAULT group default qlen 1000 
+link/ether e4:54:e8:0f:d4:ba brd ff:ff:ff:ff:ff:ff 
+3: wlp4s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP mode 
+DORMANT group default qlen 1000 
+link/ether c0:b5:d7:72:48:4f brd ff:ff:ff:ff:ff:ff</p>
+</blockquote>
+<p>一般以<code>e</code>开头的都是有线网卡，比如这里的<code>enp3s0</code>；一般以<code>w</code>开头的都是无线网卡，比如这里的<code>wlp4s0</code>。</p>
+<p>下面我们开启网卡（默认禁用，有可能也没禁用，但是如果你不能判断的话，运行一次也不会影响）：</p>
+<pre><code class="language-bash">ip link set wlp4s0 up # 开启wlp4s0
+</code></pre>
+<p>接下来连接Wi-Fi（以下的<code>wlp4s0</code>请替换成自己的网卡名）</p>
+<p>以前是用<code>wifi-menu</code>来着，现在改用<code>iwctl</code>了</p>
+<pre><code class="language-bash">iwctl
+</code></pre>
+<p>列出网卡（有刚才的网卡名就成功了）:</p>
+<pre><code class="language-bash">station device list
+</code></pre>
+<p>连接网络：</p>
+<pre><code class="language-bash">station wlp4s0 scan
+station wlp4s0 get-networks
+station wlp4s0 connect ${网络名称}
+station wlp4s0 show
+exit
+</code></pre>
+<p>输入第三条命令后可能会要求输入Wi-Fi密码(如果有的话)，切忌输入错误</p>
+<p>测试网络是否已经连接：</p>
+<pre><code class="language-bash">ping -c 3 www.baidu.com
+</code></pre>
+<h3>硬盘分区、格式化与挂载</h3>
+<p>这里推荐用<code>cfdisk</code>，其图形化界面非常友好。</p>
+<p>MBR启动至少有一个<code>/</code>根分区就可以了，UEFI还要挂载ESP分区到<code>/boot</code>(或者其他目录，但是这样方便<code>grub</code>、<code>UEFInd</code>和<code>system-boot</code>等引导工具安装) </p>
+<p>以前推荐使用<code>ext4</code>格式化，现在似乎更推荐用性能更好，概念更新的<code>brtfs</code>（GNU社区对标<code>zfs</code>的项目）。</p>
+<p>对于非EFI目录，我们使用<code>brtfs</code>分区。</p>
+<pre><code class="language-bash">mkfs.brtfs ${分区目录}
+</code></pre>
+<p>对于EFI目录，如果已经有了其他系统的引导文件，那就去不复顾，勿动勿虑。反之则使用<code>exfat</code>格式化。</p>
+<h4>配置pacman</h4>
+<p>按速度添加国内源：</p>
+<pre><code class="language-bash">reflector --country China --sort rate --save /etc/pacman.d/mirrorlist
+</code></pre>
+<p>可以开启pacman颜色显示</p>
+<pre><code class="language-bash">vim /etc/pacman.conf
+</code></pre>
+<p>输入<code>/</code>+<code>#Color</code>，定位到<code>#Color</code>那一行。然后<code>i</code>到编辑模式，把<code>#</code>去掉后输入<code>:</code>+<code>wq</code>退出<code>vim</code>。</p>
+<p>然后同步：</p>
+<pre><code class="language-bash">pacman -Syy
+</code></pre>
+<p>可以顺便安装一些有用的包：</p>
+<ul>
+<li>tree 树形图显示目录</li>
+<li>lynx/w3m 命令行浏览器，在之后等安装系统的时候可以切换到别的tty浏览网页，在命令行下不能显示中文</li>
+<li>fish 开箱即用，非常好用的自动补全</li>
+</ul>
+<h4>挂载分区</h4>
+<pre><code class="language-bash">mount ${根分区} /mnt
+mkdir /mnt/boot
+mount ${ESP分区} /mnt/boot #如果是UEFI的话
+</code></pre>
+<p>如果安装了tree命令可以使用该命令检查：</p>
+<pre><code class="language-json">tree /mnt
+</code></pre>
+<h3>安装系统</h3>
+<p>这句命令的意思是安装软件到<code>/mnt</code>目录下：</p>
+<p>（个人强烈推荐<code>fish</code>）</p>
+<pre><code class="language-bash">pacstrap -i /mnt linux linux-firmware linux-headers base base-devel vim bash-completion
+</code></pre>
+<h3>生成fstab和chroot</h3>
+<p>安装完后，生成开机挂载目录的配置文件：</p>
+<pre><code class="language-bash">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
+cat /mnt/etc/fstab #检查一下
+</code></pre>
+<p>然后chroot进入新系统。</p>
+<p><strong>Arch，启动！</strong></p>
+<pre><code class="language-bash">arch-chroot /mnt
+arch-chroot /mnt /usr/bin/fish #如果装了fish就输入这句
+</code></pre>
+<h3>设置用户与密码</h3>
+<p>root用户密码：</p>
+<pre><code class="language-bash">passwd
+</code></pre>
+<p>创建新用户：</p>
+<pre><code class="language-bash">useradd -m -g wheel -c /usr/bin/fish ${user}#如果有fish的话输入-c及以后内容
+passwd ${user}
+</code></pre>
+<h3>配置sudo</h3>
+<p>使用visudo</p>
+<pre><code class="language-bash">visudo
+</code></pre>
+<p>输入<code>/</code>+<code>wheel</code>，定位到有NO PASSWD那一行。然后<code>i</code>到编辑模式，把<code>#</code>去掉后输入<code>:</code>+<code>wq</code>退出</p>
+<p><strong>(vim的基本使用方法后面不再详细介绍)</strong></p>
+<h3>本地化</h3>
+<p>设置语言：</p>
+<pre><code class="language-bash">vim /etc/locale.gen
+</code></pre>
+<p>自己把<code>en_US.UTF-8 UTF-8</code>那一行和<code>zh_CN.UTF-8 UTF-8</code>那一行的<code>#</code>去掉：</p>
+<pre><code class="language-bash">locale-gen
+echo.UTF-8 &gt;&gt; /etc/locale.conf
+</code></pre>
+<h3>安装引导</h3>
+<h4>使用Grub2</h4>
+<p><code>grub2</code>应该是以前最常用的引导管理器了。历史悠久，兼容性好，国内资料也很多，有问题也方便解决。</p>
+<pre><code class="language-bash">pacman -S grub efibootmgr
+grub-install
+</code></pre>
+<h4>使用system-boot</h4>
+<p><code>system-boot</code>主要针对 <code>gpt</code> 分区与固态硬盘，是<code>systemd</code>组件的一部分，继承其简单粗暴的风格。</p>
+<p>安装 <code>bootloader</code>：</p>
+<pre><code class="language-bash">pacman -S system-boot
+bootctl install
+</code></pre>
+<p><code>bootctl</code>默认<code>path=/boot</code>，如果不是需要指定，使用：</p>
+<pre><code class="language-bash">bootctl install --path=$dir
+</code></pre>
+<p>配置 <code>loader.conf</code>：</p>
+<pre><code class="language-bash">vim /boot/loader/loader.conf
+</code></pre>
+<p>输入：</p>
+<pre><code>default arch
+timeout 3 #如果嫌弃的话可以注释掉这行
+editor 0
+</code></pre>
+<p>参数非常的简单明了，启动也非常的快。</p>
+<p>接下来配置<code>/boot/loader/entries/arch.conf</code>，创建并输入：</p>
+<pre><code>title arch
+linux /vmlinuz-linux
+initrd /initramfs-linux.img
+options root=/dev/nvme0n1p3 rw
+</code></pre>
+<p>注意：这里的<code>/dev/nvme0n1p3</code>是根目录，<u><strong>需要依照实际情况更改</strong></u></p>
+<p>更新引导：</p>
+<pre><code class="language-bash">bootctl update
+</code></pre>
+<p>用UEFI的有兴趣的也可以用<code>efibootmgr</code>手动引导和<code>UEFInd</code>管理器，这里不再赘述。</p>
+<h3>安装桌面环境(以KDE为例)</h3>
+<p>先安装Xorg和驱动、中文字体</p>
+<pre><code class="language-bash">pacman -S xorg
+pacman -S xf86-video-intel vulkan-intel mesa alsa alsa-utils pulseaudio pulseaudio-bluetooth cups
+pacman -S noto-fonts noto-fonts-extra noto-fonts-emoji noto-fonts-cjk adobe-source-code-pro-fonts adobe-source-sans-fonts adobe-source-serif-fonts adobe-source-han-sans-cn-fonts adobe-source-han-sans-hk-fonts adobe-source-han-sans-tw-fonts adobe-source-han-serif-cn-fonts wqy-zenhei wqy-microhei
+</code></pre>
+<p>再安装KDE：</p>
+<pre><code class="language-bash">pacman -S plasma sddm konsole dolphin kwrite
+</code></pre>
+<h3>安装网络管理器</h3>
+<p>KDE和GNOME默认集成<code>NetworkManager</code>：</p>
+<pre><code class="language-bash">pacman -S networkmanager
+</code></pre>
+<h3>启动服务</h3>
+<pre><code class="language-bash">systemctl enable sddm
+systemctl enable NetworkManager
+</code></pre>
+<h3>最后重启</h3>
+<pre><code class="language-bash">exit
+reboot
+</code></pre>
+<p>欢迎使用Arch Linux。</p>
+<img src="/home/candlest1112/Pictures/Screenshot_20230718_171029-1.png" alt="Welcome" style="zoom:50%;" />
+</section>
+
+    </div>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    <footer>
+      <p align="center">
+        <i>generated by <a href="https://github.com/Candlest/rublog">rublog</a>, beautified by <a href="https://simplecss.org/">simple.css</a>.</i>
+      </p>
+    </footer>
+  </div>
+</body>
+
+</html>
