@@ -87,22 +87,22 @@
     </br>
     <div>
       
-<header>
-  <h1 align="center">复刻ClassTool4Seewo二三事</h1>
-  <p align="center"><small><span>2023-06-08 18:37 | <a>ClassTool4Seewo</a> | <a>#Qt#</a> <a>#Win32#</a> </span></small></p>
-</header>
 <section>
-  <p>好久好久以前，在Github发现了这个项目：<a href="https://github.com/IcariaWorks/ClassTools">ClassTool</a></p>
-<blockquote>
-<p>ClassTool</p>
-<p>一个用在班级电脑上面的动态壁纸系统，显示高考倒计时、作业、课程表、值日生等</p>
-</blockquote>
-<p>作为电教，上周在班级电脑上使用了一下。好巧不巧，<strong>我校希沃大概是17左右引进的，羸弱的性能、Win7的系统、冰点还原和校园白名单机制，使得ClassTool不能在这台机上很好地运行</strong>，尤其是不能作为桌面背景层。</p>
-<p>也是夜郎自大，不曾想过自己的编程能力也和这台机一样羸弱，和同学夸下海口“我高考假七天就能复刻一个出来”，自6月5日晚以来“键”耕不掇，尝试了MFC、C#Winform、Electron+Vue、Rust+egui技术栈，无一可以找到在<strong>那台Win7的、有冰点还原的、基本不能联网的、性能羸弱的一体机</strong>上实现的良好方案。</p>
-<p>但是不完美的方案倒是有的_(:з」∠)_，而且是我初中便实现过的（MFC+WinForm），或者是我现在有望实现的（Rust + egui），原作ClassTool也是迭代版本多次几年才有现在的样子，我也无需那么着急。</p>
-<h3>动态壁纸原理</h3>
-<p>动态壁纸，一是动态，二是壁纸。前者可以通过媒体播放/网页形式实现，后者则是调用Win32API实现。</p>
-<p><em><strong>TODO</strong></em></p>
+  <p>本博客使用自己用 Rust <del>缝合</del><u>编写</u>的静态网站生成器 <a href="https://github.com/Candlest/rublog">Rublog</a> 生成。</p>
+<p>样式相关：</p>
+<ul>
+<li>以pico.css美化页面</li>
+<li>以<a href="https://fonts.google.com/noto/specimen/Noto+Serif+SC">思源宋体</a>行文，以<a href="https://fonts.google.com/specimen/Ubuntu+Mono">思源黑体 Mono</a>展示代码</li>
+</ul>
+<p>使用以下插件：</p>
+<ul>
+<li><a href="https://mermaid.js.org/">mermaid.js</a> 支持以<code>&lt;pre class=&quot;mermaid&quot;&gt;</code>标签绘制图像</li>
+<li><a href="https://highlightjs.org/">highlight.js</a> 以代码高亮，<a href="https://github.com/wcoder/highlightjs-line-numbers.js">highlightjs-line-numbers.js</a> 以显示行号</li>
+</ul>
+<p>暂时实现不了的：</p>
+<ul>
+<li><a href="https://clipboardjs.com/">clipboard.js</a> 复制代码，在加上行号的基础上，似乎得重写 <a href="https://docs.rs/pulldown-cmark/latest/pulldown_cmark/">pulldown cmark</a> 部分才能实现，或者用js处理<code>&lt;pre&gt;</code>内容</li>
+</ul>
 
 </section>
 

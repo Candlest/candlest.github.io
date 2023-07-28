@@ -1,3 +1,79 @@
 :root {
-  --accent: #e297a4;
+  --primary: #3dade7;
+}
+
+/* :root {
+  --page-bg-color: #2a2e32;
+  --main-bg-color: #3dade7;
+  --link-color: #fcfcfc;
+  --text-color: #dcdcdc;
+}
+
+div {
+  color: var(--text-color);
+}
+
+p {
+  color: var(--text-color);
+}
+
+a {
+  color: var(--link-color);
+}
+
+.nav-bar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.nav-item {
+  display: inline;
+  background-color: var(--main-bg-color);
+}
+
+.nav-item a {
+  text-decoration: none;
+} */
+
+/* for block of numbers */
+pre code td.hljs-ln-numbers {
+  text-align: center;
+  color: #9c9c9c;
+  border-right: 0.5px solid #9c9c9c;
+  vertical-align: top;
+  padding-left: 0.5rem;
+  padding-right: 0.8rem;
+  border: none;
+}
+
+/* for block of code */
+pre code td.hljs-ln-code {
+  padding-left: 1rem;
+  border: none;
+}
+
+body {
+  background-color: var(--page-bg-color);
+  max-width: 910px;
+  position: absolute;
+  left: 20%;
+  right: 20%;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@300; 400; 500; 600; 700&family=Noto+Serif+SC:wght@300; 400; 500; 600; 700&display=swap');
+
+html,
+body {
+  font-family: "Linux Biolinum", "Noto Serif SC", serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  width: 100%
+}
+
+code,
+pre,
+samp {
+  font-family: "Noto Sans Mono", Monaco, Menlo, "Noto Serif SC", monospace;
 }
