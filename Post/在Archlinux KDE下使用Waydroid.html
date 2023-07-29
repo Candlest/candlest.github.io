@@ -22,22 +22,6 @@
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-  <!--Gitalk-->
-  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js">
-    var title = location.pathname.substr(0, 50); 
-    const gitalk = new Gitalk({
-      clientID: 'e24fc01a0a715f2541bb',
-      clientSecret: '4fb99d953209c3978733efcf3196d38c23978191',
-      repo: 'candlest.github.io',      // The repository of store comments,
-      owner: 'candlest',
-      admin: ['candlest'],
-      id: title,      // Ensure uniqueness and length less than 50
-      distractionFreeMode: false  // Facebook-like distraction free mode
-    })
-
-    gitalk.render('gitalk-container')
-  </script>
   <!-- Google font预加载&缓存 -->
   <link type="text/css" rel="preload stylesheet" as="style"
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
@@ -118,7 +102,8 @@
       
 <header>
   <h1 align="center">在Archlinux KDE下使用Waydroid</h1>
-  <p align="center"><small><span>2023-07-16 12:32 | <a>Arch Linux日用</a> | <a>#Linux#</a> <a>#Arch Linux#</a> </span></small></p>
+  <p align="center"><small><span>2023-07-16 12:32 |
+        <a>Arch Linux日用</a> | <a>#Linux#</a> <a>#Arch Linux#</a> </span></small></p>
 </header>
 <section>
   <p>这几天装回了Arch Linux，尝试一下Waydroid。</p>
@@ -209,7 +194,13 @@ sudo rm -rf /var/lib/waydroid /home/.waydroid ~/waydroid ~/.share/waydroid ~/.lo
 <p>Wayland目前来说bug比较多，（尤其是non-native)应用支持比较差，只能说未来可期，不建议日用。</p>
 
 </section>
-<div id="gitalk-container">不存在Gitalk</div>
+<div id="gitalk-container">
+  <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+    data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
+    data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark" data-lang="zh-CN"
+    data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+</div>
 
     </div>
     </br>
