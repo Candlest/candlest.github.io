@@ -9,6 +9,35 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
   <script src="/highlightjs-line-numbers.min.js"></script>
   <script>hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+  <!-- MathJax-->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+  <!--Gitalk-->
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js">
+    var title = location.pathname.substr(0, 50); 
+    const gitalk = new Gitalk({
+      clientID: 'e24fc01a0a715f2541bb',
+      clientSecret: '4fb99d953209c3978733efcf3196d38c23978191',
+      repo: 'candlest.github.io',      // The repository of store comments,
+      owner: 'candlest',
+      admin: ['candlest'],
+      id: title,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('gitalk-container')
+  </script>
   <!-- Google font预加载&缓存 -->
   <link type="text/css" rel="preload stylesheet" as="style"
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
@@ -180,6 +209,7 @@ sudo rm -rf /var/lib/waydroid /home/.waydroid ~/waydroid ~/.share/waydroid ~/.lo
 <p>Wayland目前来说bug比较多，（尤其是non-native)应用支持比较差，只能说未来可期，不建议日用。</p>
 
 </section>
+<div id="gitalk-container">不存在Gitalk</div>
 
     </div>
     </br>
