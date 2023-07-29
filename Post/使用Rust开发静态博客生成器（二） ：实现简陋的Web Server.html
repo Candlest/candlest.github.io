@@ -6,9 +6,11 @@
   <link rel="stylesheet" href="/custom.css">
   <link rel="stylesheet" href="/github-dark.min.css">
   <!-- Highlight -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-  <script src="/highlightjs-line-numbers.min.js"></script>
-  <script>hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js">
+  </script>
+  <script>
+    hljs.highlightAll();
+  </script>
   <!-- MathJax-->
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
@@ -21,7 +23,7 @@
     },
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
-</script>
+  </script>
   <!-- Google font预加载&缓存 -->
   <link type="text/css" rel="preload stylesheet" as="style"
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
@@ -42,46 +44,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Candlest's Blog</title>
 </head>
-
-<body>
-<main class="container">
+<body data-theme="dark">
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
-  </script>
-  <script>
-    //from https://kanokano.cn/archives/818.html
-    function codecopy_func() {
-      const btn = '复制';
-      //获取所有的代码区域的pre元素节点
-      const codecopys = document.getElementsByTagName('pre');
-      //遍历DOM（pre节点）节点
-      for (let i = 0; i < codecopys.length; i++) {
-        //pre元素对象
-        let codecopy = codecopys[i];
-
-        //生成复制按钮
-        let html_temp = btn.replace(/index/g, i);
-
-        //找到code元素，并添加id属性，id的值和复制按钮的属性 data-clipboard-target 的值是一样的
-        //判断pre标签内是否含有code标签，如是则执行
-        if (codecopy.firstChild.localName == 'code') {
-
-          codecopy.firstChild.id = 'code_' + i;
-          //将复制按钮追加至页面
-          let html = codecopy.innerHTML + html_temp;
-
-          codecopy.innerHTML = html;
-        }
-      }
-      /*初始化复制功能*/
-      const clipboardJs = new ClipboardJS('.codecopy-btn'); //注意：ClipboardJS替代了Clipboard
-
-      /*复制失败事件*/
-      clipboardJs.on('error', function (e) {
-        console.log(e);
-      });
-    }
   </script>
   <div>
     <header>
@@ -101,13 +67,17 @@
     </br>
     <div>
       
-<header>
-  <h1 align="center">使用Rust开发静态博客生成器（二）实现简陋的Web Server</h1>
-  <p align="center"><small><span>2023-07-19 12:54 |
-        <a>使用Rust开发静态博客生成器</a> | <a>#Rust#</a> <a>#Blog#</a> </span></small></p>
-</header>
-<section>
-  <p>模仿<code>hexo s</code>，我们也得在我们的程序中实现本地预览的功能。要实现本地预览的功能，最直接的办法就是运行一个根目录为<code>public</code>下的网络服务器。在<a href="https://crates.io">crates.io</a>中，不但有<a href="https://crates.io/crates/actix_web">actix_web</a>和<a href="https://crates.io/crates/rocket">rocket</a>这样的重量级实现，也有<a href="https://crates.io/crates/tiny_http">tiny-http</a>这样的轻量级实现。不过，我们连线程池都不需要，只需要实现最基础的HTTP协议访问文件即可。</p>
+<div class="fixed_div">
+  <p id="toc"></p>
+</div>
+<div>
+  <header>
+    <h1 align="center">使用Rust开发静态博客生成器（二）实现简陋的Web Server</h1>
+    <p align="center"><small><span>2023-07-19 12:54 |
+          <a>使用Rust开发静态博客生成器</a> | <a>#Rust#</a> <a>#Blog#</a> </span></small></p>
+  </header>
+  <div id="toc-content">
+    <p>模仿<code>hexo s</code>，我们也得在我们的程序中实现本地预览的功能。要实现本地预览的功能，最直接的办法就是运行一个根目录为<code>public</code>下的网络服务器。在<a href="https://crates.io">crates.io</a>中，不但有<a href="https://crates.io/crates/actix_web">actix_web</a>和<a href="https://crates.io/crates/rocket">rocket</a>这样的重量级实现，也有<a href="https://crates.io/crates/tiny_http">tiny-http</a>这样的轻量级实现。不过，我们连线程池都不需要，只需要实现最基础的HTTP协议访问文件即可。</p>
 <h2>实现TCP的监听</h2>
 <p>TCP是一个数据流传输协议，用于设备间的信息交换。Rust的标准库中提供了<code>std::net</code>模块，我们可以使用它来监听 TCP ：</p>
 <pre><code class="language-rust">fn run(){
@@ -128,7 +98,7 @@ message-body
 <p><code>CRLF</code>是<code>\r\n</code>作为行间分隔。</p>
 <p>作为静态网页的Server，我们要面对的<code>Method</code>主要是<code>GET</code>，而<code>GET</code>请求没有<code>message-body</code>。同时，<code>headers</code>我们暂且也不需要理会。所以，我们只需要关注第一行，请求行。</p>
 <p>下面是一个我们将面临的典型请求：</p>
-<pre><code class="language-http">GET / HTTP/1.1
+<pre><code class="language-bash">GET / HTTP/1.1
 </code></pre>
 <p>作为静态网页的Server，我们只需要关注第二个参数<code>Request-URI</code>，用户请求什么文件，我们就返回什么文件的内容。</p>
 <blockquote>
@@ -218,15 +188,24 @@ fn handle_connection(mut stream: std::net::TcpStream){
 <p>下一节我们会运用<a href="https://github.com/Keats/tera">tera</a>这样的类<code>Jinja2/Django</code>库，结合<code>pulldown_cmark</code>库，实现从<code>markdown</code>到<code>html</code>的转换，同时创建索引，并使用<code>pico.css</code>或者<code>simple.css</code>美化我们的网页。</p>
 <p><em><strong>Fin.</strong></em></p>
 
-</section>
-<div id="gitalk-container">
-  <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
-    data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
-    data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark" data-lang="zh-CN"
-    data-loading="lazy" crossorigin="anonymous" async>
-    </script>
+  </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/auto-toc-js@1.0.0/dist/toc.min.js"></script>
+<script>
+  new Toc({
+    wrapperId: 'toc-content',
+    insertId: 'toc',
+    showSerial: true
+  }).createToc();
+</script>
 
+      <div id="gitalk-container">
+        <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+          data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
+          data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark"
+          data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+          </script>
+      </div>
     </div>
     </br>
     </br>
@@ -240,7 +219,6 @@ fn handle_connection(mut stream: std::net::TcpStream){
       </p>
     </footer>
   </div>
-  </main>
 </body>
 
 </html>

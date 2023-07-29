@@ -2,6 +2,32 @@
   --primary: #3dade7;
 }
 
+.toc_root {
+  display: inline-block;
+  min-width: 225px;
+  padding: 20px 10px 10px;
+  background: #18232c;
+  line-height: 2;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: xx-small;
+  border-radius: 5px;
+}
+
+.fixed_div {
+  position: fixed;
+  left: 5px;
+  top: 20px;
+  width: 200px;
+}
+
+.toc_wrap .hide_toc_btn {
+  display: none;
+}
+
+.toc_wrap .show_toc_btn {
+  display: none;
+}
+
 /* :root {
   --page-bg-color: #2a2e32;
   --main-bg-color: #3dade7;
@@ -38,21 +64,16 @@ a {
 } */
 
 /* for block of numbers */
-pre code td.hljs-ln-numbers {
-  text-align: center;
-  color: #9c9c9c;
-  border-right: 0.5px solid #9c9c9c;
-  vertical-align: top;
-  padding-left: 0.5rem;
-  padding-right: 0.8rem;
-  border: none;
-}
 
-/* for block of code */
-pre code td.hljs-ln-code {
-  padding-left: 1rem;
-  border: none;
-}
+/**
+* Highlight.js
+*/
+
+/* 
+* hljs monokai 
+* https://cdnjs.com/libraries/highlight.js/
+*/
+.hljs-ln-numbers {-webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; color: #ccc !important; border-right: 1px solid #CCC !important; vertical-align: top !important; padding-right: 5px !important; /* your custom style here */ } /* for block of code */ .hljs-ln-code {padding-left: 10px !important; } .hljs {display: block; overflow-x: auto; padding: 0.5em; background: #272822; color: #ddd; } .hljs-tag, .hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-strong, .hljs-name {color: #f92672; } .hljs-code {color: #66d9ef; } .hljs-class .hljs-title {color: white; } .hljs-attribute, .hljs-symbol, .hljs-regexp, .hljs-link {color: #bf79db; } .hljs-string, .hljs-bullet, .hljs-subst, .hljs-title, .hljs-section, .hljs-emphasis, .hljs-type, .hljs-built_in, .hljs-builtin-name, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-addition, .hljs-variable, .hljs-template-tag, .hljs-template-variable {color: #a6e22e; } .hljs-comment, .hljs-quote, .hljs-deletion, .hljs-meta {color: #75715e; } .hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-doctag, .hljs-title, .hljs-section, .hljs-type, .hljs-selector-id {font-weight: bold; }
 
 body {
   background-color: var(--page-bg-color);
