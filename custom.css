@@ -97,4 +97,41 @@ code,
 pre,
 samp {
   font-family: "Noto Sans Mono", Monaco, Menlo, "Noto Serif SC", monospace;
+  border: none;
+}
+
+/*小小的也很可爱♥️*/
+code {
+  display: inline;
+  padding: 0.1rem 0.25rem;
+}
+
+blockquote{
+  background-color: #18232c;
+  border-left: 5px solid var(--primary);
+}
+
+/*text-autospace.js css*/
+html.han-la hanla:after {
+	content: " ";
+	display: inline;
+	font-family: Arial;
+	font-size: 0.89em;
+}
+
+html.han-la code hanla,
+html.han-la pre hanla,
+html.han-la kbd hanla,
+html.han-la samp hanla {
+	display: none;
+}
+
+html.han-la ol > hanla,
+html.han-la ul > hanla {
+	display: none;
+}
+
+/*mermaid*/
+pre.mermaid{
+  background-color: #11191f;
 }
