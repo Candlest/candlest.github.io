@@ -99,10 +99,6 @@ samp {
   border: none;
 }
 
-details[role=list] summary::after, li[role=list] > a::after{
-  display: none;
-}
-
 /*小小的也很可爱♥️*/
 code {
   display: inline;
