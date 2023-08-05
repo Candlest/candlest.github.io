@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" data-theme="dark" class='han-la'>
+<html lang="zh" class='han-la'>
 
 <head>
   <!-- THEME-->
@@ -67,6 +67,16 @@
             <li class="nav-item"><a href="/friends.html">友链</a></li>
             <li class="nav-item"><a href="/about_page.html">关于博客</a></li>
             <li class="nav-item"><a href="/about_me.html">关于我</a></li>
+            <li>
+              <details role="list" dir="rtl">
+                <summary aria-haspopup="listbox" role="link" class="secondary"><svg height="45px" color="var(--primary)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M10 3a7 7 0 1 1 0 14V3zm0-1a8 8 0 1 0 0 16a8 8 0 0 0 0-16z" fill="currentColor"></path></g></svg></summary>
+                <ul role="listbox">
+                  <li><a href="#" data-theme-switcher="auto">Auto</a></li>
+                  <li><a href="#" data-theme-switcher="light">Light</a></li>
+                  <li><a href="#" data-theme-switcher="dark">Dark</a></li>
+                </ul>
+              </details>
+            </li>
           </ul>
         </nav>
       </header>
@@ -229,6 +239,8 @@ fn run(){/*...*/}
           </small>
         </p>
       </footer>
+      <!-- Minimal theme switcher -->
+      <script src="/minimal-theme-switcher.js"></script>
     </div>
   </main>
 </body>
