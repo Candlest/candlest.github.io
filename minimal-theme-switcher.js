@@ -58,7 +58,7 @@ const themeSwitcher = {
       if (scheme == "auto") {
         this.preferredColorScheme == "dark" ? (this._scheme = "dark") : (this._scheme = "dark");
       } else if (scheme == "dark" || scheme == "light") {
-        this._scheme = "dark";
+        this._scheme = scheme;
       }
       this.applyScheme();
       this.schemeToLocalStorage();
