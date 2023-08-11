@@ -91,13 +91,97 @@
 </div>
 <div>
   <header>
-    <h1 align="center">写在高三回校前</h1>
-    <p align="center"><small><span>2023-07-29 01:45 |
-          <a href="/categories.html">杂记</a> | <a href="/tags.html">#杂记#</a> <a href="/tags.html">#生活#</a> </span></small></p>
+    <h1 align="center">在Archlinux KDE下使用Waydroid</h1>
+    <p align="center"><small><span>2023-07-16 12:32 |
+          <a href="/categories.html#Arch Linux日用">Arch Linux日用</a> | <a href="/tags.html#Linux">#Linux#</a> <a href="/tags.html#Arch Linux">#Arch Linux#</a> </span></small></p>
   </header>
   <div id="toc-content">
-    <p>想学的东西很多，想做的事情很多，但是只能先解决高考再说。</p>
-<p>2024，高考加油！</p>
+    <p>这几天装回了Arch Linux，尝试一下Waydroid。</p>
+<h2>启用Wayland环境</h2>
+<p>Waydroid顾名思义：Wayland + Android，需要在Wayland下运行。</p>
+<p>使用这个命令检查当前session是否使用Wayland：</p>
+<pre><code class="language-bash">echo $XDG_SESSION_TYPE
+</code></pre>
+<h3>使用Plasma Wayland Session</h3>
+<p>对于Arch Linux，需要安装plasma-wayland-session这个包</p>
+<pre><code class="language-bash">sudo pacman -S plasma-wayland-session
+</code></pre>
+<p>从Display Manager再次登陆，选择Plasma(Wayland) Session即可</p>
+<h3>使用weston以在X11下运行</h3>
+<pre><code class="language-bash">sudo pacman -S plasma-wayland-session
+</code></pre>
+<p>weston会打开一个新的窗口（使用Wayland的协议），在其左上角打开终端即可启动程序。</p>
+<h2>安装Waydroid</h2>
+<blockquote>
+<p>强烈建议： 请先启用[archlinuxcn]源 请先启用[archlinuxcn]源 请先启用[archlinuxcn]源 节约下载时间（在国内）</p>
+</blockquote>
+<p>安装binder模块</p>
+<pre><code class="language-bash">sudo pacman -S binder_linux-dkms #请先启用[archlinuxcn]源
+sudo modprobe binder_linux
+</code></pre>
+<p>切换root，加入模块</p>
+<pre><code class="language-bash">sudo -s #切换root
+echo &quot;binder_linux&quot;&gt;&gt; /etc/modules-load.d/binder.conf
+</code></pre>
+<p>安装Waydroid和镜像</p>
+<pre><code class="language-bash">sudo pacman -S waydroid waydroid-image-gapps #请先启用[archlinuxcn]源
+</code></pre>
+<h2>配置Waydroid</h2>
+<h3>初始化Waydroid</h3>
+<p>Waydroid，启动！（雾）</p>
+<pre><code class="language-bash">sudo waydroid init -s GAPPS -f
+sudo systemctl start waydroid-container
+sudo systemctl enable waydroid-container
+</code></pre>
+<h3>使用Waydroid Script</h3>
+<h4>从AUR安装</h4>
+<pre><code class="language-bash">yay -S waydroid-script-git
+</code></pre>
+<h4>从源安装（不推荐）</h4>
+<p>克隆仓库，并安装依赖</p>
+<pre><code class="language-bash">git clone https://github.com/casualsnek/waydroid_script
+cd ~/waydroid_script
+sudo python3 -m pip install -r requirements.txt
+</code></pre>
+<blockquote>
+<p>注意：这里的第三步命令需要bash类shell才能执行，使用fish这样的非传统shell会出错</p>
+</blockquote>
+<p>之后就能运行里面的<code>main.py</code>了</p>
+<h3>注册Google框架</h3>
+<p>待补充</p>
+<h3>开启ARM转译</h3>
+<p>AMD的cpu安装libndk</p>
+<pre><code class="language-text">sudo waydroid-extras -n
+</code></pre>
+<p>Intel的cpu安装libhoudini</p>
+<pre><code class="language-text">sudo waydroid-extras -l
+</code></pre>
+<h2>使用Waydroid</h2>
+<p>全屏模式：<code>waydroid show-full-ui</code></p>
+<p>Android Shell：<code>sudo waydroid shell</code></p>
+<p>安装APK：<code>waydroid app install $APK </code></p>
+<h3>开启多窗口</h3>
+<pre><code class="language-bash">waydroid prop set persist.waydroid.multi_windows true
+sudo systemctl restart waydroid-container
+</code></pre>
+<h3>小技巧</h3>
+<p>from : https://zhuanlan.zhihu.com/p/631327119</p>
+<p>有的app不识别鼠标点击事件</p>
+<pre><code class="language-text">waydroid prop set persist.waydroid.fake_touch $package-name
+#此命令必须随每一次&quot;waydroid session start&quot;启动而执行一次，否则失效
+</code></pre>
+<p>有的app即使联网了也不能上网，浏览器能上网但不能下载东西</p>
+<pre><code class="language-text">waydroid prop set persist.waydroid.fake_wifi $package-name
+#此命令必须随每一次&quot;waydroid session start&quot;启动而执行一次，否则失效
+</code></pre>
+<h2>卸载Waydroid</h2>
+<pre><code class="language-bash">waydroid session stop
+sudo systemctl stop waydroid-container
+yay -Rsn waydroid
+sudo rm -rf /var/lib/waydroid /home/.waydroid ~/waydroid ~/.share/waydroid ~/.local/share/applications/*aydroid* ~/.local/share/waydroid
+</code></pre>
+<h2>后记</h2>
+<p>Wayland目前来说bug比较多，（尤其是non-native)应用支持比较差，只能说未来可期，不建议日用。</p>
 
   </div>
 </div>
