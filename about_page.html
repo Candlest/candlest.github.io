@@ -2,16 +2,14 @@
 <html lang="zh" class='han-la' data-theme="dark">
 
 <head>
+  <script src="/jquery-3.7.0.min.js"></script>
+  <script src="/jquery.toc.min.js"></script>
   <!-- THEME-->
   <link rel="stylesheet" href="/pico.css">
   <link rel="stylesheet" href="/custom.css">
   <link rel="stylesheet" href="/github-dark.min.css">
-  <!-- highlight.js -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js">
-  </script>
-  <script>
-    hljs.highlightAll();
-  </script>
+  <!-- prism.js -->
+  <link href="/prism.css" rel="stylesheet" />
   <!-- MathJax-->
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
@@ -50,8 +48,12 @@
   <title>Candlest's Blog</title>
 </head>
 
-<body  data-theme="dark">
-  <main class="container"  data-theme="dark">
+<body data-theme="dark" lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制"
+  data-prismjs-copy-success="文本已复制！">
+  <div class="fixed_div">
+    <ol data-toc="div#toc-content" data-toc-headings="h2,h3,h4"></ol>
+  </div>
+  <main class="container" data-theme="dark">
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
       mermaid.initialize({ startOnLoad: true });
@@ -71,7 +73,12 @@
             <li class="nav-item"><a href="/about_me.html">关于我</a></li>
             <li>
               <details role="list" dir="rtl">
-                <summary aria-haspopup="listbox" role="link" class="secondary"><svg height="30px" color="var(--primary)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M10 3a7 7 0 1 1 0 14V3zm0-1a8 8 0 1 0 0 16a8 8 0 0 0 0-16z" fill="currentColor"></path></g></svg></summary>
+                <summary aria-haspopup="listbox" role="link" class="secondary"><svg height="30px" color="var(--primary)"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20">
+                    <g fill="none">
+                      <path d="M10 3a7 7 0 1 1 0 14V3zm0-1a8 8 0 1 0 0 16a8 8 0 0 0 0-16z" fill="currentColor"></path>
+                    </g>
+                  </svg></summary>
                 <ul role="listbox">
                   <li><a href="#" data-theme-switcher="auto">Auto</a></li>
                   <li><a href="#" data-theme-switcher="light">Light(unsupported)</a></li>
@@ -84,7 +91,7 @@
       </header>
       </br>
       </br>
-      <div>
+      <div class="line-numbers">
         
 <section>
   <p>本博客使用自己用 Rust <del>缝合</del><u>编写</u>的静态网站生成器 <a href="https://github.com/Candlest/rublog">Rublog</a> 生成。</p>
@@ -96,7 +103,7 @@
 <p>使用以下插件：</p>
 <ul>
 <li><a href="https://mermaid.js.org/">mermaid.js</a> 以支持<code>&lt;pre class=&quot;mermaid&quot;&gt;</code>标签绘制图像</li>
-<li><a href="https://highlightjs.org/">highlight.js</a> 以支持代码高亮，<del><a href="https://github.com/wcoder/highlightjs-line-numbers.js">highlightjs-line-numbers.js</a> 以显示行号</del><u>[已弃用行号]</u></li>
+<li><a href="https://prismjs.com/">prism.js</a> 以支持代码高亮</li>
 <li><a href="https://github.com/mastermay/text-autospace.js">text-autospace.js</a> 以添加中英文混合排版自动空格</li>
 <li><a href="https://www.mathjax.org/">MathJax</a> 以支持 <em><strong>LaTeX</strong></em></li>
 <li><a href="https://giscus.app">giscus</a> 以支持评论系统</li>
@@ -115,6 +122,7 @@
             data-theme="dark" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
             </script>
         </div>
+        <script src="/prism.js"></script>
       </div>
       </br>
       </br>

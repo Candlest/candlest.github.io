@@ -1,69 +1,33 @@
 /* :root {
 } */
 
-.toc_root {
-  display: inline-block;
-  min-width: 225px;
-  padding: 20px 10px 10px;
-  background: #18232c;
-  line-height: 2;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  font-size: xx-small;
-  border-radius: 5px;
-}
-
 .fixed_div {
   position: fixed;
-  left: 5px;
-  top: 20px;
+  top: 0;
+  left: 0;
+  width: 20%;
+  padding: 10px;
+}
+
+.fixed_div>ol {
+  border-top: 5px solid var(--primary);
   width: 200px;
+  padding: 10px 10px 2px 5px
 }
 
-.toc_wrap .hide_toc_btn {
-  display: none;
+.fixed_div>ol,
+.fixed_div>ol>li>ol,
+.fixed_div>ol>li>ol>li>ol {
+  display: inline-block;
+  background: #18232c;
+  font-size: small;
 }
 
-.toc_wrap .show_toc_btn {
-  display: none;
-}
-
-/* :root {
-  --page-bg-color: #2a2e32;
-  --main-bg-color: #3dade7;
-  --link-color: #fcfcfc;
-  --text-color: #dcdcdc;
-}
-
-div {
-  color: var(--text-color);
-}
-
-p {
-  color: var(--text-color);
-}
-
-a {
-  color: var(--link-color);
-}
-
-.nav-bar {
+.fixed_div>ol>li,
+.fixed_div>ol>li>ol>li,
+.fixed_div>ol>li>ol>li>ol>li {
   list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: inline;
 }
-
-.nav-item {
-  display: inline;
-  background-color: var(--main-bg-color);
-}
-
-.nav-item a {
-  text-decoration: none;
-} */
-
-/* for block of numbers */
-
 /**
 * Highlight.js
 */
@@ -72,7 +36,93 @@ a {
 * hljs monokai 
 * https://cdnjs.com/libraries/highlight.js/
 */
-.hljs-ln-numbers {-webkit-touch-callout: none !important; -webkit-user-select: none !important; -khtml-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; text-align: center !important; color: #ccc !important; border-right: 1px solid #CCC !important; vertical-align: top !important; padding-right: 5px !important; /* your custom style here */ } /* for block of code */ .hljs-ln-code {padding-left: 10px !important; } .hljs {display: block; overflow-x: auto; padding: 0.5em; background: #272822; color: #ddd; } .hljs-tag, .hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-strong, .hljs-name {color: #f92672; } .hljs-code {color: #66d9ef; } .hljs-class .hljs-title {color: white; } .hljs-attribute, .hljs-symbol, .hljs-regexp, .hljs-link {color: #bf79db; } .hljs-string, .hljs-bullet, .hljs-subst, .hljs-title, .hljs-section, .hljs-emphasis, .hljs-type, .hljs-built_in, .hljs-builtin-name, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-addition, .hljs-variable, .hljs-template-tag, .hljs-template-variable {color: #a6e22e; } .hljs-comment, .hljs-quote, .hljs-deletion, .hljs-meta {color: #75715e; } .hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-doctag, .hljs-title, .hljs-section, .hljs-type, .hljs-selector-id {font-weight: bold; }
+.hljs-ln-numbers {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -khtml-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  text-align: center !important;
+  color: #ccc !important;
+  border-right: 1px solid #CCC !important;
+  vertical-align: top !important;
+  padding-right: 5px !important;
+  /* your custom style here */
+}
+
+/* for block of code */
+.hljs-ln-code {
+  padding-left: 10px !important;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #272822;
+  color: #ddd;
+}
+
+.hljs-tag,
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-strong,
+.hljs-name {
+  color: #f92672;
+}
+
+.hljs-code {
+  color: #66d9ef;
+}
+
+.hljs-class .hljs-title {
+  color: white;
+}
+
+.hljs-attribute,
+.hljs-symbol,
+.hljs-regexp,
+.hljs-link {
+  color: #bf79db;
+}
+
+.hljs-string,
+.hljs-bullet,
+.hljs-subst,
+.hljs-title,
+.hljs-section,
+.hljs-emphasis,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-tag,
+.hljs-template-variable {
+  color: #a6e22e;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+  color: #75715e;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag,
+.hljs-title,
+.hljs-section,
+.hljs-type,
+.hljs-selector-id {
+  font-weight: bold;
+}
 
 body {
   background-color: var(--page-bg-color);
@@ -85,7 +135,14 @@ body {
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@300; 400; 500; 600; 700&family=Noto+Serif+SC:wght@300; 400; 500; 600; 700&display=swap');
 
 html,
-body,div.post-body,h1,h2,h3,h4,h5,h6{
+body,
+div.post-body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "LXGW WenKai LITE", sans-serif, "Linux Biolinum", "Noto Serif SC", serif;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -98,13 +155,22 @@ samp {
   font-family: "Noto Sans Mono", Monaco, Menlo, "Noto Serif SC", monospace;
   border: none;
 }
+
 /*小小的也很可爱♥️*/
 code {
   display: inline;
   padding: 0.1rem 0.25rem;
 }
 
-blockquote{
+pre > code {
+  padding:0
+}
+
+button.hljs-copy-button{
+  font-size: small;
+}
+
+blockquote {
   background-color: #18232c;
   border-left: 5px solid var(--primary);
   padding: 0.75rem;
@@ -112,25 +178,25 @@ blockquote{
 
 /*text-autospace.js css*/
 html.han-la hanla:after {
-	content: " ";
-	display: inline;
-	font-family: Arial;
-	font-size: 0.89em;
+  content: " ";
+  display: inline;
+  font-family: Arial;
+  font-size: 0.89em;
 }
 
 html.han-la code hanla,
 html.han-la pre hanla,
 html.han-la kbd hanla,
 html.han-la samp hanla {
-	display: none;
+  display: none;
 }
 
-html.han-la ol > hanla,
-html.han-la ul > hanla {
-	display: none;
+html.han-la ol>hanla,
+html.han-la ul>hanla {
+  display: none;
 }
 
 /*mermaid*/
-pre.mermaid{
+pre.mermaid {
   background-color: #11191f;
 }

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh" class='han-la' data-theme="dark">
+
+<head>
+  <script src="/jquery-3.7.0.min.js"></script>
+  <script src="/jquery.toc.min.js"></script>
+  <!-- THEME-->
+  <link rel="stylesheet" href="/pico.css">
+  <link rel="stylesheet" href="/custom.css">
+  <link rel="stylesheet" href="/github-dark.min.css">
+  <!-- prism.js -->
+  <link href="/prism.css" rel="stylesheet" />
+  <!-- MathJax-->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+  </script>
+  <!-- text-autospace.js -->
+  <script src='https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js'></script>
+  <script src='https://mastermay.github.io/text-autospace.js/text-autospace.min.js'></script>
+  <!-- Google font预加载&缓存 -->
+  <link type="text/css" rel="preload stylesheet" as="style"
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
+    crossorigin>
+  <!-- Google font预加载&缓存 -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
+      onload="this.media='all'" />
+  </noscript>
+  <!-- Google font预加载&缓存 END-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Candlest's Blog</title>
+</head>
+
+<body data-theme="dark" lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制"
+  data-prismjs-copy-success="文本已复制！">
+  <div class="fixed_div">
+    <ol data-toc="div#toc-content" data-toc-headings="h2,h3,h4"></ol>
+  </div>
+  <main class="container" data-theme="dark">
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    <div>
+      <header>
+        <nav>
+          <ul>
+            <li><strong># Candlest's Blog</strong></li>
+          </ul>
+          <ul class="nav-bar">
+            <li class="nav-item"><a href="/">主页</a></li>
+            <li class="nav-item"><a href="/categories.html">专栏</a></li>
+            <li class="nav-item"><a href="/tags.html">标签</a></li>
+            <li class="nav-item"><a href="/friends.html">友链</a></li>
+            <li class="nav-item"><a href="/about_page.html">关于博客</a></li>
+            <li class="nav-item"><a href="/about_me.html">关于我</a></li>
+            <li>
+              <details role="list" dir="rtl">
+                <summary aria-haspopup="listbox" role="link" class="secondary"><svg height="30px" color="var(--primary)"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20">
+                    <g fill="none">
+                      <path d="M10 3a7 7 0 1 1 0 14V3zm0-1a8 8 0 1 0 0 16a8 8 0 0 0 0-16z" fill="currentColor"></path>
+                    </g>
+                  </svg></summary>
+                <ul role="listbox">
+                  <li><a href="#" data-theme-switcher="auto">Auto</a></li>
+                  <li><a href="#" data-theme-switcher="light">Light(unsupported)</a></li>
+                  <li><a href="#" data-theme-switcher="dark">Dark</a></li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      </br>
+      </br>
+      <div class="line-numbers">
+        
+<div>
+  <header>
+    <h1 align="center">Class Board with CefSharp</h1>
+    <p align="center"><small><span>2023-08-12 23:01 |
+          <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Cef">#Cef#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
+  </header>
+  <div id="toc-content">
+    <ul>
+<li><a href="#%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B">使用教程</a>
+<ul>
+<li><a href="#%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F">运行程序</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E7%A8%8B%E5%BA%8F%E5%88%B0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E9%A1%B9">添加程序到开机启动项</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E9%A1%B5%E9%9D%A2">修改页面</a>
+<ul>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E8%AF%BE%E8%A1%A8%E5%80%92%E8%AE%A1%E6%97%A5%E5%B8%83%E5%91%8A%E6%A0%8F%E5%86%85%E5%AE%B9">添加课表、倒计日、布告栏内容</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E8%83%8C%E6%99%AF%E9%A1%B5%E9%9D%A2">修改背景页面</a></li>
+<li><a href="#debug">Debug</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%99%84%E5%BD%95">附录</a>
+<ul>
+<li><a href="#%E5%85%B3%E4%BA%8E%E6%8A%80%E6%9C%AF%E6%A0%88%E7%9A%84%E7%A2%8E%E7%A2%8E%E5%BF%B5">关于技术栈的碎碎念</a></li>
+<li><a href="#%E5%85%B3%E9%97%AD%E5%86%B0%E7%82%B9%E8%BF%98%E5%8E%9F">关闭冰点还原</a></li>
+</ul>
+</li>
+</ul>
+<h1>使用教程</h1>
+<p>项目结构：</p>
+<pre><code class="language-treeview">./
+├── Background/
+│   ├── css/
+│   │   ├── custom.css*
+│   │   ├── pico.css*
+│   │   ├── pico.css.map*
+│   │   └── wallpaper/
+│   │       ├── bg1.jpg*
+│   │       └── bg2.jpg*
+│   ├── js/
+│   │   ├── class.js*
+│   │   ├── event_cal.js*
+│   │   ├── help.js*
+│   │   └── main.js*
+│   └── main.html*
+└── ClassBoard.exe*
+</code></pre>
+<h2>运行程序</h2>
+<p>双击运行程序<code>ClassBoard.exe</code>，即可加载<code>Background/main.html</code>为桌面背景。</p>
+<h2>添加程序到开机启动项</h2>
+<blockquote>
+<p>⚠️ 请确认一体机是否开启冰点还原功能，如有则请在<u>征得管理员同意下</u>关闭，才能添加启动项。</p>
+<p>关于冰点还原的关闭，参考<a href="#%E5%85%B3%E9%97%AD%E5%86%B0%E7%82%B9%E8%BF%98%E5%8E%9F">关闭冰点还原</a>一节。</p>
+</blockquote>
+<p>使用组合键win+R打开运行窗口，输入<code>shell:startup</code>打开启动项文件夹。</p>
+<p>可以把软件快捷方式复制到<code>启动项文件夹</code>中。</p>
+<p>打开任务管理器选择<code>启动</code>选项卡，就可以看到我们刚刚添加的启动项。</p>
+<h2>修改页面</h2>
+<h3>添加课表、倒计日、布告栏内容</h3>
+<p>在托盘中点击<code>setting</code>按钮，或者手动打开目录<code>Background/js/</code>：</p>
+<pre><code class="language-treeview">./Background/js/
+├── class.js*
+├── event_cal.js*
+├── help.js*
+└── main.js*
+</code></pre>
+<blockquote>
+<p>为尽量减少迁移成本，<code>class.js</code>和<code>event_cal.js</code>中<code>source</code>和<code>source_cal</code>与原先<code>kb.csv</code>和<code>djr.csv</code>一致。</p>
+</blockquote>
+<table><thead><tr><th style="text-align: left">文件</th><th style="text-align: left">备注</th></tr></thead><tbody>
+<tr><td style="text-align: left">class.js</td><td style="text-align: left">修改其中source变量内容</td></tr>
+<tr><td style="text-align: left">event_cal.js</td><td style="text-align: left">修改其中source_cal变量内容</td></tr>
+<tr><td style="text-align: left">help.js</td><td style="text-align: left">修改其中source_str变量内容</td></tr>
+</tbody></table>
+<p>修改以后，请在托盘中点击<code>restart</code>按钮重载应用。</p>
+<h3>修改背景页面</h3>
+<p>相信你也觉得此背景页不尽人意，那么请你发挥你的美学素养，以及HTML/JS/CSS相关知识修改静态网页<code>Background/main.html</code>吧~</p>
+<h3>Debug</h3>
+<p>ClassBoard.exe 部分采用 Dotnet4.7 + CefSharp 编写，因其~~简洁~~<ins>简陋</ins>的原因，不太可能会出Bug。</p>
+<p>Background/ 部分采用 HTML/JS/CSS 编写，由着前端能跑就行，从不<code>panic</code>的习惯，如果页面的渲染出现了一些奇奇怪怪的Bug，建议使用Chrome的开发者模式Debug 。</p>
+<p>也可以在此项目下提出<code>issue</code>：<a href="https://github.com/Candlest/ClassBoard">Candlest/ClassBoard</a></p>
+<h1>附录</h1>
+<h2>关于技术栈的碎碎念</h2>
+<p>Class Board 的新版本最大的优点是抛弃了 Qt/C++ 传统的桌面设计，采用 HTML/JS/CSS 构建页面。</p>
+<p>此版本最大的缺点也是抛弃了 Qt/C++ 传统的桌面设计，采用 HTML/JS/CSS 构建页面。</p>
+<p>粗略地概括：</p>
+<ul>
+<li>坏处：软件大了（50MB → 225MB），占用大了（Win GDT → Chromium Blink）</li>
+<li>好处：方便维护了（甚至可以动手改完热重载），写出“稍微能看”的页面容易了</li>
+</ul>
+<p>从可拓展性和易维护性来说，HTML/JS/CSS &gt; Qt/C++ ，大概。</p>
+<h2>关闭冰点还原</h2>
+<blockquote>
+<p>⚠️ 建议备份相关文件</p>
+</blockquote>
+<p>要删除冰点还原，需要在PE环境（或者安全模式）下，删除以下文件：</p>
+<ul>
+<li><code>C:\Program Files (x86)\Seewo\SeewoService\SeewoService_1.3.6.3254</code>里的<code>SeewoFreeze</code></li>
+<li><code>C:\ProgramData</code>里的文件夹<code>SeewoFreeze</code>， <code>SeewoFreezeConfig</code> 和 <code>SeewoFreezeKernelConfig</code></li>
+<li><code>C:\ProgramData\Seewo</code>里的<code>Freeze</code></li>
+</ul>
+<p>如果想恢复冰点，可以重新安装 Seewo 管家。</p>
+
+  </div>
+</div>
+
+        <div id="gitalk-container">
+          <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+            data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname"
+            data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top"
+            data-theme="dark" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+            </script>
+        </div>
+        <script src="/prism.js"></script>
+      </div>
+      </br>
+      </br>
+      </br>
+      </br>
+      </br>
+      <footer>
+        <p align="center">
+          <small>
+            <i>generated by <a href="https://github.com/Candlest/rublog">rublog</a>, beautified by <a
+                href="https://picocss.com/">pico.css</a>.</i>
+          </small>
+        </p>
+      </footer>
+      <!-- Minimal theme switcher -->
+      <script src="/minimal-theme-switcher.js"></script>
+    </div>
+  </main>
+</body>
+
+</html>

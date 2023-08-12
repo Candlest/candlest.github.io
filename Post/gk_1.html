@@ -2,16 +2,14 @@
 <html lang="zh" class='han-la' data-theme="dark">
 
 <head>
+  <script src="/jquery-3.7.0.min.js"></script>
+  <script src="/jquery.toc.min.js"></script>
   <!-- THEME-->
   <link rel="stylesheet" href="/pico.css">
   <link rel="stylesheet" href="/custom.css">
   <link rel="stylesheet" href="/github-dark.min.css">
-  <!-- highlight.js -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js">
-  </script>
-  <script>
-    hljs.highlightAll();
-  </script>
+  <!-- prism.js -->
+  <link href="/prism.css" rel="stylesheet" />
   <!-- MathJax-->
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
@@ -50,8 +48,12 @@
   <title>Candlest's Blog</title>
 </head>
 
-<body  data-theme="dark">
-  <main class="container"  data-theme="dark">
+<body data-theme="dark" lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制"
+  data-prismjs-copy-success="文本已复制！">
+  <div class="fixed_div">
+    <ol data-toc="div#toc-content" data-toc-headings="h2,h3,h4"></ol>
+  </div>
+  <main class="container" data-theme="dark">
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
       mermaid.initialize({ startOnLoad: true });
@@ -71,7 +73,12 @@
             <li class="nav-item"><a href="/about_me.html">关于我</a></li>
             <li>
               <details role="list" dir="rtl">
-                <summary aria-haspopup="listbox" role="link" class="secondary"><svg height="30px" color="var(--primary)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M10 3a7 7 0 1 1 0 14V3zm0-1a8 8 0 1 0 0 16a8 8 0 0 0 0-16z" fill="currentColor"></path></g></svg></summary>
+                <summary aria-haspopup="listbox" role="link" class="secondary"><svg height="30px" color="var(--primary)"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20">
+                    <g fill="none">
+                      <path d="M10 3a7 7 0 1 1 0 14V3zm0-1a8 8 0 1 0 0 16a8 8 0 0 0 0-16z" fill="currentColor"></path>
+                    </g>
+                  </svg></summary>
                 <ul role="listbox">
                   <li><a href="#" data-theme-switcher="auto">Auto</a></li>
                   <li><a href="#" data-theme-switcher="light">Light(unsupported)</a></li>
@@ -84,11 +91,8 @@
       </header>
       </br>
       </br>
-      <div>
+      <div class="line-numbers">
         
-<div class="fixed_div">
-  <p id="toc"></p>
-</div>
 <div>
   <header>
     <h1 align="center">写在高三回校前</h1>
@@ -101,14 +105,6 @@
 
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/auto-toc-js@1.0.0/dist/toc.min.js"></script>
-<script>
-  new Toc({
-    wrapperId: 'toc-content',
-    insertId: 'toc',
-    showSerial: true
-  }).createToc();
-</script>
 
         <div id="gitalk-container">
           <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
@@ -117,6 +113,7 @@
             data-theme="dark" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
             </script>
         </div>
+        <script src="/prism.js"></script>
       </div>
       </br>
       </br>
