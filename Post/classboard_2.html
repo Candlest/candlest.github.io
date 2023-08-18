@@ -104,12 +104,17 @@
 <li><a href="#%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B">使用教程</a>
 <ul>
 <li><a href="#%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F">运行程序</a></li>
-<li><a href="#%E6%B7%BB%E5%8A%A0%E7%A8%8B%E5%BA%8F%E5%88%B0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E9%A1%B9">添加程序到开机启动项</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E7%A8%8B%E5%BA%8F%E5%88%B0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E9%A1%B9">添加程序到开机启动项</a>
+<ul>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8">设置开机自启动</a></li>
+<li><a href="#%E5%85%B3%E9%97%AD%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8">关闭开机自启动</a></li>
+</ul>
+</li>
 <li><a href="#%E4%BF%AE%E6%94%B9%E9%A1%B5%E9%9D%A2">修改页面</a>
 <ul>
 <li><a href="#%E6%B7%BB%E5%8A%A0%E8%AF%BE%E8%A1%A8%E5%80%92%E8%AE%A1%E6%97%A5%E5%B8%83%E5%91%8A%E6%A0%8F%E5%86%85%E5%AE%B9">添加课表、倒计日、布告栏内容</a></li>
 <li><a href="#%E4%BF%AE%E6%94%B9%E8%83%8C%E6%99%AF%E9%A1%B5%E9%9D%A2">修改背景页面</a></li>
-<li><a href="#debug">Debug</a></li>
+<li><a href="#%E9%81%87%E5%88%B0bug%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">遇到Bug的解决方案</a></li>
 </ul>
 </li>
 </ul>
@@ -126,20 +131,11 @@
 <p>项目结构：</p>
 <pre><code class="language-treeview">./
 ├── Background/
-│   ├── css/
-│   │   ├── custom.css*
-│   │   ├── pico.css*
-│   │   ├── pico.css.map*
-│   │   └── wallpaper/
-│   │       ├── bg1.jpg*
-│   │       └── bg2.jpg*
-│   ├── js/
-│   │   ├── class.js*
-│   │   ├── event_cal.js*
-│   │   ├── help.js*
-│   │   └── main.js*
-│   └── main.html*
-└── ClassBoard.exe*
+├── README.html
+├── events.txt
+├── schedule.txt
+├── board.txt
+└── ClassBoard.exe
 </code></pre>
 <h2>运行程序</h2>
 <p>双击运行程序<code>ClassBoard.exe</code>，即可加载<code>Background/main.html</code>为桌面背景。</p>
@@ -148,43 +144,57 @@
 <p>⚠️ 请确认一体机是否开启冰点还原功能，如有则请在<u>征得管理员同意下</u>关闭，才能添加启动项。</p>
 <p>关于冰点还原的关闭，参考<a href="#%E5%85%B3%E9%97%AD%E5%86%B0%E7%82%B9%E8%BF%98%E5%8E%9F">关闭冰点还原</a>一节。</p>
 </blockquote>
-<p>使用组合键win+R打开运行窗口，输入<code>shell:startup</code>打开启动项文件夹。</p>
-<p>可以把软件快捷方式复制到<code>启动项文件夹</code>中。</p>
+<h3>设置开机自启动</h3>
+<p>第一步： 按下“打开启动项文件夹“按钮，此时本程序快捷方式已经自动复制到剪切板中；
+第二步：在启动项文件夹中右键粘贴快捷方式至文件夹中；</p>
+<h3>关闭开机自启动</h3>
+<p>第一步： 按下“打开启动项文件夹“按钮；
+第二步：在启动项文件夹中删除本程序的快捷方式；</p>
 <p>打开任务管理器选择<code>启动</code>选项卡，就可以看到我们刚刚添加的启动项。</p>
 <h2>修改页面</h2>
 <h3>添加课表、倒计日、布告栏内容</h3>
-<p>在托盘中点击<code>setting</code>按钮，或者手动打开目录<code>Background/js/</code>：</p>
-<pre><code class="language-treeview">./Background/js/
-├── class.js*
-├── event_cal.js*
-├── help.js*
-└── main.js*
-</code></pre>
+<p>在托盘中点击<code>setting</code>按钮进入设置界面，或者手动修改下面的文件：</p>
 <blockquote>
-<p>为尽量减少迁移成本，<code>class.js</code>和<code>event_cal.js</code>中<code>source</code>和<code>source_cal</code>与原先<code>kb.csv</code>和<code>djr.csv</code>一致。</p>
+<p>为尽量减少迁移成本，<code>class.js</code>和<code>event_cal.js</code>中<code>source</code>和<code>source_cal</code>与原先<code>kb.csv</code>和<code>djr.csv</code> <del>一致</del><ins>大致一致（因为原来的行与行之间需要用<strong>英语半角逗号 ‘,’</strong>替代）</ins>。</p>
+<p>同时注意，所有的逗号请使用英文半角符号的逗号，是 ‘,’ 而不是’，’ 。</p>
 </blockquote>
 <table><thead><tr><th style="text-align: left">文件</th><th style="text-align: left">备注</th></tr></thead><tbody>
-<tr><td style="text-align: left">class.js</td><td style="text-align: left">修改其中source变量内容</td></tr>
-<tr><td style="text-align: left">event_cal.js</td><td style="text-align: left">修改其中source_cal变量内容</td></tr>
-<tr><td style="text-align: left">help.js</td><td style="text-align: left">修改其中source_str变量内容</td></tr>
+<tr><td style="text-align: left">schedule.txt</td><td style="text-align: left">第一行是表头，请勿修改。<br/>目前。仅支持每天 1+5+3+2=11 节课，按照省实2024届的高三课表识别当前课程。<br/>如果你有其他需求，暂时需要修改 Background/js/class.js 来实现，需要 javascript 和 HTML 相关基础。</td></tr>
+<tr><td style="text-align: left">events.txt</td><td style="text-align: left">第一行是表头，请勿修改。<br/>请按照：“事件，日期” 的格式添加条目。<br/>e.g. 高考, 2024-06-07</td></tr>
+<tr><td style="text-align: left">board.txt</td><td style="text-align: left">可以包含html标签，如&lt;strong&gt;, &lt;ins&gt;,  &lt;del&gt;等。<br/>换行符请使用&lt;br/&gt; 。<br/>e.g. 本周背诵：&lt;br/&gt;《梦游天姥吟留别》《赤壁赋》</td></tr>
 </tbody></table>
 <p>修改以后，请在托盘中点击<code>restart</code>按钮重载应用。</p>
 <h3>修改背景页面</h3>
-<p>相信你也觉得此背景页不尽人意，那么请你发挥你的美学素养，以及HTML/JS/CSS相关知识修改静态网页<code>Background/main.html</code>吧~</p>
-<h3>Debug</h3>
-<p>ClassBoard.exe 部分采用 Dotnet4.7 + CefSharp 编写，因其~~简洁~~<ins>简陋</ins>的原因，不太可能会出Bug。</p>
+<p>修改背景图片以及其他样式，请至 Background/css/custom.css 。</p>
+<h3>遇到Bug的解决方案</h3>
+<p>收集错误信息，在此项目下提出<code>issue</code>：<a href="https://github.com/Candlest/ClassBoardSharp">Candlest/ClassBoardSharp</a> 。</p>
+<p>ClassBoardSharp 采用 C# .NET Framework 4.6.1 + CefSharp 编写，如遇错误请复制 .NET Framework 的报错信息。</p>
 <p>Background/ 部分采用 HTML/JS/CSS 编写，由着前端能跑就行，从不<code>panic</code>的习惯，如果页面的渲染出现了一些奇奇怪怪的Bug，建议使用Chrome的开发者模式Debug 。</p>
-<p>也可以在此项目下提出<code>issue</code>：<a href="https://github.com/Candlest/ClassBoard">Candlest/ClassBoard</a></p>
+<blockquote>
+<p>但是由于读取课表、日历和布告栏采用 CefSharp 传参的方式，若要在 Chrome 运行则需要对 <code>Background/js/</code> 下文件进行修改</p>
+</blockquote>
+<p>打开目录<code>Background/js/</code>：</p>
+<pre><code class="language-treeview">./Background/js/
+├── class.js
+├── event_cal.js
+├── help.js
+└── main.js
+</code></pre>
+<table><thead><tr><th style="text-align: left">文件</th><th style="text-align: left">备注</th><th>来源</th></tr></thead><tbody>
+<tr><td style="text-align: left">class.js</td><td style="text-align: left">修改其中source变量内容</td><td>schedule.txt</td></tr>
+<tr><td style="text-align: left">event_cal.js</td><td style="text-align: left">修改其中source_cal变量内容</td><td>events.txt</td></tr>
+<tr><td style="text-align: left">help.js</td><td style="text-align: left">修改其中source_str变量内容</td><td>board.txt</td></tr>
+</tbody></table>
 <h1>附录</h1>
 <h2>关于技术栈的碎碎念</h2>
 <p>Class Board 的新版本最大的优点是抛弃了 Qt/C++ 传统的桌面设计，采用 HTML/JS/CSS 构建页面。</p>
 <p>此版本最大的缺点也是抛弃了 Qt/C++ 传统的桌面设计，采用 HTML/JS/CSS 构建页面。</p>
 <p>粗略地概括：</p>
 <ul>
-<li>坏处：软件大了（50MB → 225MB），占用大了（Win GDT → Chromium Blink）</li>
-<li>好处：方便维护了（甚至可以动手改完热重载），写出“稍微能看”的页面容易了</li>
+<li>坏处：软件大了（50MB → 225MB），占用大了（Win GDT → Chromium Blink）；</li>
+<li>好处：方便维护了（甚至可以动手改完热重载），写出“稍微能看”的页面容易了；</li>
 </ul>
-<p>从可拓展性和易维护性来说，HTML/JS/CSS &gt; Qt/C++ ，大概。</p>
+<p>从可拓展性和易维护性来说，HTML/JS/CSS &gt; Qt/C++ 。这符合我们对 Class Board 高度定制化且轻便的目标。</p>
 <h2>关闭冰点还原</h2>
 <blockquote>
 <p>⚠️ 建议备份相关文件</p>
