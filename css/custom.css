@@ -23,11 +23,13 @@ samp {
 
 /*兼容 prism.js*/
 /*line 112*/
-pre{
+pre {
   border-left: 0.4rem solid var(--cmed);
   border-radius: 4px;
 }
-pre, code{
+
+pre,
+code {
   background: var(--clight);
 }
 
@@ -35,12 +37,38 @@ pre, code{
   --width: 55rem;
 } */
 
-#commit {
-  width: 50rem;
-}
-
 /*mermaid*/
-.mermaid{
-  background:none;
+.mermaid {
+  background: none;
   border: none;
 }
+
+/* toc
+
+body {
+  max-width: none;
+}
+
+#page-nav {
+  display: table;
+  margin: 0 auto;
+}
+
+#page-nav,
+#commit {
+  max-width: var(--width);
+}
+
+.container {
+  max-width: var(--width);
+  display: block;
+  margin:0 auto;
+}
+
+.toc {
+  top: 0px;
+  left: 0px;
+  position: flex;
+  padding-top: 1.5em;
+  width: 15rem;
+} */

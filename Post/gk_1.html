@@ -81,7 +81,7 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
-  <nav>
+  <nav id="page-nav">
     <ul>
       <li class="float-left sticky"># Candlest 's Blog</li>
       <li class="float-left"><a href="/">主页</a></li>
@@ -128,7 +128,11 @@
     <p align="center"><small><span>2023-07-29 01:45 |
           <a href="/categories.html#杂记">杂记</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
   </header>
-  <div id="toc-content">
+  <details class="card">
+    <summary> 目录 </summary>
+    <ul data-toc></ul>
+   </details>
+  <div id="container">
     <p>想学的东西很多，想做的事情很多，但是只能先解决高考再说。</p>
 <p>2024，高考加油！</p>
 
@@ -144,11 +148,6 @@
     </div>
     <script src="/js/prism.js"></script>
   </div>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
   <footer>
     <p align="center">
       <small>

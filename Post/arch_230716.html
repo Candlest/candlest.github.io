@@ -81,7 +81,7 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
-  <nav>
+  <nav id="page-nav">
     <ul>
       <li class="float-left sticky"># Candlest 's Blog</li>
       <li class="float-left"><a href="/">主页</a></li>
@@ -128,7 +128,11 @@
     <p align="center"><small><span>2023-07-16 12:32 |
           <a href="/categories.html#Arch Linux日用">Arch Linux日用</a> | <a href="/tags.html#Linux">#Linux#</a> <a href="/tags.html#Arch Linux">#Arch Linux#</a> </span></small></p>
   </header>
-  <div id="toc-content">
+  <details class="card">
+    <summary> 目录 </summary>
+    <ul data-toc></ul>
+   </details>
+  <div id="container">
     <p>这几天装回了Arch Linux，尝试一下Waydroid。</p>
 <h2>启用Wayland环境</h2>
 <p>Waydroid顾名思义：Wayland + Android，需要在Wayland下运行。</p>
@@ -228,11 +232,6 @@ sudo rm -rf /var/lib/waydroid /home/.waydroid ~/waydroid ~/.share/waydroid ~/.lo
     </div>
     <script src="/js/prism.js"></script>
   </div>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
   <footer>
     <p align="center">
       <small>

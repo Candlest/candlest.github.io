@@ -81,7 +81,7 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
-  <nav>
+  <nav id="page-nav">
     <ul>
       <li class="float-left sticky"># Candlest 's Blog</li>
       <li class="float-left"><a href="/">主页</a></li>
@@ -126,57 +126,95 @@
   <p>这是Index页面，下面是文章索引 (ノ_&lt;。)ヾ(´ ▽ ` )</p>
 
   <h2 align="center">文章列表</h2>
-  <div id="bytime">
-    
-    <ul class="comp-show">
-      <li>
-        <a href="Post/classboard_2.html">Class Board 全新版本发布</a>
-      </li>
-    </ul>
-    
-    <ul class="comp-show">
-      <li>
-        <a href="Post/gk_mark_0.html">使用博客记录高三学习的实验</a>
-      </li>
-    </ul>
-    
-    <ul class="comp-show">
-      <li>
-        <a href="Post/gk_1.html">写在高三回校前</a>
-      </li>
-    </ul>
-    
-    <ul class="comp-show">
-      <li>
-        <a href="Post/rublog_2.html">使用Rust开发静态博客生成器（二）伺服篇</a>
-      </li>
-    </ul>
-    
-    <ul class="comp-show">
-      <li>
-        <a href="Post/rublog_l.html">使用Rust开发静态博客生成器（一）伊始篇</a>
-      </li>
-    </ul>
-    
-    <ul class="comp-show">
-      <li>
-        <a href="Post/arch_230715.html">安装Arch Linux以及配置桌面+常用软件</a>
-      </li>
-    </ul>
-    
-    <ul class="comp-show">
-      <li>
-        <a href="Post/arch_230716.html">在Archlinux KDE下使用Waydroid</a>
-      </li>
-    </ul>
-    
-    <ul class="comp-show">
-      <li>
-        <a href="Post/classboard_1.html">复刻ClassTool4Seewo二三事</a>
-      </li>
-    </ul>
-    
+  
+  <div class="card">
+    <header>
+      <a href="Post/classboard_2.html">
+        <h4>Class Board 全新版本发布</h4>
+      </a>
+    </header>
+    <hr>
+    <p><small><span>2023-08-20 01:17 |
+          <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Cef">#Cef#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
   </div>
+  
+  <div class="card">
+    <header>
+      <a href="Post/gk_mark_0.html">
+        <h4>使用博客记录高三学习的实验</h4>
+      </a>
+    </header>
+    <hr>
+    <p><small><span>2023-08-13 15:03 |
+          <a href="/categories.html#高三学习记录">高三学习记录</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
+  </div>
+  
+  <div class="card">
+    <header>
+      <a href="Post/gk_1.html">
+        <h4>写在高三回校前</h4>
+      </a>
+    </header>
+    <hr>
+    <p><small><span>2023-07-29 01:45 |
+          <a href="/categories.html#杂记">杂记</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
+  </div>
+  
+  <div class="card">
+    <header>
+      <a href="Post/rublog_2.html">
+        <h4>使用Rust开发静态博客生成器（二）伺服篇</h4>
+      </a>
+    </header>
+    <hr>
+    <p><small><span>2023-07-19 12:54 |
+          <a href="/categories.html#使用Rust开发静态博客生成器">使用Rust开发静态博客生成器</a> | <a href="/tags.html#Rust">#Rust#</a> <a href="/tags.html#Blog">#Blog#</a> </span></small></p>
+  </div>
+  
+  <div class="card">
+    <header>
+      <a href="Post/rublog_l.html">
+        <h4>使用Rust开发静态博客生成器（一）伊始篇</h4>
+      </a>
+    </header>
+    <hr>
+    <p><small><span>2023-07-18 12:44 |
+          <a href="/categories.html#使用Rust开发静态博客生成器">使用Rust开发静态博客生成器</a> | <a href="/tags.html#Rust">#Rust#</a> <a href="/tags.html#Blog">#Blog#</a> </span></small></p>
+  </div>
+  
+  <div class="card">
+    <header>
+      <a href="Post/arch_230715.html">
+        <h4>安装Arch Linux以及配置桌面+常用软件</h4>
+      </a>
+    </header>
+    <hr>
+    <p><small><span>2023-07-16 17:32 |
+          <a href="/categories.html#Arch Linux日用">Arch Linux日用</a> | <a href="/tags.html#Linux">#Linux#</a> <a href="/tags.html#Arch Linux">#Arch Linux#</a> </span></small></p>
+  </div>
+  
+  <div class="card">
+    <header>
+      <a href="Post/arch_230716.html">
+        <h4>在Archlinux KDE下使用Waydroid</h4>
+      </a>
+    </header>
+    <hr>
+    <p><small><span>2023-07-16 12:32 |
+          <a href="/categories.html#Arch Linux日用">Arch Linux日用</a> | <a href="/tags.html#Linux">#Linux#</a> <a href="/tags.html#Arch Linux">#Arch Linux#</a> </span></small></p>
+  </div>
+  
+  <div class="card">
+    <header>
+      <a href="Post/classboard_1.html">
+        <h4>复刻ClassTool4Seewo二三事</h4>
+      </a>
+    </header>
+    <hr>
+    <p><small><span>2023-06-08 18:37 |
+          <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Qt">#Qt#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
+  </div>
+  
 </section>
 
     <div id="commit">
@@ -188,11 +226,6 @@
     </div>
     <script src="/js/prism.js"></script>
   </div>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
   <footer>
     <p align="center">
       <small>

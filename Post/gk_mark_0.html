@@ -81,7 +81,7 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
-  <nav>
+  <nav id="page-nav">
     <ul>
       <li class="float-left sticky"># Candlest 's Blog</li>
       <li class="float-left"><a href="/">主页</a></li>
@@ -128,7 +128,11 @@
     <p align="center"><small><span>2023-08-13 15:03 |
           <a href="/categories.html#高三学习记录">高三学习记录</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
   </header>
-  <div id="toc-content">
+  <details class="card">
+    <summary> 目录 </summary>
+    <ul data-toc></ul>
+   </details>
+  <div id="container">
     <ul>
 <li><a href="#%E7%A2%8E%E7%A2%8E%E5%BF%B5">碎碎念</a></li>
 <li><a href="#%E4%BD%BF%E7%94%A8%E5%8D%9A%E5%AE%A2%E8%AE%B0%E5%BD%95%E9%AB%98%E4%B8%89%E7%9A%84%E5%AD%A6%E4%B9%A0">使用博客记录高三的学习</a></li>
@@ -170,11 +174,6 @@
     </div>
     <script src="/js/prism.js"></script>
   </div>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
   <footer>
     <p align="center">
       <small>

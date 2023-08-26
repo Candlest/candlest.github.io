@@ -81,7 +81,7 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
-  <nav>
+  <nav id="page-nav">
     <ul>
       <li class="float-left sticky"># Candlest 's Blog</li>
       <li class="float-left"><a href="/">主页</a></li>
@@ -128,7 +128,11 @@
     <p align="center"><small><span>2023-07-19 12:54 |
           <a href="/categories.html#使用Rust开发静态博客生成器">使用Rust开发静态博客生成器</a> | <a href="/tags.html#Rust">#Rust#</a> <a href="/tags.html#Blog">#Blog#</a> </span></small></p>
   </header>
-  <div id="toc-content">
+  <details class="card">
+    <summary> 目录 </summary>
+    <ul data-toc></ul>
+   </details>
+  <div id="container">
     <p>模仿<code>hexo s</code>，我们也得在我们的程序中实现本地预览的功能。要实现本地预览的功能，最直接的办法就是运行一个根目录为<code>public</code>下的网络服务器。</p>
 <p>在<a href="https://crates.io">crates.io</a>中，不但有<a href="https://crates.io/crates/actix_web">actix_web</a>和<a href="https://crates.io/crates/rocket">rocket</a>这样的重量级实现，也有<a href="https://crates.io/crates/tiny_http">tiny-http</a>这样的轻量级实现。只需要在<a href="https://crates.io/categories/web-programming::http-server">HTTP Server</a>类别下查找。</p>
 <p>不过，我们连线程池都不需要，只需要实现最基础的HTTP协议访问文件即可。</p>
@@ -257,11 +261,6 @@ fn handle_connection(mut stream: std::net::TcpStream){
     </div>
     <script src="/js/prism.js"></script>
   </div>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
   <footer>
     <p align="center">
       <small>

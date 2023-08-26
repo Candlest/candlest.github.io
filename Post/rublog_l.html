@@ -81,7 +81,7 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
-  <nav>
+  <nav id="page-nav">
     <ul>
       <li class="float-left sticky"># Candlest 's Blog</li>
       <li class="float-left"><a href="/">主页</a></li>
@@ -128,7 +128,11 @@
     <p align="center"><small><span>2023-07-18 12:44 |
           <a href="/categories.html#使用Rust开发静态博客生成器">使用Rust开发静态博客生成器</a> | <a href="/tags.html#Rust">#Rust#</a> <a href="/tags.html#Blog">#Blog#</a> </span></small></p>
   </header>
-  <div id="toc-content">
+  <details class="card">
+    <summary> 目录 </summary>
+    <ul data-toc></ul>
+   </details>
+  <div id="container">
     <h2>前言</h2>
 <p>Q: 为什么要写这篇 log ？</p>
 <p>A: 就像做笔记一样，在学习中逐步完成一个项目，自然有很多事物需要被总结，以备日后回看，也作为同好者的参考。</p>
@@ -254,11 +258,6 @@ fn run(){/*...*/}
     </div>
     <script src="/js/prism.js"></script>
   </div>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
   <footer>
     <p align="center">
       <small>

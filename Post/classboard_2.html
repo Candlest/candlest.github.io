@@ -81,7 +81,7 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
-  <nav>
+  <nav id="page-nav">
     <ul>
       <li class="float-left sticky"># Candlest 's Blog</li>
       <li class="float-left"><a href="/">主页</a></li>
@@ -128,8 +128,12 @@
     <p align="center"><small><span>2023-08-20 01:17 |
           <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Cef">#Cef#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
   </header>
-  <div id="toc-content">
-    <p><img src="https://img.shields.io/badge/.NET_Framework-@4.6.1-green.svg?logo=dotnet" alt="dotnet" /> <a href="https://candlest.github.io/ClassBoard-F8/"><img src="https://img.shields.io/badge/Web_DEMO-@Candlest/ClassBoard_F8-red.svg?logo=githubpages" alt="demo" /></a></p>
+  <details class="card">
+    <summary> 目录 </summary>
+    <ul data-toc></ul>
+   </details>
+  <div id="container">
+    <p><img src="https://img.shields.io/badge/.NET_Framework-@4.6.1-green.svg?logo=dotnet" alt="dotnet" /></p>
 <p>ClassBoardSharp 是 <a href="https://github.com/Candlest/ClassBoard">ClassBoard</a> 的二代版本，是一款使用 CefSharp 开发的，针对SEEWO及其教学一体机设计的，用于显示教学信息的壁纸软件。</p>
 <p>ClassBoardSharp相对 ClassBoard 一代的缺点：</p>
 <ul>
@@ -159,40 +163,6 @@
 <p><img src="https://github.com/Candlest/ClassBoardSharp/raw/main/README/Desktop_demo.png" alt="Desktop_demo.png" /></p>
 <p><a href="https://github.com/Candlest/ClassBoard-F8">ClassBoard-F8</a>运行截图：</p>
 <p><img src="https://github.com/Candlest/ClassBoardSharp/raw/main/README/Web_demo.png" alt="Web_demo.png" /></p>
-<ul>
-<li><a href="#class-board-%E5%85%A8%E6%96%B0%E7%89%88%E6%9C%AC%E5%8F%91%E5%B8%83">Class Board 全新版本发布</a>
-<ul>
-<li><a href="#%E8%BF%90%E8%A1%8C%E6%BC%94%E7%A4%BA">运行演示</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B">使用教程</a>
-<ul>
-<li><a href="#%E8%8E%B7%E5%8F%96%E7%A8%8B%E5%BA%8F">获取程序</a></li>
-<li><a href="#%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F">运行程序</a></li>
-<li><a href="#%E6%B7%BB%E5%8A%A0%E7%A8%8B%E5%BA%8F%E5%88%B0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E9%A1%B9">添加程序到开机启动项</a>
-<ul>
-<li><a href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8">设置开机自启动</a></li>
-<li><a href="#%E5%85%B3%E9%97%AD%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8">关闭开机自启动</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BF%AE%E6%94%B9%E9%A1%B5%E9%9D%A2">修改页面</a>
-<ul>
-<li><a href="#%E6%B7%BB%E5%8A%A0%E8%AF%BE%E8%A1%A8%E5%80%92%E8%AE%A1%E6%97%A5%E5%B8%83%E5%91%8A%E6%A0%8F%E5%86%85%E5%AE%B9">添加课表、倒计日、布告栏内容</a></li>
-<li><a href="#%E4%BF%AE%E6%94%B9%E8%83%8C%E6%99%AF%E9%A1%B5%E9%9D%A2">修改背景页面</a></li>
-<li><a href="#%E9%81%87%E5%88%B0bug%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">遇到Bug的解决方案</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E9%99%84%E5%BD%95">附录</a>
-<ul>
-<li><a href="#%E5%85%B3%E9%97%AD%E5%86%B0%E7%82%B9%E8%BF%98%E5%8E%9F">关闭冰点还原</a></li>
-</ul>
-</li>
-<li><a href="#%E7%9B%B8%E5%85%B3-efforts">相关 Efforts</a></li>
-<li><a href="#%E8%B4%A1%E7%8C%AE%E8%80%85">贡献者</a></li>
-<li><a href="#license">License</a></li>
-</ul>
-</li>
-</ul>
 <h2>使用教程</h2>
 <p>项目结构：</p>
 <pre><code class="language-treeview">.
@@ -342,11 +312,6 @@
     </div>
     <script src="/js/prism.js"></script>
   </div>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
   <footer>
     <p align="center">
       <small>

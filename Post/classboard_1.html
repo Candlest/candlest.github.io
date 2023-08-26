@@ -81,7 +81,7 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
-  <nav>
+  <nav id="page-nav">
     <ul>
       <li class="float-left sticky"># Candlest 's Blog</li>
       <li class="float-left"><a href="/">主页</a></li>
@@ -128,7 +128,11 @@
     <p align="center"><small><span>2023-06-08 18:37 |
           <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Qt">#Qt#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
   </header>
-  <div id="toc-content">
+  <details class="card">
+    <summary> 目录 </summary>
+    <ul data-toc></ul>
+   </details>
+  <div id="container">
     <p>好久好久以前，在Github发现了这个项目：<a href="https://github.com/IcariaWorks/ClassTools">ClassTool</a></p>
 <blockquote>
 <p>ClassTool</p>
@@ -153,11 +157,6 @@
     </div>
     <script src="/js/prism.js"></script>
   </div>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
   <footer>
     <p align="center">
       <small>
