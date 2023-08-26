@@ -1,32 +1,56 @@
 <!DOCTYPE html>
-<html lang="zh" class='han-la' data-theme="dark">
+<html lang="zh" class='han-la' data-theme="light">
 
 <head>
-  <!-- THEME-->
-  <link rel="stylesheet" href="/css/github-dark.min.css">
   <script src="/js/jquery-3.7.0.min.js"></script>
   <script src="/js/jquery.toc.min.js"></script>
-  <link rel="stylesheet" href="/css/pico.css">
+  <!-- THEME-->
+  <link rel="stylesheet" href="https://classless.de/addons/themes.css">
+  <link rel="stylesheet" href="/css/classless.css">
   <link rel="stylesheet" href="/css/custom.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-  <!-- toc： add after bootstrap.min.css -->
-  <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" />
+  <script>
+    function addFontSize(addPx) {
+      html = document.querySelector('html');
+      currentSize = parseFloat(window.getComputedStyle(html, null)
+        .getPropertyValue('font-size'));
+      html.style.fontSize = (currentSize + addPx) + 'px';
+    }
+    function toggleDarkMode(el) {
+      var theme = 'light'
+      if (el.innerText == '☪') {
+        el.innerText = '☀'; theme = 'dark';
+      } else {
+        el.innerText = '☪';
+      }
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+  </script>
   <!-- prism.js -->
   <link href="/css/prism.css" rel="stylesheet" />
-  <script src="/js/prism.js"></script>
-  <!-- MathJax-->
-  <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX", "output/HTML-CSS"],
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-      processEscapes: true
-    },
-    "HTML-CSS": { availableFonts: ["TeX"] }
-  });
+  <!-- KaTex-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+    integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
+    integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
+    crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+    crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '\\[', right: '\\]', display: true }
+        ],
+        // • rendering keys, e.g.:
+        throwOnError: false
+      });
+    });
   </script>
   <!-- text-autospace.js -->
   <script src='https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js'></script>
@@ -38,9 +62,7 @@
   <!-- Google font预加载&缓存 -->
   <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
-
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
   <noscript>
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
@@ -53,64 +75,53 @@
   <title>Candlest's Blog</title>
 </head>
 
-<body data-bs-spy="scroll" data-bs-target="#toc" lang="zh-Hans-CN" data-prismjs-copy="复制文本"
-  data-prismjs-copy-error="按Ctrl+C复制" data-prismjs-copy-success="文本已复制！" data-bs-theme="dark"
-  style="background-color: var(--bg-color);">
-
-  <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top" style="--bs-bg-opacity: 0;background: transparent;
-  backdrop-filter: blur(32px); ">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/"># Candlest 's Blog</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="list-style:none;">
-          <li class="nav-item dropdown"style="list-style:none;">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              文章
-            </a>
-            <ul class="dropdown-menu"style="list-style:none;">
-              <li style="list-style:none;"><a class="dropdown-item" href="/categories.html">专栏</a></li>
-              <li style="list-style:none;"><a class="dropdown-item" href="/tags.html">标签</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown"style="list-style:none;">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              关于
-            </a>
-            <ul class="dropdown-menu"style="list-style:none;">
-              <li style="list-style:none;"><a class="dropdown-item" href="/about_page.html">关于博客</a></li>
-              <li style="list-style:none;"><a class="dropdown-item" href="/about_me.html">关于我</a></li>
-            </ul>
-          </li style="list-style:none;">
-          <li style="list-style:none;" class="nav-item">
-            <a class="nav-link" href="/friends.html">友链</a>
-          </li>
+<body data-theme="dark" lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制"
+  data-prismjs-copy-success="文本已复制！">
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <nav>
+    <ul>
+      <li class="float-left sticky"># Candlest 's Blog</li>
+      <li class="float-left"><a href="/">主页</a></li>
+      <li class="float-left"><a href="/friends.html">友链</a></li>
+      <li class="float-left"><a href="#">文章 ▾</a>
+        <ul>
+          <li><a href="/categories.html">专栏</a></li>
+          <li><a href="/tags.html">标签</a></li>
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
+      </li>
+      <li class="float-left"><a href="#">关于 ▾</a>
+        <ul>
+          <li><a href="/about_page.html">关于博客</a></li>
+          <li><a href="/about_me.html">关于我</a></li>
+        </ul>
+      </li>
+      <li class="float-right sticky"><a onclick="toggleDarkMode(this)">
+          <font style="vertical-align: inherit;">
+            <font style="vertical-align: inherit;">☪</font>
+          </font>
+        </a></li>
+      <li class="float-right sticky"><a onclick="addFontSize(-1)">
+          <font style="vertical-align: inherit;">
+            <font style="vertical-align: inherit;">ᴀ-</font>
+          </font>
+        </a>
+        <font style="vertical-align: inherit;">
+          <font style="vertical-align: inherit;"> | </font>
+        </font><a onclick="addFontSize(1)">
+          <font style="vertical-align: inherit;">
+            <font style="vertical-align: inherit;">A+</font>
+          </font>
+        </a>
+      </li>
+    </ul>
   </nav>
-  <div class="row">
-    <!-- sidebar, which will move to the top on a small screen -->
-    <div class="col-sm-3">
-      <nav id="toc" data-toggle="toc" class="sticky-top" style="top: 75px;"></nav>
-    </div>
-    <!-- main content area -->
-    <div class="col-sm-9" style="max-width: 910px;">
-      <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true });
-      </script>
-      </br>
-      </br>
-      <div class="line-numbers">
-        
+  </br>
+  </br>
+  <div class="line-numbers">
+    
 <section>
   <h1 align="center">专栏</h1>
 
@@ -182,36 +193,28 @@
   </div>
 </section>
 
-        <div id="gitalk-container">
-          <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
-            data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname"
-            data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top"
-            data-theme="dark" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
-            </script>
-        </div>
-      </div>
+    <div id="commit">
+      <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+        data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" crossorigin="anonymous" async>
+        </script>
     </div>
-    </br>
-    </br>
-    </br>
-    </br>
-    </br>
-    <footer>
-      <p align="center">
-        <small>
-          <i>generated by <a href="https://github.com/Candlest/rublog">rublog</a>, beautified by <a
-              href="https://picocss.com/">pico.css</a>.</i>
-        </small>
-      </p>
-    </footer>
+    <script src="/js/prism.js"></script>
   </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-    crossorigin="anonymous"></script>
-  <!-- add after bootstrap.min.js or bootstrap.bundle.min.js -->
-  <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script>
-
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+  <footer>
+    <p align="center">
+      <small>
+        <i>generated by <a href="https://github.com/Candlest/rublog">rublog</a>, beautified by <a
+            href="http://classless.de/">classless.css</a>.</i>
+      </small>
+    </p>
+  </footer>
 </body>
 
 </html>
