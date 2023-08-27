@@ -43,6 +43,10 @@ code {
   border: none;
 }
 
+#commit {
+  width: var(--width);
+}
+
 /* toc
 
 body {
