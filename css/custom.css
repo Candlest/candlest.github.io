@@ -43,8 +43,8 @@ code {
   border: none;
 }
 
-#commit {
-  width: var(--width);
+*{
+  box-sizing: unset;
 }
 
 /* toc
