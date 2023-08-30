@@ -76,3 +76,12 @@ body {
   padding-top: 1.5em;
   width: 15rem;
 } */
+
+html[data-theme='dark'] {
+	/* foreground   | background color */
+	--cfg:   #cecbc4; --cbg:    #1b1e20;
+	--cdark: #999;    --clight: #333;
+	--cmed:  #566;
+	--clink: #1ad;
+	--cemph: #0b9;    --cemphbg: #0b91;
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" class='han-la' data-theme="light">
+<html lang="zh" class='han-la' data-theme="tufte">
 
 <head>
   <script src="/js/jquery-3.7.0.min.js"></script>
@@ -16,7 +16,7 @@
       html.style.fontSize = (currentSize + addPx) + 'px';
     }
     function toggleDarkMode(el) {
-      var theme = 'light'
+      var theme = 'tufte'
       if (el.innerText == '☪') {
         el.innerText = '☀'; theme = 'dark';
       } else {
@@ -99,6 +99,23 @@
         </ul>
       </li>
       <li class="float-left"><a href="/gk.html">高考专栏</a></li>
+      <!-- <li class="float-right sticky">
+        <select id="theme" onchange="switchTheme(this)">
+          <script>
+            function switchTheme(el) { document.documentElement.setAttribute('data-theme', el.value) }
+          </script>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="sepia">Sepia</option>
+          <option value="milligram">Milligram</option>
+          <option value="pure">Pure</option>
+          <option value="sakura">Sakura</option>
+          <option value="skeleton">Skeleton</option>
+          <option value="bootstrap">Bootstrap</option>
+          <option value="medium">Medium</option>
+          <option value="tufte">Tufte</option>
+        </select>
+      </li> -->
       <li class="float-right sticky"><a onclick="toggleDarkMode(this)">
           <font style="vertical-align: inherit;">
             <font style="vertical-align: inherit;">☪</font>
