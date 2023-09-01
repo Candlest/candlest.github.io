@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh" class='han-la' data-theme="tufte">
+<html lang="zh" class='han-la' data-theme="dark">
 
 <head>
   <script src="/js/jquery-3.7.0.min.js"></script>
   <script src="/js/jquery.toc.min.js"></script>
   <!-- THEME-->
-  <link rel="stylesheet" href="https://classless.de/addons/themes.css">
-  <link rel="stylesheet" href="/css/classless.css">
+  <link rel="stylesheet" href="/css/pico.css">
   <link rel="stylesheet" href="/css/custom.css">
   <script>
     function addFontSize(addPx) {
@@ -16,11 +15,11 @@
       html.style.fontSize = (currentSize + addPx) + 'px';
     }
     function toggleDarkMode(el) {
-      var theme = 'tufte'
-      if (el.innerText == '☪') {
-        el.innerText = '☀'; theme = 'dark';
+      var theme = 'dark'
+      if (!el.checked) {
+        theme = 'light';
       } else {
-        el.innerText = '☪';
+        var theme = 'dark';
       }
       document.documentElement.setAttribute('data-theme', theme)
     }
@@ -70,6 +69,9 @@
   </noscript>
   <!-- Google font预加载&缓存 END-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <!--Typer-->
+  <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Candlest's Blog</title>
@@ -81,65 +83,48 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true });
   </script>
-  <nav id="page-nav">
-    <ul>
-      <li class="float-left sticky"># Candlest 's Blog</li>
-      <li class="float-left"><a href="/">主页</a></li>
-      <li class="float-left"><a href="/friends.html">友链</a></li>
-      <li class="float-left"><a href="#">文章 ▾</a>
-        <ul>
-          <li><a href="/categories.html">专栏</a></li>
-          <li><a href="/tags.html">标签</a></li>
-        </ul>
-      </li>
-      <li class="float-left"><a href="#">关于 ▾</a>
-        <ul>
-          <li><a href="/about_page.html">关于博客</a></li>
-          <li><a href="/about_me.html">关于我</a></li>
-        </ul>
-      </li>
-      <li class="float-left"><a href="/gk.html">高考专栏</a></li>
-      <!-- <li class="float-right sticky">
-        <select id="theme" onchange="switchTheme(this)">
-          <script>
-            function switchTheme(el) { document.documentElement.setAttribute('data-theme', el.value) }
-          </script>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-          <option value="sepia">Sepia</option>
-          <option value="milligram">Milligram</option>
-          <option value="pure">Pure</option>
-          <option value="sakura">Sakura</option>
-          <option value="skeleton">Skeleton</option>
-          <option value="bootstrap">Bootstrap</option>
-          <option value="medium">Medium</option>
-          <option value="tufte">Tufte</option>
-        </select>
-      </li> -->
-      <li class="float-right sticky"><a onclick="toggleDarkMode(this)">
-          <font style="vertical-align: inherit;">
-            <font style="vertical-align: inherit;">☪</font>
-          </font>
-        </a></li>
-      <li class="float-right sticky"><a onclick="addFontSize(-1)">
-          <font style="vertical-align: inherit;">
-            <font style="vertical-align: inherit;">ᴀ-</font>
-          </font>
-        </a>
-        <font style="vertical-align: inherit;">
-          <font style="vertical-align: inherit;"> | </font>
-        </font><a onclick="addFontSize(1)">
-          <font style="vertical-align: inherit;">
-            <font style="vertical-align: inherit;">A+</font>
-          </font>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  </br>
-  </br>
-  <div class="line-numbers">
-    
+  <main class="container">
+    <nav id="container">
+      <ul>
+        <li><a href="/">主页</a></li>
+        <li>
+          <details role="list" dir="rtl">
+            <summary aria-haspopup="listbox" role="link">文章</summary>
+            <ul role="listbox">
+              <li><a href="/categories.html">专栏</a></li>
+              <li><a href="/tags.html">标签</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details role="list" dir="rtl">
+            <summary aria-haspopup="listbox" role="link">关于</summary>
+            <ul role="listbox">
+              <li><a href="/about_page.html">关于博客</a></li>
+              <li><a href="/about_me.html">关于我</a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+      <ul>
+        <!-- <li class="float-left sticky"># Candlest 's Blog</li> -->
+        
+        <li><a href="/friends.html">友链</a></li>
+        <li><a href="/gk.html">高考专栏</a></li>
+      </ul>
+    </nav>
+    <center>
+      <p id="top-text"></p>
+  </center>
+  <script>
+    new TypeIt("#top-text", {
+      strings: "纵被春风吹作雪，绝胜南陌碾成尘。<em>—— [宋]王安石《北陂杏花》</em>",
+      speed: 50,
+      waitUntilVisible: true,
+    }).go();
+  </script>
+    <div class="line-numbers">
+      
 <section>
   <h1 align="center">专栏</h1>
 
@@ -148,147 +133,113 @@
     <details class="hover-open card">
     <summary id="Arch Linux日用">Arch Linux日用</summary>
     
-    <div class="card">
-      <header>
-        <a href="Post/arch_230715.html">
-          <h4>安装Arch Linux以及配置桌面+常用软件</h4>
-        </a>
-      </header>
-      <hr>
-      <p><small><span>2023-07-16 17:32 |
-            <a href="/categories.html#Arch Linux日用">Arch Linux日用</a> | <a href="/tags.html#Linux">#Linux#</a> <a href="/tags.html#Arch Linux">#Arch Linux#</a> </span></small></p>
-    </div>
+    <li>
+      <a href="Post/arch_230715.html" data-tooltip="2023-07-16 17:32 | Arch Linux日用 | #Linux##Arch Linux#">
+        安装Arch Linux以及配置桌面+常用软件
+      </a>
+    </li>
     
-    <div class="card">
-      <header>
-        <a href="Post/arch_230716.html">
-          <h4>在Archlinux KDE下使用Waydroid</h4>
-        </a>
-      </header>
-      <hr>
-      <p><small><span>2023-07-16 12:32 |
-            <a href="/categories.html#Arch Linux日用">Arch Linux日用</a> | <a href="/tags.html#Linux">#Linux#</a> </span></small></p>
-    </div>
+    <li>
+      <a href="Post/arch_230716.html" data-tooltip="2023-07-16 12:32 | Arch Linux日用 | #Linux#">
+        在Archlinux KDE下使用Waydroid
+      </a>
+    </li>
     
     </details>
     
     <details class="hover-open card">
     <summary id="ClassTool4Seewo">ClassTool4Seewo</summary>
     
-    <div class="card">
-      <header>
-        <a href="Post/classboard_2.html">
-          <h4>Class Board 全新版本发布</h4>
-        </a>
-      </header>
-      <hr>
-      <p><small><span>2023-08-20 01:17 |
-            <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Cef">#Cef#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
-    </div>
+    <li>
+      <a href="Post/classboard_2.html" data-tooltip="2023-08-20 01:17 | ClassTool4Seewo | #Cef##Win32#">
+        Class Board 全新版本发布
+      </a>
+    </li>
     
-    <div class="card">
-      <header>
-        <a href="Post/classboard_1.html">
-          <h4>复刻ClassTool4Seewo二三事</h4>
-        </a>
-      </header>
-      <hr>
-      <p><small><span>2023-06-08 18:37 |
-            <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Qt">#Qt#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
-    </div>
+    <li>
+      <a href="Post/classboard_1.html" data-tooltip="2023-06-08 18:37 | ClassTool4Seewo | #Qt##Win32#">
+        复刻ClassTool4Seewo二三事
+      </a>
+    </li>
     
     </details>
     
     <details class="hover-open card">
     <summary id="使用Rust开发静态博客生成器">使用Rust开发静态博客生成器</summary>
     
-    <div class="card">
-      <header>
-        <a href="Post/rublog_2.html">
-          <h4>使用Rust开发静态博客生成器（二）伺服篇</h4>
-        </a>
-      </header>
-      <hr>
-      <p><small><span>2023-07-19 12:54 |
-            <a href="/categories.html#使用Rust开发静态博客生成器">使用Rust开发静态博客生成器</a> | <a href="/tags.html#Rust">#Rust#</a> <a href="/tags.html#Blog">#Blog#</a> </span></small></p>
-    </div>
+    <li>
+      <a href="Post/rublog_2.html" data-tooltip="2023-07-19 12:54 | 使用Rust开发静态博客生成器 | #Rust##Blog#">
+        使用Rust开发静态博客生成器（二）伺服篇
+      </a>
+    </li>
     
-    <div class="card">
-      <header>
-        <a href="Post/rublog_l.html">
-          <h4>使用Rust开发静态博客生成器（一）伊始篇</h4>
-        </a>
-      </header>
-      <hr>
-      <p><small><span>2023-07-18 12:44 |
-            <a href="/categories.html#使用Rust开发静态博客生成器">使用Rust开发静态博客生成器</a> | <a href="/tags.html#Rust">#Rust#</a> <a href="/tags.html#Blog">#Blog#</a> </span></small></p>
-    </div>
+    <li>
+      <a href="Post/rublog_l.html" data-tooltip="2023-07-18 12:44 | 使用Rust开发静态博客生成器 | #Rust##Blog#">
+        使用Rust开发静态博客生成器（一）伊始篇
+      </a>
+    </li>
     
     </details>
     
     <details class="hover-open card">
     <summary id="杂记">杂记</summary>
     
-    <div class="card">
-      <header>
-        <a href="Post/gk_1.html">
-          <h4>写在高三回校前</h4>
-        </a>
-      </header>
-      <hr>
-      <p><small><span>2023-07-29 01:45 |
-            <a href="/categories.html#杂记">杂记</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
-    </div>
+    <li>
+      <a href="Post/gk_1.html" data-tooltip="2023-07-29 01:45 | 杂记 | #高考##学习#">
+        写在高三回校前
+      </a>
+    </li>
     
     </details>
     
     <details class="hover-open card">
     <summary id="高三学习记录">高三学习记录</summary>
     
-    <div class="card">
-      <header>
-        <a href="Post/gk_mark_1.html">
-          <h4>广州8月摸底考总结</h4>
-        </a>
-      </header>
-      <hr>
-      <p><small><span>2023-08-27 10:44 |
-            <a href="/categories.html#高三学习记录">高三学习记录</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
-    </div>
+    <li>
+      <a href="Post/gk_mark_1.html" data-tooltip="2023-08-27 10:44 | 高三学习记录 | #高考##学习#">
+        广州8月摸底考总结
+      </a>
+    </li>
     
-    <div class="card">
-      <header>
-        <a href="Post/gk_mark_0.html">
-          <h4>使用博客记录高三学习的实验</h4>
-        </a>
-      </header>
-      <hr>
-      <p><small><span>2023-08-13 15:03 |
-            <a href="/categories.html#高三学习记录">高三学习记录</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
-    </div>
+    <li>
+      <a href="Post/gk_mark_0.html" data-tooltip="2023-08-13 15:03 | 高三学习记录 | #高考##学习#">
+        使用博客记录高三学习的实验
+      </a>
+    </li>
     
     </details>
     
   </div>
 </section>
 
-    <div id="commit">
-      <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
-        data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
-        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
-        data-loading="lazy" crossorigin="anonymous" async>
-        </script>
+      <div id="commit">
+        <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+          data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
+          data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark"
+          data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+          </script>
+      </div>
+      <script src="/js/prism.js"></script>
     </div>
-    <script src="/js/prism.js"></script>
-  </div>
-  <footer>
-    <p align="center">
-      <small>
-        <i>generated by <a href="https://github.com/Candlest/rublog">rublog</a>, beautified by <a
-            href="http://classless.de/">classless.css</a>.</i>
-      </small>
-    </p>
-  </footer>
+    <footer>
+      <p align="center">
+        <small>
+          <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>, beautified by <a
+              href="https://picocss.com/">pico.css</a>.</i>
+        </small>
+      </p>
+    </footer>
+  </main>
+  <button class="contrast switcher">
+    <label for="switch">
+      <input type="checkbox" id="switch" name="switch" role="switch" onclick="toggleDarkMode(this)" checked="true">
+      <font style="vertical-align: inherit;">
+        <font style="vertical-align: inherit;">黑夜模式</font>
+      </font>
+    </label>
+    </a>
+    </li>
+  </button>
 </body>
 
 </html>
