@@ -81,7 +81,7 @@
   data-prismjs-copy-success="文本已复制！">
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true });
+    mermaid.initialize({ startOnLoad: true, theme: 'dark',});
   </script>
   <main class="container">
     <nav id="container">
@@ -132,6 +132,12 @@
     
     <details class="hover-open card">
     <summary id="Arch Linux日用">Arch Linux日用</summary>
+    
+    <li>
+      <a href="Post/from_KDE_to_GNOME.html" data-tooltip="2023-09-02 20:23 | Arch Linux日用 | #Linux#">
+        从KDE迁移到GNOME
+      </a>
+    </li>
     
     <li>
       <a href="Post/arch_230715.html" data-tooltip="2023-07-16 17:32 | Arch Linux日用 | #Linux##Arch Linux#">
@@ -230,7 +236,7 @@
       </p>
     </footer>
   </main>
-  <button class="contrast switcher">
+  <!-- <button class="contrast switcher">
     <label for="switch">
       <input type="checkbox" id="switch" name="switch" role="switch" onclick="toggleDarkMode(this)" checked="true">
       <font style="vertical-align: inherit;">
@@ -239,7 +245,7 @@
     </label>
     </a>
     </li>
-  </button>
+  </button> -->
 </body>
 
 </html>

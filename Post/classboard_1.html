@@ -81,7 +81,7 @@
   data-prismjs-copy-success="文本已复制！">
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true });
+    mermaid.initialize({ startOnLoad: true, theme: 'dark',});
   </script>
   <main class="container">
     <nav id="container">
@@ -146,7 +146,13 @@
 <p>但是不完美的方案倒是有的_(:з」∠)_，而且是我初中便实现过的（MFC+WinForm），或者是我现在有望实现的（Rust + egui），原作ClassTool也是迭代版本多次几年才有现在的样子，我也无需那么着急。</p>
 <h3>动态壁纸原理</h3>
 <p>动态壁纸，一是动态，二是壁纸。前者可以通过媒体播放/网页形式实现，后者则是调用Win32API实现。</p>
-<p><em><strong>TODO</strong></em></p>
+<pre class="mermaid">
+flowchart LR
+A[创建窗口 bg ] --> B[设置 bg 为 WorkerW 的子窗体]
+A --> C[注册 Tray 控制窗体 bg ]
+D[调用 Win32 让背景层 WorkerW 分离] --> B
+</pre>
+<p><em><strong>Fin.</strong></em></p>
 
   </div>
 </div>
@@ -169,7 +175,7 @@
       </p>
     </footer>
   </main>
-  <button class="contrast switcher">
+  <!-- <button class="contrast switcher">
     <label for="switch">
       <input type="checkbox" id="switch" name="switch" role="switch" onclick="toggleDarkMode(this)" checked="true">
       <font style="vertical-align: inherit;">
@@ -178,7 +184,7 @@
     </label>
     </a>
     </li>
-  </button>
+  </button> -->
 </body>
 
 </html>
