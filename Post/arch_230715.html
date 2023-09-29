@@ -139,7 +139,7 @@
     <h2>前言</h2>
 <p>在一切开始之前，我需要说明以下三件事：（爹味溢出，可以跳到后面）</p>
 <ol>
-<li>Arch Linux一个月一个新版本，安装过程常常有改变，且软件库常有变动，<u><strong>不能保证这篇文章永远正确，最好的安装方式应该是对照英语版的<a href="https://wiki.archlinux.org/title/Installation_guide">ArchLinuxWiki</a></strong></u></li>
+<li>Arch Linux一个月一个新版本，安装过程常常有改变，且软件库常有变动，<u>**不能保证这篇文章永远正确，最好的安装方式应该是对照英语版的<a href="https://wiki.archlinux.org/title/Installation_guide">ArchLinuxWiki</a>**</u></li>
 <li>学会安装Arch Linux，学会使用Vim和Emacs<u><strong>并不能使你的编程能力有什么提高</strong></u>，好比擅长安装Office套件和灵活使用Office，二者不可同日而语焉。（当然，Geetoo和LFS的安装和使用能够让你熟悉Linux的文件结构和软件从源代码到可执行文件的编译过程，前提是<u><strong>逃离舒适区，专注于探索与解决问题</strong></u>）</li>
 <li><u><strong>美化是没有尽头的，配置是没有尽头的</strong></u>，在二者身上浪费太多的时间，是忽略电脑生产工具事实的本末倒置，是不可取的。<u><strong>时间很宝贵，要用在产出比更高的事情上</strong></u>，要给思考留出时间，给重要的人留出时间。</li>
 <li><u><strong>希望你过得幸福快乐</strong></u>。</li>
@@ -185,13 +185,13 @@
 <p>这里以我的输出为例子：</p>
 <blockquote>
 <p>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT g
-roup default qlen 1000 
-link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 
-2: enp3s0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc fq_codel state DOWN 
-mode DEFAULT group default qlen 1000 
-link/ether e4:54:e8:0f:d4:ba brd ff:ff:ff:ff:ff:ff 
-3: wlp4s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP mode 
-DORMANT group default qlen 1000 
+roup default qlen 1000
+link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: enp3s0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc fq_codel state DOWN
+mode DEFAULT group default qlen 1000
+link/ether e4:54:e8:0f:d4:ba brd ff:ff:ff:ff:ff:ff
+3: wlp4s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP mode
+DORMANT group default qlen 1000
 link/ether c0:b5:d7:72:48:4f brd ff:ff:ff:ff:ff:ff</p>
 </blockquote>
 <p>一般以<code>e</code>开头的都是有线网卡，比如这里的<code>enp3s0</code>；一般以<code>w</code>开头的都是无线网卡，比如这里的<code>wlp4s0</code>。</p>
@@ -218,7 +218,7 @@ exit
 </code></pre>
 <h3>硬盘分区、格式化与挂载</h3>
 <p>这里推荐用<code>cfdisk</code>，其图形化界面非常友好。</p>
-<p>MBR启动至少有一个<code>/</code>根分区就可以了，UEFI还要挂载ESP分区到<code>/boot</code>(或者其他目录，但是这样方便<code>grub</code>、<code>UEFInd</code>和<code>system-boot</code>等引导工具安装) </p>
+<p>MBR启动至少有一个<code>/</code>根分区就可以了，UEFI还要挂载ESP分区到<code>/boot</code>(或者其他目录，但是这样方便<code>grub</code>、<code>UEFInd</code>和<code>system-boot</code>等引导工具安装)</p>
 <p>以前推荐使用<code>ext4</code>格式化，现在似乎更推荐用性能更好，概念更新的<code>brtfs</code>（GNU社区对标<code>zfs</code>的项目）。</p>
 <p>对于非EFI目录，我们使用<code>brtfs</code>分区。</p>
 <pre><code class="language-bash">mkfs.brtfs ${分区目录}

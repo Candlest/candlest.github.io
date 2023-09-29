@@ -248,10 +248,9 @@ fn handle_connection(mut stream: std::net::TcpStream){
 </code></pre>
 <p>由此，我们实现了我们对本地Web Server的基本需求，即路由，从文件中读取UTF-8字符流并拼接为HTTP协议的<code>response</code>并响应。</p>
 <p>但是，我们不得不承认，我们的<code>web server</code> 还是有很多重要的功能没有实现。比如，它只能读取UTF-8格式的文本文件，而不能读取非文本类型（base64另当别论）。</p>
-<p>再比如，对标一般的<code>web_server</code>，我们没有正则表达路由，没有线程池，也没有……重复造轮子的事情对项目来说是没有必要性的，然而对在学习的我们意义重大，我将会在一个独立的篇章内更新该内容。</p>
+<p>再比如，对标一般的<code>web_server</code>，我们没有正则表达路由，没有线程池，也没有......重复造轮子的事情对项目来说是没有必要性的，然而对在学习的我们意义重大，我将会在一个独立的篇章内更新该内容。</p>
 <p>下一节我们会运用<code>pulldown_cmark</code>库，实现从<code>markdown</code>到<code>html</code>的转换，然后使用<a href="https://github.com/Keats/tera">tera</a>这样的类<code>Jinja2/Django</code>库进行渲染，同时创建索引，用css和js丰富我们的静态网站。</p>
 <p><em><strong>Fin.</strong></em></p>
-
   </div>
 </div>
 

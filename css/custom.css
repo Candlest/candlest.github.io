@@ -66,3 +66,7 @@ li:has(input),
 ul:has(input){
   list-style: "";
 }
+
+container{
+  max-width: 710px;
+}
