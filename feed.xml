@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Candlest's Blog</title>
+        <link>http://candlest.github.io/</link>
+        <description>Candlest 的博客</description>
+        <language>zh-cn</language>
+
+        
+        <item>
+            <title>高中初次单休：Keep Balance</title>
+            <link>https://candlest.github.io/Post/gk_mark_first_week_september.html</link>
+        </item>
+        
+        <item>
+            <title>台风天：双休的回光返照</title>
+            <link>https://candlest.github.io/Post/gk_mark_typhoon.html</link>
+        </item>
+        
+        <item>
+            <title>从KDE迁移到GNOME</title>
+            <link>https://candlest.github.io/Post/from_KDE_to_GNOME.html</link>
+        </item>
+        
+        <item>
+            <title>广州8月摸底考总结</title>
+            <link>https://candlest.github.io/Post/gk_mark_1.html</link>
+        </item>
+        
+        <item>
+            <title>Class Board 全新版本发布</title>
+            <link>https://candlest.github.io/Post/classboard_2.html</link>
+        </item>
+        
+        <item>
+            <title>使用博客记录高三学习的实验</title>
+            <link>https://candlest.github.io/Post/gk_mark_0.html</link>
+        </item>
+        
+        <item>
+            <title>写在高三回校前</title>
+            <link>https://candlest.github.io/Post/gk_1.html</link>
+        </item>
+        
+        <item>
+            <title>使用Rust开发静态博客生成器（二）伺服篇</title>
+            <link>https://candlest.github.io/Post/rublog_2.html</link>
+        </item>
+        
+        <item>
+            <title>使用Rust开发静态博客生成器（一）伊始篇</title>
+            <link>https://candlest.github.io/Post/rublog_l.html</link>
+        </item>
+        
+        <item>
+            <title>安装Arch Linux以及配置桌面+常用软件</title>
+            <link>https://candlest.github.io/Post/arch_230715.html</link>
+        </item>
+        
+        <item>
+            <title>在Archlinux KDE下使用Waydroid</title>
+            <link>https://candlest.github.io/Post/arch_230716.html</link>
+        </item>
+        
+        <item>
+            <title>复刻ClassTool4Seewo二三事</title>
+            <link>https://candlest.github.io/Post/classboard_1.html</link>
+        </item>
+        
+    </channel>
+</rss>
