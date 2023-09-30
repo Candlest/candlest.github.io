@@ -108,7 +108,7 @@
       </ul>
       <ul>
         <!-- <li class="float-left sticky"># Candlest 's Blog</li> -->
-        
+        <li><a href="/feed.xml">RSS</a></li>
         <li><a href="/friends.html">友链</a></li>
         <li><a href="/gk.html">高考专栏</a></li>
       </ul>
@@ -127,17 +127,80 @@
       
 <div>
   <header>
-    <h1 align="center">写在高三回校前</h1>
-    <p align="center"><small><span>2023-07-29 01:45 |
-          <a href="/categories.html#杂记">杂记</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
+    <h1 align="center">给静态博客实现rss</h1>
+    <p align="center"><small><span>2023-09-30 12:31 |
+          <a href="/categories.html#Rigos">Rigos</a> | <a href="/tags.html#Rust">#Rust#</a> <a href="/tags.html#Blog">#Blog#</a> </span></small></p>
   </header>
   <details class="hover-open card">
     <summary> 目录 </summary>
     <ul data-toc></ul>
    </details>
   <div id="container">
-    <p>想学的东西很多，想做的事情很多，但是只能先解决高考再说。</p>
-<p>2024，高考加油！</p>
+    <p>手痒了，想给博客添加 <code>feed.xml</code> 以实现 rss 功能。</p>
+<p>实现原理和 tera 的 html 模板渲染大差不差，大概思路就是遍历一边文章。</p>
+<p>模板文件：</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;rss version=&quot;2.0&quot;&gt;
+    &lt;channel&gt;
+        &lt;title&gt;Candlest's Blog&lt;/title&gt;
+        &lt;link&gt;http://candlest.github.io/&lt;/link&gt;
+        &lt;description&gt;Candlest 的博客&lt;/description&gt;
+        &lt;language&gt;zh-cn&lt;/language&gt;
+
+        {% for post in post_index | sort(attribute=&quot;datetime&quot;) |reverse%}
+        &lt;item&gt;
+            &lt;title&gt;{{post.title}}&lt;/title&gt;
+            &lt;link&gt;https://candlest.github.io/Post/{{post.url_name}}&lt;/link&gt;
+        &lt;/item&gt;
+        {% endfor %}
+    &lt;/channel&gt;
+&lt;/rss&gt;
+</code></pre>
+<p>代码：</p>
+<pre><code class="language-rust">impl Builder
+{
+    /* ... */
+    pub fn build_feed(&amp;self) {
+        let tera = match Tera::new(
+            format!(
+                &quot;{}/{}/{}/*.html&quot;,
+                self.project_root_path, self.config.template_dir, self.config.theme
+            )
+            .as_str(),
+        ) {
+            Ok(t) =&gt; t,
+            Err(e) =&gt; {
+                println!(&quot;Parsing error(s): {}&quot;, e);
+                ::std::process::exit(1);
+            }
+        };
+        let mut context = tera::Context::new();
+        context.insert(&quot;post_index&quot;, &amp;self.posts_index);
+        context.insert(&quot;tags&quot;, &amp;self.tags);
+        context.insert(&quot;categories&quot;, &amp;self.categroies);
+        //render
+        let rendered = tera.render(&quot;feed.html&quot;, &amp;context).unwrap();
+        //let folder = std::path::Path::new(html_output_path.as_str());
+        //let _ = std::fs::create_dir_all(folder);
+        let html_output_path = format!(&quot;{}/feed.xml&quot;, self.config.public_dir);
+        std::fs::write(html_output_path, rendered).unwrap();
+    }
+}
+/* ... */
+pub fn build() {
+    let pro_path = String::from(&quot;./&quot;);
+    let builder = Builder::new(pro_path);
+    let mut builder_o = builder.clone();
+    utils::info(utils::Info::GENERATE, &quot;now generate&quot;, utils::PUBLIC_DIR);
+    let handle_static = std::thread::spawn(move || {
+        builder.build_static_dir();
+    });
+    builder_o.pre_create_posts_index();
+    builder_o.build_all();
+    builder_o.build_feed();
+    handle_static.join().unwrap();
+}
+</code></pre>
   </div>
 </div>
 
