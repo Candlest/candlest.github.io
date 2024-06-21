@@ -1,31 +1,22 @@
-<!DOCTYPE html>
-<html lang="zh" class='han-la' data-theme="dark">
+<!doctype html>
+<html lang="zh">
 
 <head>
-  <script src="/js/jquery-3.7.0.min.js"></script>
-  <script src="/js/jquery.toc.min.js"></script>
-  <!-- THEME-->
-  <link rel="stylesheet" href="/css/pico.css">
-  <link rel="stylesheet" href="/css/custom.css">
-  <script>
-    function addFontSize(addPx) {
-      html = document.querySelector('html');
-      currentSize = parseFloat(window.getComputedStyle(html, null)
-        .getPropertyValue('font-size'));
-      html.style.fontSize = (currentSize + addPx) + 'px';
-    }
-    function toggleDarkMode(el) {
-      var theme = 'dark'
-      if (!el.checked) {
-        theme = 'light';
-      } else {
-        var theme = 'dark';
-      }
-      document.documentElement.setAttribute('data-theme', theme)
-    }
-  </script>
-  <!-- prism.js -->
-  <link href="/css/prism.css" rel="stylesheet" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+
+  <!-- 插件 -->
+  <!-- 引入 Prism.css -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet" />
+  <!-- 引入 toolbar 插件的 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.css" />
+  <!-- 引入 prism-copy-to-clipboard 插件的 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.css"
+    rel="stylesheet">
+  <!-- Mermaid -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <!-- KaTex-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
     integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
@@ -35,8 +26,23 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
     integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
     crossorigin="anonymous"></script>
+  <!-- 统一加载 -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      // 选择所有 language-mermaid 类的元素
+      var elements = document.querySelectorAll('.language-mermaid');
+
+      // 遍历并更改类名为 mermaid
+      elements.forEach(function (el) {
+        el.className = el.className.replace('language-mermaid', 'mermaid');
+      });
+
+      // 初始化 Mermaid 以渲染图表
+      mermaid.initialize({
+        startOnLoad: true
+      });
+
+      // KATEX
       renderMathInElement(document.body, {
         // customised options
         // • auto-render specific keys, e.g.:
@@ -51,292 +57,170 @@
       });
     });
   </script>
-  <!-- text-autospace.js -->
-  <script src='https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js'></script>
-  <script src='https://mastermay.github.io/text-autospace.js/text-autospace.min.js'></script>
-  <!-- Google font预加载&缓存 -->
-  <link type="text/css" rel="preload stylesheet" as="style"
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
-    crossorigin>
-  <!-- Google font预加载&缓存 -->
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <noscript>
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
-      onload="this.media='all'" />
-  </noscript>
-  <!-- Google font预加载&缓存 END-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
-  <!--Typer-->
-  <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Candlest's Blog</title>
+  <!-- END: 插件 -->
+  <link rel="stylesheet" href="./css/tabs.css">
+  <title>Candlest 's Blog</title>
 </head>
 
-<body data-theme="dark" lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制"
-  data-prismjs-copy-success="文本已复制！">
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true, theme: 'dark',});
-  </script>
-  <main class="container">
-    <nav id="container">
-      <ul>
-        <li><a href="/">主页</a></li>
-        <li>
-          <details role="list" dir="rtl">
-            <summary aria-haspopup="listbox" role="link">文章</summary>
-            <ul role="listbox">
-              <li><a href="/categories.html">专栏</a></li>
-              <li><a href="/tags.html">标签</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details role="list" dir="rtl">
-            <summary aria-haspopup="listbox" role="link">关于</summary>
-            <ul role="listbox">
-              <li><a href="/about_page.html">关于博客</a></li>
-              <li><a href="/about_me.html">关于我</a></li>
-            </ul>
-          </details>
-        </li>
-      </ul>
-      <ul>
-        <!-- <li class="float-left sticky"># Candlest 's Blog</li> -->
-        <li><a href="/feed.xml">RSS</a></li>
-        <li><a href="/friends.html">友链</a></li>
-        <li><a href="/gk.html">高考专栏</a></li>
-      </ul>
-    </nav>
-    <center>
-      <p id="top-text"></p>
-  </center>
-  <script>
-    new TypeIt("#top-text", {
-      strings: "纵被春风吹作雪，绝胜南陌碾成尘。<em>—— [宋]王安石《北陂杏花》</em>",
-      speed: 50,
-      waitUntilVisible: true,
-    }).go();
-  </script>
-    <div class="line-numbers">
-      
-<section>
-  
-  <h2 align="center">文章列表</h2>
-  <ul>
-    
-    <li>
-      <a href="Post/linux_desktop_talk.html" data-tooltip="2023-09-30 20:23 | Arch Linux日用 | #Linux#">
-        桌面迁移杂谈
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/linux_desktop_talk.html">
-        <h4>桌面迁移杂谈</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-09-30 20:23 |
-          <a href="/categories.html#Arch Linux日用">Arch Linux日用</a> | <a href="/tags.html#Linux">#Linux#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/rigos_rss.html" data-tooltip="2023-09-30 12:31 | Rigos | #Rust##Blog#">
-        给静态博客实现rss
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/rigos_rss.html">
-        <h4>给静态博客实现rss</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-09-30 12:31 |
-          <a href="/categories.html#Rigos">Rigos</a> | <a href="/tags.html#Rust">#Rust#</a> <a href="/tags.html#Blog">#Blog#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/gk_mark_first_week_september.html" data-tooltip="2023-09-09 23:02 | 高三学习记录 | #高考#">
-        高中初次单休：Keep Balance
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/gk_mark_first_week_september.html">
-        <h4>高中初次单休：Keep Balance</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-09-09 23:02 |
-          <a href="/categories.html#高三学习记录">高三学习记录</a> | <a href="/tags.html#高考">#高考#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/gk_mark_typhoon.html" data-tooltip="2023-09-03 13:17 | 高三学习记录 | #高考#">
-        台风天：双休的回光返照
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/gk_mark_typhoon.html">
-        <h4>台风天：双休的回光返照</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-09-03 13:17 |
-          <a href="/categories.html#高三学习记录">高三学习记录</a> | <a href="/tags.html#高考">#高考#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/gk_mark_1.html" data-tooltip="2023-08-27 10:44 | 高三学习记录 | #高考##学习#">
-        广州8月摸底考总结
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/gk_mark_1.html">
-        <h4>广州8月摸底考总结</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-08-27 10:44 |
-          <a href="/categories.html#高三学习记录">高三学习记录</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/classboard_2.html" data-tooltip="2023-08-20 01:17 | ClassTool4Seewo | #Cef##Win32#">
-        Class Board 全新版本发布
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/classboard_2.html">
-        <h4>Class Board 全新版本发布</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-08-20 01:17 |
-          <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Cef">#Cef#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/gk_mark_0.html" data-tooltip="2023-08-13 15:03 | 高三学习记录 | #高考##学习#">
-        使用博客记录高三学习的实验
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/gk_mark_0.html">
-        <h4>使用博客记录高三学习的实验</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-08-13 15:03 |
-          <a href="/categories.html#高三学习记录">高三学习记录</a> | <a href="/tags.html#高考">#高考#</a> <a href="/tags.html#学习">#学习#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/rigos_1.html" data-tooltip="2023-07-18 12:44 | Rigos | #Rust##Blog#">
-        静态博客生成器Rigos暑假开发总结
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/rigos_1.html">
-        <h4>静态博客生成器Rigos暑假开发总结</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-07-18 12:44 |
-          <a href="/categories.html#Rigos">Rigos</a> | <a href="/tags.html#Rust">#Rust#</a> <a href="/tags.html#Blog">#Blog#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/arch_230715.html" data-tooltip="2023-07-16 17:32 | Arch Linux日用 | #Linux##Arch Linux#">
-        安装Arch Linux以及配置桌面+常用软件
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/arch_230715.html">
-        <h4>安装Arch Linux以及配置桌面+常用软件</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-07-16 17:32 |
-          <a href="/categories.html#Arch Linux日用">Arch Linux日用</a> | <a href="/tags.html#Linux">#Linux#</a> <a href="/tags.html#Arch Linux">#Arch Linux#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/arch_230716.html" data-tooltip="2023-07-16 12:32 | Arch Linux日用 | #Linux#">
-        在Archlinux KDE下使用Waydroid
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/arch_230716.html">
-        <h4>在Archlinux KDE下使用Waydroid</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-07-16 12:32 |
-          <a href="/categories.html#Arch Linux日用">Arch Linux日用</a> | <a href="/tags.html#Linux">#Linux#</a> </span></small></p>
-  </div> -->
-    
-    <li>
-      <a href="Post/classboard_1.html" data-tooltip="2023-06-08 18:37 | ClassTool4Seewo | #Qt##Win32#">
-        复刻ClassTool4Seewo二三事
-      </a>
-    </li>
-    <!-- <div class="card">
-    <header>
-      <a href="Post/classboard_1.html">
-        <h4>复刻ClassTool4Seewo二三事</h4>
-      </a>
-    </header>
-    <hr>
-    <p><small><span>2023-06-08 18:37 |
-          <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Qt">#Qt#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
-  </div> -->
-    
-  </ul>
-</section>
-
-      <div id="commit">
-        <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
-          data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
-          data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark"
-          data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
-          </script>
-      </div>
-      <script src="/js/prism.js"></script>
+<body lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制" data-prismjs-copy-success="文本已复制！">
+  <header>
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="/">主页</a></li>
+          <li><a href="/feed.xml">RSS</a></li>
+          <li><a href="/friends.html">友链</a></li>
+          <li><a href="/about.html">关于</a></li>
+        </ul>
+      </nav>
     </div>
-    <footer>
-      <p align="center">
-        <small>
-          <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>, beautified by <a
-              href="https://picocss.com/">pico.css</a>.</i>
-        </small>
-      </p>
-    </footer>
+  </header>
+  <main class="container">
+    
+<h2>这里是index</h2>
+<p>喵喵喵</p>
+<blockquote>
+<p>汪汪汪
+<del>2333</del></p>
+</blockquote>
+<div class="article-index">
+  <h1>文章索引</h1>
+  <div class="tabs">
+    <button class="tablinks" onclick="openTab(event, 'Time')">时间排序</button>
+    <button class="tablinks" onclick="openTab(event, 'Tags')">Tags归档</button>
+    <button class="tablinks" onclick="openTab(event, 'Categories')">Categories归档</button>
+  </div>
+
+  <div id="Time" class="tabcontent">
+    <!-- 按时间排序的文章列表 -->
+    
+    <article>
+      <h2><a href="./Post/classboard_2.html">高中毕业再谈ClassBoard</a></h2>
+      <p>ClassBoard开发日志</p>
+      <time datetime="2024-06-21T11:56:51">2024-06-21T11:56:51</time>
+    </article>
+    
+    <article>
+      <h2><a href="./Post/test.html">各插件测试</a></h2>
+      <p>其他</p>
+      <time datetime="2024-06-20T19:20:17">2024-06-20T19:20:17</time>
+    </article>
+    
+    <article>
+      <h2><a href="./Post/classboard_1.html">复刻ClassTool4Seewo二三事</a></h2>
+      <p>ClassBoard开发日志</p>
+      <time datetime="2023-06-08T18:37:25">2023-06-08T18:37:25</time>
+    </article>
+    
+  </div>
+
+  <div id="Tags" class="tabcontent">
+    <!-- 按Tags归档的文章列表 -->
+    
+    <details>
+      <summary>C#</summary>
+      
+      <article>
+        <h2><a href="./Post/classboard_2.html">高中毕业再谈ClassBoard</a></h2>
+        <p>ClassBoard开发日志</p>
+        <time datetime="2024-06-21T11:56:51">2024-06-21T11:56:51</time>
+      </article>
+      
+      <article>
+        <h2><a href="./Post/classboard_1.html">复刻ClassTool4Seewo二三事</a></h2>
+        <p>ClassBoard开发日志</p>
+        <time datetime="2023-06-08T18:37:25">2023-06-08T18:37:25</time>
+      </article>
+      
+    </details>
+    
+    <details>
+      <summary>Win API</summary>
+      
+      <article>
+        <h2><a href="./Post/classboard_2.html">高中毕业再谈ClassBoard</a></h2>
+        <p>ClassBoard开发日志</p>
+        <time datetime="2024-06-21T11:56:51">2024-06-21T11:56:51</time>
+      </article>
+      
+      <article>
+        <h2><a href="./Post/classboard_1.html">复刻ClassTool4Seewo二三事</a></h2>
+        <p>ClassBoard开发日志</p>
+        <time datetime="2023-06-08T18:37:25">2023-06-08T18:37:25</time>
+      </article>
+      
+    </details>
+    
+    <details>
+      <summary>测试</summary>
+      
+      <article>
+        <h2><a href="./Post/test.html">各插件测试</a></h2>
+        <p>其他</p>
+        <time datetime="2024-06-20T19:20:17">2024-06-20T19:20:17</time>
+      </article>
+      
+    </details>
+    
+  </div>
+
+  <div id="Categories" class="tabcontent">
+    <!-- 按Categories归档的文章列表 -->
+    
+    <details>
+      <summary>ClassBoard开发日志</summary>
+      
+      <article>
+        <h2><a href="./Post/classboard_2.html">高中毕业再谈ClassBoard</a></h2>
+        <p>ClassBoard开发日志</p>
+        <time datetime="2024-06-21T11:56:51">2024-06-21T11:56:51</time>
+      </article>
+      
+      <article>
+        <h2><a href="./Post/classboard_1.html">复刻ClassTool4Seewo二三事</a></h2>
+        <p>ClassBoard开发日志</p>
+        <time datetime="2023-06-08T18:37:25">2023-06-08T18:37:25</time>
+      </article>
+      
+    </details>
+    
+    <details>
+      <summary>其他</summary>
+      
+      <article>
+        <h2><a href="./Post/test.html">各插件测试</a></h2>
+        <p>其他</p>
+        <time datetime="2024-06-20T19:20:17">2024-06-20T19:20:17</time>
+      </article>
+      
+    </details>
+    
+  </div>
+
+  <script src="./js/tabs.js"></script>
+</div>
+
+    <div id="commit">
+      <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+        data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" crossorigin="anonymous" async>
+        </script>
+    </div>
   </main>
-  <!-- <button class="contrast switcher">
-    <label for="switch">
-      <input type="checkbox" id="switch" name="switch" role="switch" onclick="toggleDarkMode(this)" checked="true">
-      <font style="vertical-align: inherit;">
-        <font style="vertical-align: inherit;">黑夜模式</font>
-      </font>
-    </label>
-    </a>
-    </li>
-  </button> -->
+  <footer>
+    <p align="center">
+      <small>
+        <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>, beautified by <a
+            href="https://picocss.com/">pico.css</a>.</i>
+      </small>
+    </p>
+  </footer>
+  <!-- 引入 Prism.js -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
 </body>
 
 </html>

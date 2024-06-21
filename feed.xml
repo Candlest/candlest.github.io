@@ -1,66 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
     <channel>
         <title>Candlest's Blog</title>
-        <link>http://candlest.github.io/</link>
+        <link>candlest.github.io</link>
         <description>Candlest 的博客</description>
-        <language>zh-cn</language>
-
         
-        <item>
-            <title>桌面迁移杂谈</title>
-            <link>https://candlest.github.io/Post/linux_desktop_talk.html</link>
-        </item>
+            <item>
+                <title>高中毕业再谈ClassBoard</title>
+                <link>candlest.github.io/classboard_2.html</link>
+                <description>ClassBoard开发日志</description>
+                <pubDate>2024-06-21T11:56:51</pubDate>
+            </item>
         
-        <item>
-            <title>给静态博客实现rss</title>
-            <link>https://candlest.github.io/Post/rigos_rss.html</link>
-        </item>
+            <item>
+                <title>各插件测试</title>
+                <link>candlest.github.io/test.html</link>
+                <description>其他</description>
+                <pubDate>2024-06-20T19:20:17</pubDate>
+            </item>
         
-        <item>
-            <title>高中初次单休：Keep Balance</title>
-            <link>https://candlest.github.io/Post/gk_mark_first_week_september.html</link>
-        </item>
-        
-        <item>
-            <title>台风天：双休的回光返照</title>
-            <link>https://candlest.github.io/Post/gk_mark_typhoon.html</link>
-        </item>
-        
-        <item>
-            <title>广州8月摸底考总结</title>
-            <link>https://candlest.github.io/Post/gk_mark_1.html</link>
-        </item>
-        
-        <item>
-            <title>Class Board 全新版本发布</title>
-            <link>https://candlest.github.io/Post/classboard_2.html</link>
-        </item>
-        
-        <item>
-            <title>使用博客记录高三学习的实验</title>
-            <link>https://candlest.github.io/Post/gk_mark_0.html</link>
-        </item>
-        
-        <item>
-            <title>静态博客生成器Rigos暑假开发总结</title>
-            <link>https://candlest.github.io/Post/rigos_1.html</link>
-        </item>
-        
-        <item>
-            <title>安装Arch Linux以及配置桌面+常用软件</title>
-            <link>https://candlest.github.io/Post/arch_230715.html</link>
-        </item>
-        
-        <item>
-            <title>在Archlinux KDE下使用Waydroid</title>
-            <link>https://candlest.github.io/Post/arch_230716.html</link>
-        </item>
-        
-        <item>
-            <title>复刻ClassTool4Seewo二三事</title>
-            <link>https://candlest.github.io/Post/classboard_1.html</link>
-        </item>
+            <item>
+                <title>复刻ClassTool4Seewo二三事</title>
+                <link>candlest.github.io/classboard_1.html</link>
+                <description>ClassBoard开发日志</description>
+                <pubDate>2023-06-08T18:37:25</pubDate>
+            </item>
         
     </channel>
 </rss>

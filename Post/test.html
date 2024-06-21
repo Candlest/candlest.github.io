@@ -59,7 +59,7 @@
   </script>
   <!-- END: 插件 -->
   <link rel="stylesheet" href="./css/tabs.css">
-  <title>伙伴们</title>
+  <title>各插件测试</title>
 </head>
 
 <body lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制" data-prismjs-copy-success="文本已复制！">
@@ -77,9 +77,34 @@
   </header>
   <main class="container">
     
-<h1>友链</h1>
-<p>E7G's page ：<a href="https://e7g.github.io">https://e7g.github.io</a></p>
-<p>mike-unk's page ：<a href="https://mike-unk.github.io">https://mike-unk.github.io</a></p>
+<h3>mermaid 绘图</h3>
+<pre><code class="language-mermaid">graph TD;
+A[开始] --&gt; B{决策};
+B -- 是 --&gt; C[结果1];
+B -- 否 --&gt; D[结果2];
+</code></pre>
+<h3>KATEX</h3>
+<p>这是一个数学公式 \(E = mc^2\) 的例子。</p>
+<h3>Prism.js</h3>
+<pre><code class="language-Rust">// 渲染 index.html
+let template_index =
+    read_template_file(format!(&quot;theme/{}/index.html&quot;, theme).as_str()).unwrap();
+env.add_template(&quot;page&quot;, &amp;template_index).unwrap();
+let template_index = env.get_template(&quot;page&quot;).unwrap();
+let content = io::read_file_contents(&quot;index.md&quot;).unwrap().to_string();
+let content = markdown::to_html_with_options(
+    &amp;content.as_str(),
+    &amp;Options {
+        compile: CompileOptions {
+            allow_dangerous_html: true,
+            allow_dangerous_protocol: true,
+            ..CompileOptions::gfm()
+        },
+        ..Options::gfm()
+    },
+)
+.unwrap();
+</code></pre>
 
     <div id="commit">
       <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"

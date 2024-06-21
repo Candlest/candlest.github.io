@@ -1,31 +1,22 @@
-<!DOCTYPE html>
-<html lang="zh" class='han-la' data-theme="dark">
+<!doctype html>
+<html lang="zh">
 
 <head>
-  <script src="/js/jquery-3.7.0.min.js"></script>
-  <script src="/js/jquery.toc.min.js"></script>
-  <!-- THEME-->
-  <link rel="stylesheet" href="/css/pico.css">
-  <link rel="stylesheet" href="/css/custom.css">
-  <script>
-    function addFontSize(addPx) {
-      html = document.querySelector('html');
-      currentSize = parseFloat(window.getComputedStyle(html, null)
-        .getPropertyValue('font-size'));
-      html.style.fontSize = (currentSize + addPx) + 'px';
-    }
-    function toggleDarkMode(el) {
-      var theme = 'dark'
-      if (!el.checked) {
-        theme = 'light';
-      } else {
-        var theme = 'dark';
-      }
-      document.documentElement.setAttribute('data-theme', theme)
-    }
-  </script>
-  <!-- prism.js -->
-  <link href="/css/prism.css" rel="stylesheet" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+
+  <!-- 插件 -->
+  <!-- 引入 Prism.css -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet" />
+  <!-- 引入 toolbar 插件的 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.css" />
+  <!-- 引入 prism-copy-to-clipboard 插件的 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.css"
+    rel="stylesheet">
+  <!-- Mermaid -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <!-- KaTex-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
     integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
@@ -35,8 +26,23 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
     integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
     crossorigin="anonymous"></script>
+  <!-- 统一加载 -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      // 选择所有 language-mermaid 类的元素
+      var elements = document.querySelectorAll('.language-mermaid');
+
+      // 遍历并更改类名为 mermaid
+      elements.forEach(function (el) {
+        el.className = el.className.replace('language-mermaid', 'mermaid');
+      });
+
+      // 初始化 Mermaid 以渲染图表
+      mermaid.initialize({
+        startOnLoad: true
+      });
+
+      // KATEX
       renderMathInElement(document.body, {
         // customised options
         // • auto-render specific keys, e.g.:
@@ -51,92 +57,28 @@
       });
     });
   </script>
-  <!-- text-autospace.js -->
-  <script src='https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js'></script>
-  <script src='https://mastermay.github.io/text-autospace.js/text-autospace.min.js'></script>
-  <!-- Google font预加载&缓存 -->
-  <link type="text/css" rel="preload stylesheet" as="style"
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
-    crossorigin>
-  <!-- Google font预加载&缓存 -->
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <noscript>
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
-      onload="this.media='all'" />
-  </noscript>
-  <!-- Google font预加载&缓存 END-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
-  <!--Typer-->
-  <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Candlest's Blog</title>
+  <!-- END: 插件 -->
+  <link rel="stylesheet" href="./css/tabs.css">
+  <title>复刻ClassTool4Seewo二三事</title>
 </head>
 
-<body data-theme="dark" lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制"
-  data-prismjs-copy-success="文本已复制！">
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true, theme: 'dark',});
-  </script>
-  <main class="container">
-    <nav id="container">
-      <ul>
-        <li><a href="/">主页</a></li>
-        <li>
-          <details role="list" dir="rtl">
-            <summary aria-haspopup="listbox" role="link">文章</summary>
-            <ul role="listbox">
-              <li><a href="/categories.html">专栏</a></li>
-              <li><a href="/tags.html">标签</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details role="list" dir="rtl">
-            <summary aria-haspopup="listbox" role="link">关于</summary>
-            <ul role="listbox">
-              <li><a href="/about_page.html">关于博客</a></li>
-              <li><a href="/about_me.html">关于我</a></li>
-            </ul>
-          </details>
-        </li>
-      </ul>
-      <ul>
-        <!-- <li class="float-left sticky"># Candlest 's Blog</li> -->
-        <li><a href="/feed.xml">RSS</a></li>
-        <li><a href="/friends.html">友链</a></li>
-        <li><a href="/gk.html">高考专栏</a></li>
-      </ul>
-    </nav>
-    <center>
-      <p id="top-text"></p>
-  </center>
-  <script>
-    new TypeIt("#top-text", {
-      strings: "纵被春风吹作雪，绝胜南陌碾成尘。<em>—— [宋]王安石《北陂杏花》</em>",
-      speed: 50,
-      waitUntilVisible: true,
-    }).go();
-  </script>
-    <div class="line-numbers">
-      
-<div>
+<body lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制" data-prismjs-copy-success="文本已复制！">
   <header>
-    <h1 align="center">复刻ClassTool4Seewo二三事</h1>
-    <p align="center"><small><span>2023-06-08 18:37 |
-          <a href="/categories.html#ClassTool4Seewo">ClassTool4Seewo</a> | <a href="/tags.html#Qt">#Qt#</a> <a href="/tags.html#Win32">#Win32#</a> </span></small></p>
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="/">主页</a></li>
+          <li><a href="/feed.xml">RSS</a></li>
+          <li><a href="/friends.html">友链</a></li>
+          <li><a href="/about.html">关于</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
-  <details class="hover-open card">
-    <summary> 目录 </summary>
-    <ul data-toc></ul>
-   </details>
-  <div id="container">
-    <p>好久好久以前，在Github发现了这个项目：<a href="https://github.com/IcariaWorks/ClassTools">ClassTool</a></p>
+  <main class="container">
+    
+<h1>复刻ClassTool4Seewo二三事</h1>
+<p>好久好久以前，在Github发现了这个项目：<a href="https://github.com/IcariaWorks/ClassTools">ClassTool</a></p>
 <blockquote>
 <p>ClassTool</p>
 <p>一个用在班级电脑上面的动态壁纸系统，显示高考倒计时、作业、课程表、值日生等</p>
@@ -144,47 +86,39 @@
 <p>作为电教，上周在班级电脑上使用了一下。好巧不巧，<strong>我校希沃大概是17左右引进的，羸弱的性能、Win7的系统、冰点还原和校园白名单机制，使得ClassTool不能在这台机上很好地运行</strong>，尤其是不能作为桌面背景层。</p>
 <p>也是夜郎自大，不曾想过自己的编程能力也和这台机一样羸弱，和同学夸下海口“我高考假七天就能复刻一个出来”，自6月5日晚以来“键”耕不掇，尝试了MFC、C#Winform、Electron+Vue、Rust+egui技术栈，无一可以找到在<strong>那台Win7的、有冰点还原的、基本不能联网的、性能羸弱的一体机</strong>上实现的良好方案。</p>
 <p>但是不完美的方案倒是有的_(:з」∠)_，而且是我初中便实现过的（MFC+WinForm），或者是我现在有望实现的（Rust + egui），原作ClassTool也是迭代版本多次几年才有现在的样子，我也无需那么着急。</p>
+<h3>吐槽Electron</h3>
+<p>此外，我真的很想吐槽Node.JS或者吐槽整个前端系列的东西.....</p>
+<p>我依稀记得，使用Node.JS + Electron + Vue创建项目的时候，仅仅是一个Hello World项目体积就去到了5GB，编译后也有500MB+。大头都在依赖上面，大概是因为我不怎么懂HTML/JS/CSS一类的东西，所以才不懂得缩小。（毕竟ClassTool的Release版本大小只有230MB）</p>
+<p>相对于自带Chromium运行时的程序来说，虽然230MB已经算很小，但是这是和Rust方案编译后100MB以下（Debug模式）的大小不可同日而语的。此外，Rust的编译速度竟然也比Node.JS快（也有Electron + Vue交火的原因）</p>
+<p>没有踩一捧一的意思o(╥﹏╥)o</p>
 <h3>动态壁纸原理</h3>
-<p>动态壁纸，一是动态，二是壁纸。前者可以通过媒体播放/网页形式实现，后者则是调用Win32API实现。</p>
-<pre class="mermaid">
-flowchart LR
-A[创建窗口 bg ] --> B[设置 bg 为 WorkerW 的子窗体]
-A --> C[注册 Tray 控制窗体 bg ]
-D[调用 Win32 让背景层 WorkerW 分离] --> B
-</pre>
-<p><em><strong>Fin.</strong></em></p>
+<pre><code class="language-mermaid">flowchart LR
+A[创建窗口 bg ] --&gt; B[设置 bg 为 WorkerW 的子窗体]
+A --&gt; C[注册 Tray 控制窗体 bg ]
+D[调用 Win32 让背景层 WorkerW 分离] --&gt; B
+</code></pre>
 
-  </div>
-</div>
-
-      <div id="commit">
-        <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
-          data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
-          data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark"
-          data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
-          </script>
-      </div>
-      <script src="/js/prism.js"></script>
+    <div id="commit">
+      <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+        data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" crossorigin="anonymous" async>
+        </script>
     </div>
-    <footer>
-      <p align="center">
-        <small>
-          <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>, beautified by <a
-              href="https://picocss.com/">pico.css</a>.</i>
-        </small>
-      </p>
-    </footer>
   </main>
-  <!-- <button class="contrast switcher">
-    <label for="switch">
-      <input type="checkbox" id="switch" name="switch" role="switch" onclick="toggleDarkMode(this)" checked="true">
-      <font style="vertical-align: inherit;">
-        <font style="vertical-align: inherit;">黑夜模式</font>
-      </font>
-    </label>
-    </a>
-    </li>
-  </button> -->
+  <footer>
+    <p align="center">
+      <small>
+        <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>, beautified by <a
+            href="https://picocss.com/">pico.css</a>.</i>
+      </small>
+    </p>
+  </footer>
+  <!-- 引入 Prism.js -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
 </body>
 
 </html>
