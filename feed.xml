@@ -6,22 +6,29 @@
         <description>Candlest 的博客</description>
         
             <item>
+                <title>制作一个mp3设备：环境搭建</title>
+                <link>candlest.github.io/post/make_mp3_0.html</link>
+                <description>制作一个mp3设备</description>
+                <pubDate>2024-06-21T16:28:17</pubDate>
+            </item>
+        
+            <item>
                 <title>高中毕业再谈ClassBoard</title>
-                <link>candlest.github.io/classboard_2.html</link>
+                <link>candlest.github.io/post/classboard_2.html</link>
                 <description>ClassBoard开发日志</description>
                 <pubDate>2024-06-21T11:56:51</pubDate>
             </item>
         
             <item>
                 <title>各插件测试</title>
-                <link>candlest.github.io/test.html</link>
+                <link>candlest.github.io/post/test.html</link>
                 <description>其他</description>
                 <pubDate>2024-06-20T19:20:17</pubDate>
             </item>
         
             <item>
                 <title>复刻ClassTool4Seewo二三事</title>
-                <link>candlest.github.io/classboard_1.html</link>
+                <link>candlest.github.io/post/classboard_1.html</link>
                 <description>ClassBoard开发日志</description>
                 <pubDate>2023-06-08T18:37:25</pubDate>
             </item>
