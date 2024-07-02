@@ -8,12 +8,7 @@
 
   <!-- 插件 -->
   <!-- 引入 Prism.css -->
-  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet" />
-  <!-- 引入 toolbar 插件的 CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.css" />
-  <!-- 引入 prism-copy-to-clipboard 插件的 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.css"
-    rel="stylesheet">
+  <link href="/css/prism.css" rel="stylesheet" />
   <!-- Mermaid -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -58,8 +53,8 @@
     });
   </script>
   <!-- END: 插件 -->
-  <link rel="stylesheet" href="./css/tabs.css">
-  <title>制作一个mp3设备：环境搭建</title>
+  <link rel="stylesheet" href="/css/tabs.css">
+  <title>Windows优化记录</title>
 </head>
 
 <body lang="zh-Hans-CN" data-prismjs-copy="复制文本" data-prismjs-copy-error="按Ctrl+C复制" data-prismjs-copy-success="文本已复制！">
@@ -68,6 +63,8 @@
       <nav>
         <ul>
           <li><a href="/">主页</a></li>
+        </ul>
+        <ul>
           <li><a href="/feed.xml">RSS</a></li>
           <li><a href="/friends.html">友链</a></li>
           <li><a href="/about.html">关于</a></li>
@@ -77,7 +74,43 @@
   </header>
   <main class="container">
     
-
+<h1>Windows 优化记录</h1>
+<blockquote>
+<p>Linux 虽好，但是我已经对这样学不到什么的折腾祛魅了。自从初一第一次在无人问津的图书馆角落找到一本09年出版的、有关 Ubuntu 的使用指南，过往的六年里只能算作一个 Linux 的使用者，而非一个研究者、生产者。</p>
+<p>新电脑就 Windows 养老好了。只是失去了包管理器而已，我得到的则是桌面系统的稳定性和日常的游戏摸鱼！</p>
+</blockquote>
+<p>本记录长期更新，最后更新于 2024年7月2日。</p>
+<h2>桌面环境</h2>
+<h3>微软拼音输入法：快捷输入标准 DateTime 字符串</h3>
+<p>设置路径：<code>时间和语言 &gt; 语言和区域 &gt; 微软拼音输入法 &gt; 用户自定义短语</code></p>
+<p>添加新条目：<code>[&quot;dt&quot;, &quot;%yyyy%-%MM%-%dd%T%HH%:%mm%:%ss%&quot;]</code></p>
+<h3>Win11：使用旧版右键菜单</h3>
+<p>更改注册表并重启资源管理器：</p>
+<pre><code class="language-bat">reg add &quot;HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32&quot; /f /ve
+tskill explorer
+explorer
+</code></pre>
+<p>碎碎念：windows 终端有一点好就是在终端启动程序都是 <code>fork()</code> 而非 <code>exec()</code> 。</p>
+<h3>ContextMenuManager：整理右键菜单</h3>
+<p>ContextMenuManager：<a href="https://github.com/BluePointLilac/ContextMenuManager">一个纯粹的Windows右键菜单管理程序</a></p>
+<h2>Edge 优化</h2>
+<h3>自定义 new tab</h3>
+<p>致敬流氓巨硬，主页强行 Bing。</p>
+<p>幸赖 Chromium 内核，<a href="https://chromewebstore.google.com/detail/custom-new-tab/lfjnnkckddkopjfgmbcpdiolnmfobflj">Custom New Tab</a> 启动。</p>
+<h2>常用软件</h2>
+<h3>文件类</h3>
+<p>7zip, Everything, SpaceSniffer</p>
+<h3>（泛）编程类</h3>
+<p><a href="https://winget.run/">winget</a>, git, vscode, windows-terminal</p>
+<h4>winget 启用国内源</h4>
+<p>替换 USTC 镜像：</p>
+<pre><code class="language-powershell">winget source remove winget
+winget source add winget https://mirrors.ustc.edu.cn/winget-source
+</code></pre>
+<h4>git 注册邮箱用户</h4>
+<pre><code class="language-bash">git config --global user.name &quot;username&quot;
+git config --global user.email &quot;email&quot;
+</code></pre>
 
     <div id="commit">
       <script src="https://giscus.app/client.js" data-repo="candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
@@ -96,10 +129,7 @@
     </p>
   </footer>
   <!-- 引入 Prism.js -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+  <script src="/js/prism.js"></script>
 </body>
 
 </html>

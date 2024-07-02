@@ -8,12 +8,7 @@
 
   <!-- 插件 -->
   <!-- 引入 Prism.css -->
-  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet" />
-  <!-- 引入 toolbar 插件的 CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.css" />
-  <!-- 引入 prism-copy-to-clipboard 插件的 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.css"
-    rel="stylesheet">
+  <link href="/css/prism.css" rel="stylesheet" />
   <!-- Mermaid -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -58,7 +53,7 @@
     });
   </script>
   <!-- END: 插件 -->
-  <link rel="stylesheet" href="./css/tabs.css">
+  <link rel="stylesheet" href="/css/tabs.css">
   <title>关于</title>
 </head>
 
@@ -68,6 +63,8 @@
       <nav>
         <ul>
           <li><a href="/">主页</a></li>
+        </ul>
+        <ul>
           <li><a href="/feed.xml">RSS</a></li>
           <li><a href="/friends.html">友链</a></li>
           <li><a href="/about.html">关于</a></li>
@@ -78,11 +75,10 @@
   <main class="container">
     
 <h1>关于博客</h1>
-<p>本博客使用自己用 Rust 缝合编写的静态网站生成器 Rublog 生成。</p>
+<p>本博客使用自己用 Rust 缝合编写的静态网站生成器 Rigos 生成。</p>
 <p>样式相关：</p>
 <ul>
 <li>以pico.css 美化页面</li>
-<li>以霞鹜文楷行文，以思源黑体 Mono展示代码</li>
 </ul>
 <p>使用以下插件：</p>
 <ul>
@@ -109,10 +105,7 @@
     </p>
   </footer>
   <!-- 引入 Prism.js -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+  <script src="/js/prism.js"></script>
 </body>
 
 </html>

@@ -8,12 +8,7 @@
 
   <!-- 插件 -->
   <!-- 引入 Prism.css -->
-  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet" />
-  <!-- 引入 toolbar 插件的 CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.css" />
-  <!-- 引入 prism-copy-to-clipboard 插件的 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.css"
-    rel="stylesheet">
+  <link href="/css/prism.css" rel="stylesheet" />
   <!-- Mermaid -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -58,7 +53,7 @@
     });
   </script>
   <!-- END: 插件 -->
-  <link rel="stylesheet" href="./css/tabs.css">
+  <link rel="stylesheet" href="/css/tabs.css">
   <title>Candlest 's Blog</title>
 </head>
 
@@ -68,6 +63,8 @@
       <nav>
         <ul>
           <li><a href="/">主页</a></li>
+        </ul>
+        <ul>
           <li><a href="/feed.xml">RSS</a></li>
           <li><a href="/friends.html">友链</a></li>
           <li><a href="/about.html">关于</a></li>
@@ -77,12 +74,7 @@
   </header>
   <main class="container">
     
-<h2>这里是index</h2>
-<p>喵喵喵</p>
-<blockquote>
-<p>汪汪汪
-<del>2333</del></p>
-</blockquote>
+<p>简陋的博客 &lt;-- 但是快 <del>震声；叉腰</del></p>
 <div class="article-index">
   <h1>文章索引</h1>
   <div class="tabs">
@@ -95,15 +87,9 @@
     <!-- 按时间排序的文章列表 -->
     
     <article>
-      <h2><a href="./Post/make_mp3_0.html">制作一个mp3设备：环境搭建</a></h2>
-      <p>制作一个mp3设备</p>
-      <time datetime="2024-06-21T16:28:17">2024-06-21T16:28:17</time>
-    </article>
-    
-    <article>
-      <h2><a href="./Post/classboard_2.html">高中毕业再谈ClassBoard</a></h2>
-      <p>ClassBoard开发日志</p>
-      <time datetime="2024-06-21T11:56:51">2024-06-21T11:56:51</time>
+      <h2><a href="./Post/windows_tweak.html">Windows优化记录</a></h2>
+      <p>Windows</p>
+      <time datetime="2024-07-02T20:01:58">2024-07-02T20:01:58</time>
     </article>
     
     <article>
@@ -112,69 +98,29 @@
       <time datetime="2024-06-20T19:20:17">2024-06-20T19:20:17</time>
     </article>
     
-    <article>
-      <h2><a href="./Post/classboard_1.html">复刻ClassTool4Seewo二三事</a></h2>
-      <p>ClassBoard开发日志</p>
-      <time datetime="2023-06-08T18:37:25">2023-06-08T18:37:25</time>
-    </article>
-    
   </div>
 
   <div id="Tags" class="tabcontent">
     <!-- 按Tags归档的文章列表 -->
     
     <details>
-      <summary>C#</summary>
+      <summary>Windows</summary>
       
       <article>
-        <h2><a href="./Post/classboard_2.html">高中毕业再谈ClassBoard</a></h2>
-        <p>ClassBoard开发日志</p>
-        <time datetime="2024-06-21T11:56:51">2024-06-21T11:56:51</time>
-      </article>
-      
-      <article>
-        <h2><a href="./Post/classboard_1.html">复刻ClassTool4Seewo二三事</a></h2>
-        <p>ClassBoard开发日志</p>
-        <time datetime="2023-06-08T18:37:25">2023-06-08T18:37:25</time>
+        <h2><a href="./Post/windows_tweak.html">Windows优化记录</a></h2>
+        <p>Windows</p>
+        <time datetime="2024-07-02T20:01:58">2024-07-02T20:01:58</time>
       </article>
       
     </details>
     
     <details>
-      <summary>Rust</summary>
+      <summary>优化</summary>
       
       <article>
-        <h2><a href="./Post/make_mp3_0.html">制作一个mp3设备：环境搭建</a></h2>
-        <p>制作一个mp3设备</p>
-        <time datetime="2024-06-21T16:28:17">2024-06-21T16:28:17</time>
-      </article>
-      
-    </details>
-    
-    <details>
-      <summary>STM32</summary>
-      
-      <article>
-        <h2><a href="./Post/make_mp3_0.html">制作一个mp3设备：环境搭建</a></h2>
-        <p>制作一个mp3设备</p>
-        <time datetime="2024-06-21T16:28:17">2024-06-21T16:28:17</time>
-      </article>
-      
-    </details>
-    
-    <details>
-      <summary>Win API</summary>
-      
-      <article>
-        <h2><a href="./Post/classboard_2.html">高中毕业再谈ClassBoard</a></h2>
-        <p>ClassBoard开发日志</p>
-        <time datetime="2024-06-21T11:56:51">2024-06-21T11:56:51</time>
-      </article>
-      
-      <article>
-        <h2><a href="./Post/classboard_1.html">复刻ClassTool4Seewo二三事</a></h2>
-        <p>ClassBoard开发日志</p>
-        <time datetime="2023-06-08T18:37:25">2023-06-08T18:37:25</time>
+        <h2><a href="./Post/windows_tweak.html">Windows优化记录</a></h2>
+        <p>Windows</p>
+        <time datetime="2024-07-02T20:01:58">2024-07-02T20:01:58</time>
       </article>
       
     </details>
@@ -196,18 +142,12 @@
     <!-- 按Categories归档的文章列表 -->
     
     <details>
-      <summary>ClassBoard开发日志</summary>
+      <summary>Windows</summary>
       
       <article>
-        <h2><a href="./Post/classboard_2.html">高中毕业再谈ClassBoard</a></h2>
-        <p>ClassBoard开发日志</p>
-        <time datetime="2024-06-21T11:56:51">2024-06-21T11:56:51</time>
-      </article>
-      
-      <article>
-        <h2><a href="./Post/classboard_1.html">复刻ClassTool4Seewo二三事</a></h2>
-        <p>ClassBoard开发日志</p>
-        <time datetime="2023-06-08T18:37:25">2023-06-08T18:37:25</time>
+        <h2><a href="./Post/windows_tweak.html">Windows优化记录</a></h2>
+        <p>Windows</p>
+        <time datetime="2024-07-02T20:01:58">2024-07-02T20:01:58</time>
       </article>
       
     </details>
@@ -219,17 +159,6 @@
         <h2><a href="./Post/test.html">各插件测试</a></h2>
         <p>其他</p>
         <time datetime="2024-06-20T19:20:17">2024-06-20T19:20:17</time>
-      </article>
-      
-    </details>
-    
-    <details>
-      <summary>制作一个mp3设备</summary>
-      
-      <article>
-        <h2><a href="./Post/make_mp3_0.html">制作一个mp3设备：环境搭建</a></h2>
-        <p>制作一个mp3设备</p>
-        <time datetime="2024-06-21T16:28:17">2024-06-21T16:28:17</time>
       </article>
       
     </details>
@@ -256,10 +185,7 @@
     </p>
   </footer>
   <!-- 引入 Prism.js -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+  <script src="/js/prism.js"></script>
 </body>
 
 </html>
