@@ -7,8 +7,16 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
 
   <!-- 插件 -->
-  <!-- 引入 Prism.css -->
-  <link href="/css/prism.css" rel="stylesheet" />
+  <!-- 引入 代码高亮 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <style>
+    .hljs {
+      background: transparent
+    }
+    .container{
+      max-width: 75%;
+    }
+  </style>
   <!-- Mermaid -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -128,8 +136,9 @@ git config --global user.email &quot;email&quot;
       </small>
     </p>
   </footer>
-  <!-- 引入 Prism.js -->
-  <script src="/js/prism.js"></script>
+  <!-- 引入 代码高亮 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </body>
 
 </html>
