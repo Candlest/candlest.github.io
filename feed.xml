@@ -6,6 +6,13 @@
         <description>Candlest 的博客</description>
         
             <item>
+                <title>从 ArchLinux 到 Fedora 迁移记录</title>
+                <link>candlest.github.io/from_arch_to_fedora.html</link>
+                <description>linux</description>
+                <pubDate>2024-07-21T13:26:49</pubDate>
+            </item>
+        
+            <item>
                 <title>Windows优化记录</title>
                 <link>candlest.github.io/windows_tweak.html</link>
                 <description>Windows</description>
