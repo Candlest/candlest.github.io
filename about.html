@@ -18,8 +18,9 @@
     }
   </style>
   <!-- Mermaid -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js
+"></script>
   <!-- KaTex-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
     integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
@@ -32,13 +33,14 @@
   <!-- 统一加载 -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // 选择所有 language-mermaid 类的元素
+      /* 选择所有 language-mermaid 类的元素
       var elements = document.querySelectorAll('.language-mermaid');
 
       // 遍历并更改类名为 mermaid
       elements.forEach(function (el) {
         el.className = el.className.replace('language-mermaid', 'mermaid');
       });
+      */
 
       // 初始化 Mermaid 以渲染图表
       mermaid.initialize({

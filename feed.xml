@@ -6,8 +6,8 @@
         <description>Candlest 的博客</description>
         
             <item>
-                <title>从 ArchLinux 到 Fedora 迁移记录</title>
-                <link>candlest.github.io/from_arch_to_fedora.html</link>
+                <title> 在翼龙15PRO上使用 ArchLinux</title>
+                <link>candlest.github.io/arch_on_yilong15pro.html</link>
                 <description>linux</description>
                 <pubDate>2024-07-21T13:26:49</pubDate>
             </item>
