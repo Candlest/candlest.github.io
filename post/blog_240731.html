@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 插件 -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <!-- KaTex-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+    integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
+    integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
+    crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+    crossorigin="anonymous"></script>
+  <!-- 统一加载 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // 初始化 Mermaid 以渲染图表
+      mermaid.initialize({
+        startOnLoad: true
+      });
+
+      // KATEX
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '\\[', right: '\\]', display: true }
+        ],
+        // • rendering keys, e.g.:
+        throwOnError: false
+      });
+    });
+  </script>
+  <!-- END: 插件 -->
+  <title>搭建个人博客六年的一些思考</title>
+</head>
+
+<body lang="zh-Hans-CN">
+  <header>
+    <div class="container">
+      <nav>
+        <p><a href="/">Home</a> |
+           <a href="/friends.html">Friends</a> |
+           <a href="/projects.html">Projects</a> |
+           <a href="/learn.html">Learn</a> |
+           <a href="/about.html">About</a>
+          <code class="nav-right">
+<code class="post-meta">
+    [think]
+    
+    #blog    
+    
+    <time datetime="2024-07-31T12:20:49">2024-07-31T12:20:49</time>
+</code>
+</code>
+        </p>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    
+<h1>搭建个人博客六年的一些思考</h1>
+<blockquote>
+<p>从初一开始，我断断续续地通过 jekyll, hexo, hugo 这些流行的工具折腾我的 Github Page 。如今的我回望过去，决定自己手写一个引擎，采取少量且（也许）必要的 JavaScript 插件和 CSS 样式，构建我的博客。</p>
+</blockquote>
+<h2>博客的作用是什么，我们该如何对待它</h2>
+<p>前些天阅读了这篇博客：<a href="https://pathos.page/blog/note-taking-is-new-electronic-game">新型电子游戏：笔记软件或博客程序</a>，其中的观点尖锐，但是很能给人启发。</p>
+<p>正所谓“差生文具多”，花时间在摆弄工具的人，往往不能在正事上投入足够的时间（或者是牺牲其他时间，比如睡眠）。这种从摆弄工具中获取虚假满足感的举动，让我联想起《格调》（这本书也同样尖锐且有争议，但是正是这样的书能给人启发）中的一段话：</p>
+<blockquote>
+<p>除此之外,还有一些绝对可靠的标志帮助你辨认上层贫民阶层。他们属于大过圣诞节的一族,经常通过分期付款购买大宗物品。比如,他们喜欢把钱花在<strong>精致的彩色电视机、立体声音响和操作复杂的电冰箱</strong>上。而中产阶级倾向于投资购买“品味良好”的家具,并一一陈列于客厅和餐厅。开车的时候,上层贫民阶层的男士们坐在前座,他们的妻子被安放在后座。(如果是中产阶级,总是前座一对夫妇,后座另一对夫妇。而在中上层阶级中,你很可能发现两家的丈夫分别和另一家的妻子同坐一排座位。）</p>
+</blockquote>
+<p>无论是沉迷 Linux 的配置、笔记工具的使用还是博客的搭建，都和上世纪的人们沉迷操作复杂的电冰箱是一个道理，我们只是在摆弄“生产力工具”，而非在从事生产本身。</p>
+<p>而要避免这种事情发生，我们需要时时追问自己：<strong>它们的作用是什么，它们的价值在何处？</strong></p>
+<p>正如电冰箱本来就是为了冷藏食物，获得更丰富的口感和更长的保质期，这些工具的配置活动必须要坚决为生产活动本身而存在。套用二八法则，配置活动与使用该工具创造价值的时间之比应该小于0.25。</p>
+<h2>我的博客：Simple is best</h2>
+<h3>博客引擎 rigos</h3>
+<p>其实如果单纯以实用地搭建博客为目的，rigos 本就没有写的必要，因为一段脚本，一个 md2html 库和一个模板引擎便可完成相似的操作。只是当时恰好在学 Rust ，希望能够写一个小项目练手，顺势而为。</p>
+<p>而我也从中学到了 Rust 的程序设计规范，模板引擎的使用，多线程（文件锁）和异常处理等等。</p>
+<h3>博客样式</h3>
+<p>一开始，我选择了 pico.css 作为默认样式，但是实际上，假如我要引入各种插件（比如 mermaid , giscus 和 highlight.js ）那么各模块的样式不同足以让我头痛。况且我嫌弃 pico.css 样式的间距太大，有时会有奇怪的 bug。</p>
+<p>于是，我选择去掉所有样式，仿照一个 jekyll 主题 <a href="https://github.com/riggraz/no-style-please">no style, please</a> 在默认配置下进行了些许微调。</p>
+<h3>博客插件</h3>
+<p>首先，各类美化插件，如 autospace 和 highlight.js 是可以大胆去掉的。</p>
+<p>其次，如 giscus 这样的评论插件也可以去掉，因为我发现真正有价值的讨论是不可能在评论中写清楚的<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup>。如果有交流的欲望和必要性，留下自己的邮箱是更加明智的选择。</p>
+<h3>是否使用 RSS</h3>
+<p>详见 <a href="https://blog.zhiheng.io/posts/2022/01/no-rss/">RSS 无用</a>，但是我已经在 rigos 加入 rss 功能了，暂且留着。</p>
+<section data-footnotes="" class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p><a href="https://www.zhihu.com/question/19556955/answer/3072268986">博客是否应该有评论？- Eridane的回答 - 知乎</a> <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to content" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>
+
+
+  </main>
+  <footer>
+    <p align="center">
+      <a href="/feed.xml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 512 512" width="16" height="16">
+          <path d="M108.56 342.78a60.34 60.34 0 1 0 60.56 60.44a60.63 60.63 0 0 0-60.56-60.44z" fill="currentColor">
+          </path>
+          <path
+            d="M48 186.67v86.55c52 0 101.94 15.39 138.67 52.11s52 86.56 52 138.67h86.66c0-151.56-125.66-277.33-277.33-277.33z"
+            fill="currentColor"></path>
+          <path d="M48 48v86.56c185.25 0 329.22 144.08 329.22 329.44H464C464 234.66 277.67 48 48 48z"
+            fill="currentColor"></path>
+        </svg></a>
+      <br>
+      <small>
+        <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>.</i>
+      </small>
+    </p>
+  </footer>
+</body>
+
+</html>
