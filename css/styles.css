@@ -33,6 +33,7 @@ pre {
 
 .nav-right {
     float: right;
+    text-align: right;
 }
 
 body {
@@ -43,4 +44,8 @@ body {
     margin: 0;
     min-height: 100%;
     overflow-wrap: break-word;
+}
+
+img {
+    max-width: 90%;
 }
