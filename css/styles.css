@@ -48,4 +48,6 @@ body {
 
 img {
     max-width: 90%;
+    margin-top: 0px;
+    margin-bottom: 2.5rem;
 }
