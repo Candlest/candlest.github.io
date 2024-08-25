@@ -1,6 +1,17 @@
+/* 默认样式，适用于大屏幕 */
 .container {
     max-width: 60%;
-    margin: 0 auto;
+    margin: auto;
+}
+
+/* 媒体查询，适用于小屏幕，例如手机 */
+@media (max-width: 768px) {
+    .container {
+        max-width: 95%; /* 或者你想要的其他值 */
+    }
+    .nav-right {
+        display: none; /* 这将完全隐藏元素 */
+    }
 }
 
 blockquote {
