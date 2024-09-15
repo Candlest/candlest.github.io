@@ -14,7 +14,7 @@
     }
 }
 
-blockquote {
+details, blockquote {
     border: 1px solid #ccc !important;
     border-color: #000 !important;
     padding: 14px;
