@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 插件 -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <!-- KaTex-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+    integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
+    integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
+    crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+    crossorigin="anonymous"></script>
+  <!-- 统一加载 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // 初始化 Mermaid 以渲染图表
+      mermaid.initialize({
+        startOnLoad: true
+      });
+
+      // KATEX
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '\\[', right: '\\]', display: true }
+        ],
+        // • rendering keys, e.g.:
+        throwOnError: false
+      });
+    });
+  </script>
+  <!-- END: 插件 -->
+  <title>进制转换</title>
+</head>
+
+<body lang="zh-Hans-CN">
+  <header>
+    <div class="container">
+      <nav>
+        <p><a href="/">Home</a> |
+          <a href="/friends.html">Friends</a> |
+          <a href="/projects.html">Projects</a> |
+          <a href="/about.html">About</a>
+          <code class="nav-right">
+<code class="post-meta">
+    
+    [algorithm]
+    <br><time datetime="2024-09-24T13:40:36">N: 2024-09-24T13:40:36</time>
+    
+</code>
+</code>
+        </p>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    
+<h1>进制转换</h1>
+<p>进制转换的数学原理基于数的位值表示法。在任何进制系统中，一个数可以表示为一系列数字的和，每个数字乘以它所在位置的位值。位值是基数（进制）的幂，从最右边的位置开始，幂指数从0开始递增。</p>
+<p>$$
+(56)_{10} = 5 \times 10^1 + 6 \times 10^0
+$$
+$$
+(1101)_2 = 1 \times 2^3 + 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0
+$$</p>
+<p>基于以上原理，我们先来写一个简单的 2 进制到 10 进制的程序：</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cmath&gt;
+using namespace std;
+int main(){
+    // 2 =&gt; 10
+    string str;
+    cin &gt;&gt; str;
+    int n = str.length(), ans = 0;
+    for (int i = 0; i &lt; n; i++){
+        ans += (str[i] - '0') * pow(2, n - i - 1);
+    }
+    cout &lt;&lt; ans;
+    return 0;
+}
+</code></pre>
+<p>再写一个 10 进制到 2 进制转换的程序：</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;stack&gt;
+using namespace std;
+int main(){
+    // 10 =&gt; 2
+    // 这里不考虑 0 的特殊情况
+    int input = 0;
+    cin &gt;&gt; input;
+    // 辗转相除
+    stack&lt;int&gt; place;
+    while(true){
+        place.push(input%2);
+        input /= 2;
+        if(input == 0)
+            break;
+    }
+    while(!place.empty()){
+        cout &lt;&lt; place.top();
+        place.pop();
+    }
+    return 0;
+}
+</code></pre>
+<p>进一步扩展到 2~8进制的转换：</p>
+<pre><code class="language-cpp">int OthertoDEC(string str, int radix){
+    // 错误处理
+    if(radix &lt; 2 || radix &gt; 16)
+        return &quot;error&quot;;
+    int n = str.length(), ans = 0;
+    for (int i = 0; i &lt; n; i++){
+        ans += (str[i] - '0') * pow(radix, n - i - 1);
+    }
+    return ans;
+}
+
+string DECtoOther(int dec, int radix){
+    // 错误处理
+    if(radix &lt; 2 || radix &gt; 16)
+        return &quot;error&quot;;
+    stack&lt;int&gt; place;
+    while(true){
+        place.push(dec%radix);
+        dec /= radix;
+        if(dec == 0)
+            break;
+    }
+    string ans;
+    while(!place.empty()){
+        int tmp = place.top();
+        place.pop();
+        if(tmp &lt; 10)
+            ans += tmp + '0';
+    }
+    return ans;
+}
+</code></pre>
+<p>目前，我们已经实现了 2 ~ 10 进制的互相转换，接下来讨论涉及到字母的转换。</p>
+<p>// TODO</p>
+<p>最后，我们以10进制为中转站，实现从 n 进制到10进制再到 m 进制的转换，其中 $n, m \in \Z 且 2 \leq n \leq 36$ 。</p>
+<p>// TODO</p>
+
+  </main>
+  <footer>
+    <p align="center">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+        width="16" height="16">
+        <a href="https://github.com/candlest">
+          <path
+            d="M256 32C132.3 32 32 134.9 32 261.7c0 101.5 64.2 187.5 153.2 217.9a17.56 17.56 0 0 0 3.8.4c8.3 0 11.5-6.1 11.5-11.4c0-5.5-.2-19.9-.3-39.1a102.4 102.4 0 0 1-22.6 2.7c-43.1 0-52.9-33.5-52.9-33.5c-10.2-26.5-24.9-33.6-24.9-33.6c-19.5-13.7-.1-14.1 1.4-14.1h.1c22.5 2 34.3 23.8 34.3 23.8c11.2 19.6 26.2 25.1 39.6 25.1a63 63 0 0 0 25.6-6c2-14.8 7.8-24.9 14.2-30.7c-49.7-5.8-102-25.5-102-113.5c0-25.1 8.7-45.6 23-61.6c-2.3-5.8-10-29.2 2.2-60.8a18.64 18.64 0 0 1 5-.5c8.1 0 26.4 3.1 56.6 24.1a208.21 208.21 0 0 1 112.2 0c30.2-21 48.5-24.1 56.6-24.1a18.64 18.64 0 0 1 5 .5c12.2 31.6 4.5 55 2.2 60.8c14.3 16.1 23 36.6 23 61.6c0 88.2-52.4 107.6-102.3 113.3c8 7.1 15.2 21.1 15.2 42.5c0 30.7-.3 55.5-.3 63c0 5.4 3.1 11.5 11.4 11.5a19.35 19.35 0 0 0 4-.4C415.9 449.2 480 363.1 480 261.7C480 134.9 379.7 32 256 32z"
+            fill="currentColor"></path>
+        </a>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+        width="16" height="16">
+        <a href="mailto:candlest1112@gmail.com">
+          <path
+            d="M464 80H48a16 16 0 0 0-16 16v320a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM265.82 284.63a16 16 0 0 1-19.64 0L89.55 162.81l19.64-25.26L256 251.73l146.81-114.18l19.64 25.26z"
+            fill="currentColor"></path>
+        </a>
+      </svg>
+      <br>
+      <small>
+        <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>.</i>
+      </small>
+    </p>
+  </footer>
+</body>
+
+</html>
