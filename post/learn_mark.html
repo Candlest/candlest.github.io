@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 插件 -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <!-- KaTex-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+    integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
+    integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
+    crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+    crossorigin="anonymous"></script>
+  <!-- 统一加载 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // 初始化 Mermaid 以渲染图表
+      mermaid.initialize({
+        startOnLoad: true
+      });
+
+      // KATEX
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '\\[', right: '\\]', display: true }
+        ],
+        // • rendering keys, e.g.:
+        throwOnError: false
+      });
+    });
+  </script>
+  <!-- END: 插件 -->
+  <title>Day1 ：初探 Flask</title>
+</head>
+
+<body lang="zh-Hans-CN">
+  <header>
+    <div class="container">
+      <nav>
+        <p><a href="/">Home</a> |
+          <a href="/friends.html">Friends</a> |
+          <a href="/projects.html">Projects</a> |
+          <a href="/about.html">About</a>
+          <code class="nav-right">
+<code class="post-meta">
+    
+    #backend    
+    
+    [web]
+    <br><time datetime="2024-09-27T20:40:05">N: 2024-09-27T20:40:05</time>
+    
+</code>
+</code>
+        </p>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    
+<h1>Day1 ：初探 Flask</h1>
+<h2>配置 python 环境</h2>
+<h3>使用 venv</h3>
+<p><code>venv</code> 是 python3.9 后自带的功能。</p>
+<pre><code class="language-bash">python -m venv .venv # 在当前目录下创建 .venv 文件夹，内包含虚拟环境的文件
+source ./.venv/bin/activate # 退出则输入 deactivate
+</code></pre>
+<h3>使用 Flask</h3>
+<p>通过 <code>flask --app $filename run</code> 调试。</p>
+<p>由于 flask 有应用程序发现行为，会自动寻找 <code>app.py</code> 或 <code>wsgi.py</code>，此时不必指定参数 <code>--app</code>。</p>
+<h3>Debug</h3>
+<p>逆向构建 <code>url</code>：</p>
+<pre><code class="language-python">from flask import url_for
+
+@app.route('/')
+def index():
+    return 'index'
+
+@app.route('/login')
+def login():
+    return 'login'
+
+@app.route('/user/&lt;username&gt;')
+def profile(username):
+    return f'{username}\'s profile'
+
+with app.test_request_context():
+    print(url_for('index'))
+    print(url_for('login'))
+    print(url_for('login', next='/'))
+    print(url_for('profile', username='John Doe'))
+</code></pre>
+<h2>补充知识</h2>
+<h3>装饰器</h3>
+<p>在 Python 中，装饰器是一种高级编程特性，它可以在不修改被装饰对象源代码的情况下，为被装饰对象添加额外的功能。</p>
+<p><strong>一、装饰器的作用</strong></p>
+<ol>
+<li>代码复用
+<ul>
+<li>可以将一些通用的功能（如日志记录、性能测量、权限检查等）封装在装饰器中，然后应用到多个函数或方法上，避免了重复编写相同的代码。</li>
+</ul>
+</li>
+<li>分离关注点
+<ul>
+<li>使得核心业务逻辑和辅助功能（如日志、缓存等）可以独立开发和维护，提高了代码的可读性和可维护性。</li>
+</ul>
+</li>
+</ol>
+<p><strong>二、装饰器的工作原理</strong></p>
+<p>装饰器本质上是一个函数，它接受一个函数作为参数，并返回一个新的函数。这个新函数通常会在内部调用被装饰的函数，并在调用前后添加一些额外的行为。</p>
+<pre><code class="language-python">@app.route(&quot;/&quot;)
+def hello_world():
+    return &quot;&lt;p&gt;Hello, World!&lt;/p&gt;&quot;
+</code></pre>
+<h3>HTTP 方法：POST &amp; GET</h3>
+<p>在 HTTP 协议中，GET 和 POST 是两种常见的请求方法。</p>
+<p><strong>一、GET 请求</strong></p>
+<ol>
+<li><strong>定义和特点</strong>：
+<ul>
+<li>GET 用于从服务器获取资源。它通过 URL 传递参数，参数会附加在 URL 后面，以 “?” 分隔，多个参数之间用 “&amp;” 连接。例如：<code>https://www.example.com/search?q=keyword&amp;page=2</code>。</li>
+<li>GET 请求是幂等的，即多次执行相同的 GET 请求应该产生相同的结果，不会对服务器状态产生副作用。</li>
+<li>由于参数在 URL 中可见，GET 请求通常不适合传递敏感信息。</li>
+<li>GET 请求可以被缓存，这意味着如果相同的请求再次发生，浏览器或中间代理可能直接使用缓存的响应，而无需再次向服务器发送请求。</li>
+</ul>
+</li>
+<li><strong>用途</strong>：
+<ul>
+<li>用于获取静态资源，如 HTML 页面、图片、CSS 文件等。</li>
+<li>进行搜索查询，将查询参数附加在 URL 上，方便用户分享搜索结果。</li>
+<li>读取服务器上的资源状态，例如获取某个 API 的数据以展示在页面上。</li>
+</ul>
+</li>
+</ol>
+<p><strong>二、POST 请求</strong></p>
+<ol>
+<li><strong>定义和特点</strong>：
+<ul>
+<li>POST 用于向服务器提交数据，以创建或更新资源。数据通常放在请求体中，而不是 URL 中，因此相对更加安全，适合传递敏感信息。</li>
+<li>POST 请求不是幂等的，多次提交相同的 POST 请求可能会产生不同的结果，例如创建多个相同的资源或对资源进行多次更新。</li>
+<li>POST 请求一般不会被缓存，每次请求都会发送到服务器进行处理。</li>
+</ul>
+</li>
+<li><strong>用途</strong>：
+<ul>
+<li>提交表单数据，如注册用户、发表评论等。</li>
+<li>上传文件到服务器。</li>
+<li>进行复杂的数据操作，如创建、更新或删除数据库中的记录。</li>
+</ul>
+</li>
+</ol>
+<p>总的来说，GET 和 POST 请求在用途和特点上有所不同，开发人员应根据具体的业务需求选择合适的请求方法。</p>
+<h2>路由</h2>
+<p>使用 <code>@app.route(&quot;$url&quot;)</code> 装饰钩子函数。</p>
+<h3>变量规则</h3>
+<p>就像是命令行程序的参数解析。</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">（默认）接受任何不带斜线的文本</font></font></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接受正整数</font></font></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接受正浮点值</font></font></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">path</span></code></p></td>
+<td><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">喜欢</font></font><code class="docutils literal notranslate"><span class="pre">string</span></code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">，但也接受斜线</font></font></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uuid</span></code></p></td>
+<td><p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接受 UUID 字符串</font></font></p></td>
+</tr>
+</tbody>
+</table>
+<h3>HTTP 方法</h3>
+<p>同一个函数处理不同请求：</p>
+<pre><code class="language-python">from flask import request
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        return do_the_login()
+    else:
+        return show_the_login_form()
+</code></pre>
+<p>不同函数处理不同请求：</p>
+<pre><code class="language-python">@app.get('/login')
+def login_get():
+    return show_the_login_form()
+
+@app.post('/login')
+def login_post():
+    return do_the_login()
+</code></pre>
+<p>相关参考<a href="#%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90">参数解析</a>。</p>
+<h3>访问静态文件</h3>
+<p>对以 <code>static/style.css</code> 的形式存储的文件，有：</p>
+<pre><code class="language-python">url_for('static', filename='style.css')
+</code></pre>
+<h2>参数解析</h2>
+<p>上下文变量 <code>request</code> 存储了 HTTP 请求相关的信息：</p>
+<pre><code class="language-python">@app.route('/login', methods=['POST', 'GET'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if valid_login(request.form['username'],
+                       request.form['password']):
+            return log_the_user_in(request.form['username'])
+        else:
+            error = 'Invalid username/password'
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+    return render_template('login.html', error=error)
+</code></pre>
+<p>注意，如果在 <code>form</code> 中找不到对应的数据，则会直接报错 <code>400</code>，对于用户能够轻易更改的 url ，使用以下方法：</p>
+<pre><code class="language-python">searchword = request.args.get('key', '')
+</code></pre>
+<h2>模板渲染</h2>
+<p><code>Jinja</code> 的类似物 <code>MiniJinja</code> 已经在 Rigos 的开发过程中接触过。</p>
+<p>当我们的应用程序是一个模块，在 <code>templates</code> 文件夹内放置模板文件即可。</p>
+<pre><code class="language-python">from flask import render_template
+
+@app.route('/hello/')
+@app.route('/hello/&lt;name&gt;')
+def hello(name=None):
+    return render_template('hello.html', person=name)
+</code></pre>
+<p>而对于模板文件，Flask也提供了一些特殊的变量和方法：</p>
+<blockquote>
+<p>Inside templates you also have access to the <a href="https://flask.palletsprojects.com/en/3.0.x/api/#flask.Flask.config"><code>config</code></a>, <a href="https://flask.palletsprojects.com/en/3.0.x/api/#flask.request"><code>request</code></a>, <a href="https://flask.palletsprojects.com/en/3.0.x/api/#flask.session"><code>session</code></a> and <a href="https://flask.palletsprojects.com/en/3.0.x/api/#flask.g"><code>g</code></a> [<a href="https://flask.palletsprojects.com/en/3.0.x/quickstart/#id3">1]</a> objects as well as the <a href="https://flask.palletsprojects.com/en/3.0.x/api/#flask.url_for"><code>url_for()</code></a> and <a href="https://flask.palletsprojects.com/en/3.0.x/api/#flask.get_flashed_messages"><code>get_flashed_messages()</code></a> functions.</p>
+</blockquote>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p><code>Jinja</code> 和 <code>MiniJinja</code> 一个比较逆天的差异：前者的模板引用是完整文件名（包含后缀）。</p>
+</blockquote>
+<h2>参考</h2>
+<ul>
+<li><a href="https://flask.palletsprojects.com/en/3.0.x">flask document</a></li>
+</ul>
+<h1>Day1.5 ：搓一个增删查改的网站</h1>
+<p>// TODO</p>
+
+  </main>
+  <footer>
+    <p align="center">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+        width="16" height="16">
+        <a href="https://github.com/candlest">
+          <path
+            d="M256 32C132.3 32 32 134.9 32 261.7c0 101.5 64.2 187.5 153.2 217.9a17.56 17.56 0 0 0 3.8.4c8.3 0 11.5-6.1 11.5-11.4c0-5.5-.2-19.9-.3-39.1a102.4 102.4 0 0 1-22.6 2.7c-43.1 0-52.9-33.5-52.9-33.5c-10.2-26.5-24.9-33.6-24.9-33.6c-19.5-13.7-.1-14.1 1.4-14.1h.1c22.5 2 34.3 23.8 34.3 23.8c11.2 19.6 26.2 25.1 39.6 25.1a63 63 0 0 0 25.6-6c2-14.8 7.8-24.9 14.2-30.7c-49.7-5.8-102-25.5-102-113.5c0-25.1 8.7-45.6 23-61.6c-2.3-5.8-10-29.2 2.2-60.8a18.64 18.64 0 0 1 5-.5c8.1 0 26.4 3.1 56.6 24.1a208.21 208.21 0 0 1 112.2 0c30.2-21 48.5-24.1 56.6-24.1a18.64 18.64 0 0 1 5 .5c12.2 31.6 4.5 55 2.2 60.8c14.3 16.1 23 36.6 23 61.6c0 88.2-52.4 107.6-102.3 113.3c8 7.1 15.2 21.1 15.2 42.5c0 30.7-.3 55.5-.3 63c0 5.4 3.1 11.5 11.4 11.5a19.35 19.35 0 0 0 4-.4C415.9 449.2 480 363.1 480 261.7C480 134.9 379.7 32 256 32z"
+            fill="currentColor"></path>
+        </a>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+        width="16" height="16">
+        <a href="mailto:candlest1112@gmail.com">
+          <path
+            d="M464 80H48a16 16 0 0 0-16 16v320a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM265.82 284.63a16 16 0 0 1-19.64 0L89.55 162.81l19.64-25.26L256 251.73l146.81-114.18l19.64 25.26z"
+            fill="currentColor"></path>
+        </a>
+      </svg>
+      <br>
+      <small>
+        <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>.</i>
+      </small>
+    </p>
+  </footer>
+</body>
+
+</html>
