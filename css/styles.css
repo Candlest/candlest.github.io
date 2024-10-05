@@ -3,18 +3,63 @@
     max-width: 60%;
     margin: auto;
 }
+.today {
+    background-color: #8cdda4; /* 高亮今天的日期 */
+  }
+  .today:hover {
+    background-color: #3e9a59; /* 鼠标悬停时的高亮颜色 */
+  }
+ul#toc {
+    margin-top: 0;
+    /* 减小上外边距 */
+    margin-bottom: 0;
+    /* 减小下外边距 */
+    padding-top: 0;
+    /* 减小上内边距 */
+    padding-bottom: 0;
+    /* 减小下内边距 */
+    padding-left: 0;
+    /* 减小左内边距 */
+}
+
+#toc ul,
+#toc li {
+    margin-left: 0;
+    /* 减小左外边距 */
+    list-style-type: none;
+    text-indent: -10px;
+    /* 减小文本缩进 */
+    padding-left: 10px;
+    /* 保持内容对齐 */
+}
+
+.toc-float {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 200px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    overflow-y: auto;
+    max-height: calc(100vh - 40px);
+}
 
 /* 媒体查询，适用于小屏幕，例如手机 */
 @media (max-width: 768px) {
     .container {
-        max-width: 95%; /* 或者你想要的其他值 */
+        max-width: 95%;
+        /* 或者你想要的其他值 */
     }
+
     .nav-right {
-        display: none; /* 这将完全隐藏元素 */
+        display: none;
+        /* 这将完全隐藏元素 */
     }
 }
 
-details, blockquote {
+details,
+blockquote {
     border: 1px solid #ccc !important;
     border-color: #000 !important;
     padding: 14px;

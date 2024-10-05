@@ -6,7 +6,15 @@
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <!-- 插件 -->
+  <!--Jquery-->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <script src="/js/jquery.toc.min.js"></script>
   <link rel="stylesheet" href="/css/styles.css">
+  <!-- hightlight -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/default.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/go.min.js"></script>
   <!-- Mermaid -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
   <!-- KaTex-->
@@ -48,19 +56,26 @@
 <body lang="zh-Hans-CN">
   <header>
     <div class="container">
-      <nav>
-        <p><a href="/">Home</a> |
-          <a href="/friends.html">Friends</a> |
-          <a href="/projects.html">Projects</a> |
-          <a href="/about.html">About</a>
-          <code class="nav-right">
+      <div class="nav-container">
+        <nav>
+          <p>
+            <a href="/">Home</a> |
+            <a href="/friends.html">Friends</a> |
+            <a href="/projects.html">Projects</a> |
+            <a href="/about.html">About</a>
+            <code class="nav-right">
 <code class="post-meta">@索引</code>
 </code>
-        </p>
-      </nav>
+          </p>
+        </nav>
+      </div>
     </div>
   </header>
+  <code class="toc-float">
+    <div id="calendar" class="calendar"></div>
+    <ul id="toc"></ul></code>
   <main class="container">
+    <!-- class=content 的元素在其他模板-->
     
 <p>Simple is best.</p>
 <!-- 按时间排序的文章列表 -->
@@ -80,6 +95,11 @@
 <li class="post-li"><a href="./post/test.html"><time datetime="2024-06-20T19:20:17">2024-06-20T19:20:17</time> --- 各插件测试</a></li>
 
 
+    <script src="https://giscus.app/client.js" data-repo="Candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+      data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="url" data-strict="0"
+      data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light"
+      data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+      </script>
   </main>
   <footer>
     <p align="center">
@@ -105,6 +125,66 @@
       </small>
     </p>
   </footer>
+  <script>hljs.highlightAll();</script>
+  <script type="text/javascript">
+    $("#toc").toc({ content: "div.content", headings: "h1,h2,h3,h4" });
+  </script>
+  <script>
+    function createCalendar(year, month) {
+      const calendarEl = document.getElementById('calendar');
+      const table = document.createElement('table');
+      const header = table.createTHead();
+      const headerRow = header.insertRow();
+      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      daysOfWeek.forEach(day => {
+        const th = document.createElement('th');
+        th.textContent = day;
+        headerRow.appendChild(th);
+      });
+
+      const date = new Date(year, month - 1, 1);
+      const daysInMonth = new Date(year, month, 0).getDate();
+      const firstDay = date.getDay();
+
+      const tbody = table.createTBody();
+      let day = 1;
+      for (let i = 0; i < 6; i++) {
+        const row = tbody.insertRow();
+        for (let j = 0; j < 7; j++) {
+          const cell = row.insertCell();
+          if (i === 0 && j < firstDay) {
+            cell.textContent = '';
+          } else if (day > daysInMonth) {
+            cell.textContent = '';
+          } else {
+            cell.textContent = day;
+            // 检查当前日期是否是今天
+            const today = new Date();
+            if (today.getFullYear() === year && today.getMonth() === month - 1 && today.getDate() === day) {
+              cell.classList.add('today'); // 添加高亮样式
+              cell.addEventListener('click', function () {
+                // 获取今天的日期并跳转到维基百科的“历史上的今天”页面
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                const todayMonth = monthNames[today.getMonth()];
+                const todayDate = `${todayMonth}_${today.getDate()}`;
+                const wikipediaUrl = `https://en.wikipedia.org/wiki/${todayDate}`;
+                window.open(wikipediaUrl, '_blank');
+              });
+            }
+            day++;
+          }
+        }
+      }
+
+      calendarEl.innerHTML = '';
+      calendarEl.appendChild(table);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const now = new Date();
+      createCalendar(now.getFullYear(), now.getMonth() + 1);
+    });
+  </script>
 </body>
 
 </html>

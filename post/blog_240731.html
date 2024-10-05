@@ -6,7 +6,15 @@
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <!-- 插件 -->
+  <!--Jquery-->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <script src="/js/jquery.toc.min.js"></script>
   <link rel="stylesheet" href="/css/styles.css">
+  <!-- hightlight -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/default.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/go.min.js"></script>
   <!-- Mermaid -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
   <!-- KaTex-->
@@ -48,12 +56,14 @@
 <body lang="zh-Hans-CN">
   <header>
     <div class="container">
-      <nav>
-        <p><a href="/">Home</a> |
-          <a href="/friends.html">Friends</a> |
-          <a href="/projects.html">Projects</a> |
-          <a href="/about.html">About</a>
-          <code class="nav-right">
+      <div class="nav-container">
+        <nav>
+          <p>
+            <a href="/">Home</a> |
+            <a href="/friends.html">Friends</a> |
+            <a href="/projects.html">Projects</a> |
+            <a href="/about.html">About</a>
+            <code class="nav-right">
 <code class="post-meta">
     
     #blog    
@@ -65,13 +75,18 @@
     
 </code>
 </code>
-        </p>
-      </nav>
+          </p>
+        </nav>
+      </div>
     </div>
   </header>
+  <code class="toc-float">
+<ul id="toc"></ul></code>
   <main class="container">
+    <!-- class=content 的元素在其他模板-->
     
-<h1>搭建个人博客六年的一些思考</h1>
+<div class="content">
+    <h1>搭建个人博客六年的一些思考</h1>
 <blockquote>
 <p>从初一开始，我断断续续地通过 jekyll, hexo, hugo 这些流行的工具折腾我的 Github Page 。如今的我回望过去，决定自己手写一个引擎，采取少量且（也许）必要的 JavaScript 插件和 CSS 样式，构建我的博客。</p>
 </blockquote>
@@ -84,27 +99,24 @@
 <p>正如电冰箱本来就是为了冷藏食物，获得更丰富的口感和更长的保质期，这些工具的配置活动必须要坚决为生产活动本身而存在。套用二八法则，配置活动与使用该工具创造价值的时间之比应该小于0.25。</p>
 <h2>我的博客：Simple is best</h2>
 <h3>博客引擎 rigos</h3>
-<p>其实如果单纯以实用地搭建博客为目的，rigos 本就没有写的必要，因为一段脚本，一个 md2html 库和一个模板引擎便可完成相似的操作。只是当时恰好在学 Rust ，希望能够写一个小项目练手，顺势而为。</p>
+<p>其实如果单纯以实用地搭建博客为目的，rigos 本就没有写的必要，因为一段 lua 脚本，一个 md2html 库和一个模板引擎便可完成相似的操作。只是当时恰好在学 Rust ，希望能够写一个小项目练手，顺势而为。</p>
 <p>而我也从中学到了 Rust 的程序设计规范，模板引擎的使用，多线程（文件锁）和异常处理等等。</p>
 <h3>博客样式</h3>
 <p>一开始，我选择了 pico.css 作为默认样式，但是实际上，假如我要引入各种插件（比如 mermaid , giscus 和 highlight.js ）那么各模块的样式不同足以让我头痛。况且我嫌弃 pico.css 样式的间距太大，有时会有奇怪的 bug。</p>
 <p>于是，我选择去掉所有样式，仿照一个 jekyll 主题 <a href="https://github.com/riggraz/no-style-please">no style, please</a> 在默认配置下进行了些许微调。</p>
 <h3>博客插件</h3>
-<p>首先，各类美化插件，如 autospace 和 highlight.js 是可以大胆去掉的。</p>
-<p>其次，如 giscus 这样的评论插件也可以去掉，因为我发现真正有价值的讨论是不可能在评论中写清楚的<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup>。如果有交流的欲望和必要性，留下自己的邮箱是更加明智的选择。</p>
+<p>各类美化插件，如 autospace 是可以大胆去掉的。</p>
 <h3>是否使用 RSS</h3>
 <p>详见 <a href="https://blog.zhiheng.io/posts/2022/01/no-rss/">RSS 无用</a>，但是我已经在 rigos 加入 rss 功能了，暂且留着。</p>
 <h2>后记</h2>
 <p>今天看到这样一篇博客，印证了本文的观点：<a href="https://www.jabed.dev/posts/from-knee-socks-wearing-arch-btw-with-waifu-pillow-to-an-apple-sheep">From knee socks 🏳️‍🌈 wearing Arch BTW with waifu pillow to an apple sheep🐑</a></p>
-<section data-footnotes="" class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
-<ol>
-<li id="user-content-fn-1">
-<p><a href="https://www.zhihu.com/question/19556955/answer/3072268986">博客是否应该有评论？- Eridane的回答 - 知乎</a> <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to content" class="data-footnote-backref">↩</a></p>
-</li>
-</ol>
-</section>
+</div>
 
-
+    <script src="https://giscus.app/client.js" data-repo="Candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+      data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="url" data-strict="0"
+      data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light"
+      data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+      </script>
   </main>
   <footer>
     <p align="center">
@@ -130,6 +142,66 @@
       </small>
     </p>
   </footer>
+  <script>hljs.highlightAll();</script>
+  <script type="text/javascript">
+    $("#toc").toc({ content: "div.content", headings: "h1,h2,h3,h4" });
+  </script>
+  <script>
+    function createCalendar(year, month) {
+      const calendarEl = document.getElementById('calendar');
+      const table = document.createElement('table');
+      const header = table.createTHead();
+      const headerRow = header.insertRow();
+      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      daysOfWeek.forEach(day => {
+        const th = document.createElement('th');
+        th.textContent = day;
+        headerRow.appendChild(th);
+      });
+
+      const date = new Date(year, month - 1, 1);
+      const daysInMonth = new Date(year, month, 0).getDate();
+      const firstDay = date.getDay();
+
+      const tbody = table.createTBody();
+      let day = 1;
+      for (let i = 0; i < 6; i++) {
+        const row = tbody.insertRow();
+        for (let j = 0; j < 7; j++) {
+          const cell = row.insertCell();
+          if (i === 0 && j < firstDay) {
+            cell.textContent = '';
+          } else if (day > daysInMonth) {
+            cell.textContent = '';
+          } else {
+            cell.textContent = day;
+            // 检查当前日期是否是今天
+            const today = new Date();
+            if (today.getFullYear() === year && today.getMonth() === month - 1 && today.getDate() === day) {
+              cell.classList.add('today'); // 添加高亮样式
+              cell.addEventListener('click', function () {
+                // 获取今天的日期并跳转到维基百科的“历史上的今天”页面
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                const todayMonth = monthNames[today.getMonth()];
+                const todayDate = `${todayMonth}_${today.getDate()}`;
+                const wikipediaUrl = `https://en.wikipedia.org/wiki/${todayDate}`;
+                window.open(wikipediaUrl, '_blank');
+              });
+            }
+            day++;
+          }
+        }
+      }
+
+      calendarEl.innerHTML = '';
+      calendarEl.appendChild(table);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const now = new Date();
+      createCalendar(now.getFullYear(), now.getMonth() + 1);
+    });
+  </script>
 </body>
 
 </html>
