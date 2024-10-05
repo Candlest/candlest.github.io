@@ -42,7 +42,7 @@
     });
   </script>
   <!-- END: 插件 -->
-  <title>Candlest 's Blog</title>
+  <title>进制转换</title>
 </head>
 
 <body lang="zh-Hans-CN">
@@ -54,7 +54,12 @@
           <a href="/projects.html">Projects</a> |
           <a href="/about.html">About</a>
           <code class="nav-right">
-<code class="post-meta">@索引</code>
+<code class="post-meta">
+    
+    [algorithm]
+    <br><time datetime="2024-09-24T13:40:36">N: 2024-09-24T13:40:36</time>
+    
+</code>
 </code>
         </p>
       </nav>
@@ -62,23 +67,92 @@
   </header>
   <main class="container">
     
-<p>Simple is best.</p>
-<!-- 按时间排序的文章列表 -->
+<h1>进制转换</h1>
+<p>进制转换的数学原理基于数的位值表示法。在任何进制系统中，一个数可以表示为一系列数字的和，每个数字乘以它所在位置的位值。位值是基数（进制）的幂，从最右边的位置开始，幂指数从0开始递增。</p>
+<p>$$
+(56)_{10} = 5 \times 10^1 + 6 \times 10^0
+$$
+$$
+(1101)_2 = 1 \times 2^3 + 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0
+$$</p>
+<p>基于以上原理，我们先来写一个简单的 2 进制到 10 进制的程序：</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cmath&gt;
+using namespace std;
+int main(){
+    // 2 =&gt; 10
+    string str;
+    cin &gt;&gt; str;
+    int n = str.length(), ans = 0;
+    for (int i = 0; i &lt; n; i++){
+        ans += (str[i] - '0') * pow(2, n - i - 1);
+    }
+    cout &lt;&lt; ans;
+    return 0;
+}
+</code></pre>
+<p>再写一个 10 进制到 2 进制转换的程序：</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;stack&gt;
+using namespace std;
+int main(){
+    // 10 =&gt; 2
+    // 这里不考虑 0 的特殊情况
+    int input = 0;
+    cin &gt;&gt; input;
+    // 辗转相除
+    stack&lt;int&gt; place;
+    while(true){
+        place.push(input%2);
+        input /= 2;
+        if(input == 0)
+            break;
+    }
+    while(!place.empty()){
+        cout &lt;&lt; place.top();
+        place.pop();
+    }
+    return 0;
+}
+</code></pre>
+<p>进一步扩展到 2~8进制的转换：</p>
+<pre><code class="language-cpp">int OthertoDEC(string str, int radix){
+    // 错误处理
+    if(radix &lt; 2 || radix &gt; 16)
+        return &quot;error&quot;;
+    int n = str.length(), ans = 0;
+    for (int i = 0; i &lt; n; i++){
+        ans += (str[i] - '0') * pow(radix, n - i - 1);
+    }
+    return ans;
+}
 
-<li class="post-li"><a href="./post/bignum.html"><time datetime="2024-10-05T14:55:28">2024-10-05T14:55:28</time> --- 高精度</a></li>
-
-<li class="post-li"><a href="./post/quick_pow.html"><time datetime="2024-10-01T15:55:13">2024-10-01T15:55:13</time> --- 快速幂运算</a></li>
-
-<li class="post-li"><a href="./post/digit_convert.html"><time datetime="2024-09-24T13:40:36">2024-09-24T13:40:36</time> --- 进制转换</a></li>
-
-<li class="post-li"><a href="./post/blog_240731.html"><time datetime="2024-07-31T12:20:49">2024-07-31T12:20:49</time> --- 搭建个人博客六年的一些思考</a></li>
-
-<li class="post-li"><a href="./post/arch_on_yilong15pro.html"><time datetime="2024-07-21T13:26:49">2024-07-21T13:26:49</time> ---  在翼龙15PRO上使用 ArchLinux</a></li>
-
-<li class="post-li"><a href="./post/windows_tweak.html"><time datetime="2024-07-02T20:01:58">2024-07-02T20:01:58</time> --- Windows优化记录</a></li>
-
-<li class="post-li"><a href="./post/test.html"><time datetime="2024-06-20T19:20:17">2024-06-20T19:20:17</time> --- 各插件测试</a></li>
-
+string DECtoOther(int dec, int radix){
+    // 错误处理
+    if(radix &lt; 2 || radix &gt; 16)
+        return &quot;error&quot;;
+    stack&lt;int&gt; place;
+    while(true){
+        place.push(dec%radix);
+        dec /= radix;
+        if(dec == 0)
+            break;
+    }
+    string ans;
+    while(!place.empty()){
+        int tmp = place.top();
+        place.pop();
+        if(tmp &lt; 10)
+            ans += tmp + '0';
+    }
+    return ans;
+}
+</code></pre>
+<p>目前，我们已经实现了 2 ~ 10 进制的互相转换，接下来讨论涉及到字母的转换。</p>
+<p>// TODO</p>
+<p>最后，我们以10进制为中转站，实现从 n 进制到10进制再到 m 进制的转换，其中 $n, m \in \Z 且 2 \leq n \leq 36$ 。</p>
+<p>// TODO</p>
 
   </main>
   <footer>

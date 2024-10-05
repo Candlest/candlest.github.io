@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 插件 -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <!-- KaTex-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+    integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
+    integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
+    crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+    crossorigin="anonymous"></script>
+  <!-- 统一加载 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // 初始化 Mermaid 以渲染图表
+      mermaid.initialize({
+        startOnLoad: true
+      });
+
+      // KATEX
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '\\[', right: '\\]', display: true }
+        ],
+        // • rendering keys, e.g.:
+        throwOnError: false
+      });
+    });
+  </script>
+  <!-- END: 插件 -->
+  <title>高精度</title>
+</head>
+
+<body lang="zh-Hans-CN">
+  <header>
+    <div class="container">
+      <nav>
+        <p><a href="/">Home</a> |
+          <a href="/friends.html">Friends</a> |
+          <a href="/projects.html">Projects</a> |
+          <a href="/about.html">About</a>
+          <code class="nav-right">
+<code class="post-meta">
+    
+    [algorithm]
+    <br><time datetime="2024-10-05T14:55:28">N: 2024-10-05T14:55:28</time>
+    
+</code>
+</code>
+        </p>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    
+<h1>高精度算法</h1>
+<p>在 C++ 的整数体系下，整数的数据类型最高占据八字节，即 $2^{64}$，但是往往会遇到超出这个范围的运算。</p>
+<p>下面是定义在 C99 标准 <code>cstdint</code> 下的整型：</p>
+<pre><code class="language-cpp">typedef signed char        int8_t;
+typedef short              int16_t;
+typedef int                int32_t;
+typedef long long          int64_t;
+typedef unsigned char      uint8_t;
+typedef unsigned short     uint16_t;
+typedef unsigned int       uint32_t;
+typedef unsigned long long uint64_t;
+</code></pre>
+<p>面对 Big Number ，高精度四则运算的需求，我们通常使用字符串和数组实现高精度算法。</p>
+<p>下面以 <code>std::string</code> 为基础，逐步实现<strong>无符号整数</strong>的高精度四则运算。</p>
+<h2>char2u_int</h2>
+<p>在 ASCII 码中，一个字符意义上的数字和它表示的数字之差刚好是 48 即 <code>'0'</code> ，我们可以用如下方法实现转换：</p>
+<pre><code class="language-cpp">short num = str[i] - '0';
+</code></pre>
+<h2>加法</h2>
+<p>$$a+b=c$$</p>
+<p>我们的操作流程如下：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>获取数据</td>
+<td>a=100, b=25</td>
+</tr>
+<tr>
+<td>补齐位数</td>
+<td>a=100, b=025</td>
+</tr>
+<tr>
+<td>倒序逐位相加（包含进位操作）</td>
+<td>c=521</td>
+</tr>
+<tr>
+<td>倒转c</td>
+<td>c=125</td>
+</tr>
+</tbody>
+</table>
+<p>利用 <code>string</code> 头文件提供的方法，我们可以很快地完成大部分步骤：</p>
+<pre><code class="language-cpp">std::string addStrings(std::string num1, std::string num2) {
+    // 确保 num1 是较长的字符串
+    if (num1.length() &lt; num2.length()) {
+        std::swap(num1, num2);
+    }
+
+    // 将 num2 填充到与 num1 相同的长度
+    num2.insert(num2.begin(), num1.length() - num2.length(), '0');
+
+    std::string result;
+    
+    // 从后往前逐位相加
+    for (int i = num1.length() - 1; i &gt;= 0; --i) {
+        // TO DO
+    }
+
+    // 反转结果字符串
+    std::reverse(result.begin(), result.end());
+
+    return result;
+}
+</code></pre>
+<p>下面我们来实现其中最重要的<strong>逐位相加</strong>步骤。</p>
+<h3>逐位相加</h3>
+<p>在每一步的循环中：</p>
+<p>$$\forall digit_1, digit_2 \in [0,9] $$</p>
+<p>$$digit_3 = digit_1 + digit_2 \in [0, 18]$$</p>
+<p>$$digit_3 \mid 10 = 0 或 1$$</p>
+<p>$$digit_3 \mod 10 \in [0, 9]$$</p>
+<pre><code class="language-cpp">int sum = (num1[i] - '0') + (num2[i] - '0') + carry; // 处理上一步的进位
+carry = sum / 10; // carry 代表进位
+result.push_back((sum % 10) + '0');
+</code></pre>
+<p>结束循环，注意处理最后的进位：</p>
+<pre><code class="language-cpp">if (carry &gt; 0)
+    result.push_back(carry + '0');
+</code></pre>
+<p>这样，整个加法过程就被完全实现了，下面是完整例子：</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+
+std::string addStrings(std::string num1, std::string num2) {
+    // 确保 num1 是较长的字符串
+    if (num1.length() &lt; num2.length()) {
+        std::swap(num1, num2);
+    }
+
+    // 将 num2 填充到与 num1 相同的长度
+    num2.insert(num2.begin(), num1.length() - num2.length(), '0');
+
+    std::string result;
+    int carry = 0;
+
+    // 从后往前逐位相加
+    for (int i = num1.length() - 1; i &gt;= 0; --i) {
+        int sum = (num1[i] - '0') + (num2[i] - '0') + carry;
+        carry = sum / 10;
+        result.push_back((sum % 10) + '0');
+    }
+
+    // 如果最后有进位
+    if (carry &gt; 0) {
+        result.push_back(carry + '0');
+    }
+
+    // 反转结果字符串
+    std::reverse(result.begin(), result.end());
+
+    return result;
+}
+
+int main() {
+    std::string num1 = &quot;12345678901234567890&quot;;
+    std::string num2 = &quot;98765432109876543210&quot;;
+
+    std::string result = addStrings(num1, num2);
+    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result &lt;&lt; std::endl;
+
+    return 0;
+}
+</code></pre>
+<h2>减法</h2>
+<p>在高精度加法的基础上实现高精度减法，我们需要考虑以下几点：</p>
+<ol>
+<li>处理借位（borrow）。</li>
+<li>确保被减数（minuend）大于或等于减数（subtrahend）。</li>
+<li>处理结果中的前导零。</li>
+</ol>
+<p>减法中对 <code>num1</code> 和 <code>num2</code> 的大小关系要求更加严格：</p>
+<pre><code class="language-cpp">// 辅助函数：比较两个字符串表示的数字大小
+// const typename&amp; 表示这是一个常量引用，传递给函数的字符串不会被修改，并且通过引用传递避免了复制字符串的开销。
+bool isGreaterOrEqual(const std::string&amp; num1, const std::string&amp; num2) {
+    if (num1.length() != num2.length()) {
+        return num1.length() &gt; num2.length();
+    }
+    return num1 &gt;= num2;
+}
+</code></pre>
+<h3>借位</h3>
+<p>$$\forall digit_1, digit_2 \in [0,9] $$</p>
+<p>$$digit_3 = digit_1 - digit_2 \in [-9, 9]$$</p>
+<p>我们可以先直接相减相应位数字，再根据正负号决定是否借位：</p>
+<pre><code class="language-cpp">// 从后往前逐位相减
+for (int i = num1.length() - 1; i &gt;= 0; --i) {
+  int diff = (num1[i] - '0') - (num2[i] - '0') - borrow;
+  if (diff &lt; 0) {
+      diff += 10;
+      borrow = 1;
+  } else {
+      borrow = 0;
+  }
+  result.push_back(diff + '0');
+}
+</code></pre>
+<h3>去除前导0</h3>
+<p>由于减法运算会改变位的数量，有去除前导0的必要：</p>
+<pre><code class="language-cpp">// 除非只有一位数
+while (result.length() &gt; 1 &amp;&amp; result.back() == '0') {
+    result.pop_back();
+}
+</code></pre>
+<p>现在，我们已经成功实现减法运算，下面是样例：</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+
+// 辅助函数：比较两个字符串表示的数字大小
+bool isGreaterOrEqual(const std::string&amp; num1, const std::string&amp; num2) {
+    if (num1.length() != num2.length()) {
+        return num1.length() &gt; num2.length();
+    }
+    return num1 &gt;= num2;
+}
+
+std::string subtractStrings(std::string num1, std::string num2) {
+    // 确保 num1 大于或等于 num2
+    if (!isGreaterOrEqual(num1, num2)) {
+        std::swap(num1, num2);
+    }
+
+    // 将 num2 填充到与 num1 相同的长度
+    num2.insert(num2.begin(), num1.length() - num2.length(), '0');
+
+    std::string result;
+    int borrow = 0;
+
+    // 从后往前逐位相减
+    for (int i = num1.length() - 1; i &gt;= 0; --i) {
+        int diff = (num1[i] - '0') - (num2[i] - '0') - borrow;
+        if (diff &lt; 0) {
+            diff += 10;
+            borrow = 1;
+        } else {
+            borrow = 0;
+        }
+        result.push_back(diff + '0');
+    }
+
+    // 移除结果中的前导零
+    while (result.length() &gt; 1 &amp;&amp; result.back() == '0') {
+        result.pop_back();
+    }
+
+    // 反转结果字符串
+    std::reverse(result.begin(), result.end());
+
+    return result;
+}
+
+int main() {
+    std::string num1 = &quot;12345678901234567890&quot;;
+    std::string num2 = &quot;9876543210987654321&quot;;
+
+    std::string result = subtractStrings(num1, num2);
+    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result &lt;&lt; std::endl;
+
+    return 0;
+}
+</code></pre>
+<h2>乘法</h2>
+<h3>证明 num3.len ≤ num1.len + num2.len</h3>
+<p>要证明两个大整数 <code>num1</code> 和 <code>num2</code> 相乘的结果 <code>num3</code> 的长度最多为 <code>num1.len + num2.len</code>，我们可以通过数学推导来证明这一点。</p>
+<p>$$不妨取最大值： num_1 = 10^m - 1, num_2 = 10^n - 1$$</p>
+<p>$$那么num_3 = num_1 * num_2 = 10^{m+n} - 10^m - 10^n - 1$$</p>
+<p>$$显然 10^{m+n-1} &gt; 10^m + 10^n + 1$$</p>
+<p>$$故 num_3 的最大位数为 m+n$$</p>
+<h3>进位处理</h3>
+<p>$$\forall digit_1, digit_2 \in [0,9] $$</p>
+<p>$$digit_3 = digit_1 \cdot digit_2 \in [0, 81]$$</p>
+<p>$$digit_3 \mid 10 \in [0, 8]$$</p>
+<p>$$digit_3 \mod 10 \in [0, 9]$$</p>
+<p>类似加法，但是此处为双层循环，模拟乘法竖式运算：</p>
+<pre><code class="language-cpp">// 结果的长度最多为 len1 + len2，初始化为 0
+std::vector&lt;int&gt; result(len1 + len2, 0);
+
+// 从后往前逐位相乘
+for (int i = len1 - 1; i &gt;= 0; --i) {
+    for (int j = len2 - 1; j &gt;= 0; --j) {
+        int mul = (num1[i] - '0') * (num2[j] - '0');
+        int sum = mul + result[i + j + 1];
+        result[i + j + 1] = sum % 10;
+        result[i + j] += sum / 10;
+    }
+}
+</code></pre>
+<ul>
+<li>在逐位相乘的过程中，我们需要将每一位的乘积结果累加到正确的位置。具体来说，<code>num1</code> 的第 <code>i</code> 位和 <code>num2</code> 的第 <code>j</code> 位的乘积应该累加到结果数组的 <code>i + j + 1</code> 位置。</li>
+<li>与此同时，进位应该被放置到结果数组的 <code>i + j</code>  位置。</li>
+</ul>
+<blockquote>
+<p>[!TIP]</p>
+<p>如果还是有点懵懂，列个竖式模拟这个过程是一个好方法。</p>
+</blockquote>
+<h3>vector2string</h3>
+<pre><code class="language-cpp">// 将结果转换为字符串
+std::string resultStr;
+for (int digit : result) {
+    if (!(resultStr.empty() &amp;&amp; digit == 0)) {
+        resultStr.push_back(digit + '0');
+    }
+}
+</code></pre>
+<p>此处 <code>!(resultStr.empty() &amp;&amp; digit == 0)</code> ：如果字符串为空且当前数字为 0，则跳过这个数字（<strong>避免前导零</strong>）。</p>
+<p>剩下的操作不再赘述，完整样例如下：</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+
+std::string multiplyStrings(const std::string&amp; num1, const std::string&amp; num2) {
+    int len1 = num1.length();
+    int len2 = num2.length();
+
+    // 如果其中一个数为零，直接返回 &quot;0&quot;
+    if (len1 == 0 || len2 == 0 || num1 == &quot;0&quot; || num2 == &quot;0&quot;) {
+        return &quot;0&quot;;
+    }
+
+    // 结果的长度最多为 len1 + len2
+    std::vector&lt;int&gt; result(len1 + len2, 0);
+
+    // 从后往前逐位相乘
+    for (int i = len1 - 1; i &gt;= 0; --i) {
+        for (int j = len2 - 1; j &gt;= 0; --j) {
+            int mul = (num1[i] - '0') * (num2[j] - '0');
+            int sum = mul + result[i + j + 1];
+            result[i + j + 1] = sum % 10;
+            result[i + j] += sum / 10;
+        }
+    }
+
+    // 将结果转换为字符串
+    std::string resultStr;
+    for (int digit : result) {
+        if (!(resultStr.empty() &amp;&amp; digit == 0)) {
+            resultStr.push_back(digit + '0');
+        }
+    }
+
+    // 如果结果为空，返回 &quot;0&quot;
+    if (resultStr.empty()) {
+        return &quot;0&quot;;
+    }
+
+    return resultStr;
+}
+
+int main() {
+    std::string num1 = &quot;12345678901234567890&quot;;
+    std::string num2 = &quot;98765432109876543210&quot;;
+
+    std::string result = multiplyStrings(num1, num2);
+    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result &lt;&lt; std::endl;
+
+    return 0;
+}
+</code></pre>
+<h2>除法</h2>
+<h3>微调减法</h3>
+<p>高精度除法需要利用到高精度减法，现在我们来改造先前的高精度减法避免修改原数据：</p>
+<pre><code class="language-cpp">std::string subtractStrings(const std::string&amp; num1, const std::string&amp; num2) {
+    // 确保 num1 大于或等于 num2
+    std::string num1_copy = num1;
+    std::string num2_copy = num2;
+    if (!isGreaterOrEqual(num1_copy, num2_copy)) {
+        std::swap(num1_copy, num2_copy);
+    }
+
+    // 将 num2 填充到与 num1 相同的长度
+    num2_copy.insert(num2_copy.begin(), num1_copy.length() - num2_copy.length(), '0');
+
+    std::string result;
+    int borrow = 0;
+
+    // 从后往前逐位相减
+    for (int i = num1_copy.length() - 1; i &gt;= 0; --i) {
+        int diff = (num1_copy[i] - '0') - (num2_copy[i] - '0') - borrow;
+        if (diff &lt; 0) {
+            diff += 10;
+            borrow = 1;
+        } else {
+            borrow = 0;
+        }
+        result.push_back(diff + '0');
+    }
+
+    // 移除结果中的前导零
+    while (result.length() &gt; 1 &amp;&amp; result.back() == '0') {
+        result.pop_back();
+    }
+
+    // 反转结果字符串
+    std::reverse(result.begin(), result.end());
+
+    return result;
+}
+</code></pre>
+<ul>
+<li>调整函数签名，使其接受 <code>const std::string&amp;</code> 类型的参数，以避免不必要的字符串复制。</li>
+<li>在函数内部创建 <code>num1_copy</code> 和 <code>num2_copy</code> 的副本，以避免修改原始字符串。</li>
+</ul>
+<h3>逐位处理（竖式模拟）</h3>
+<p>在高精度除法中，<code>quotient</code> 和 <code>remainder</code> 分别用于存储除法运算的结果和余数。让我们详细解释一下它们的作用：</p>
+<p><code>quotient</code>（商）</p>
+<p><code>quotient</code> 用于存储除法运算的结果，即被除数 <code>num1</code> 除以除数 <code>num2</code> 的商。具体来说，<code>quotient</code> 是一个字符串，表示除法运算的整数部分。</p>
+<p>作用：</p>
+<ul>
+<li><strong>存储商</strong>：<code>quotient</code> 存储了除法运算的整数部分结果。</li>
+<li><strong>逐位计算</strong>：在逐位处理被除数 <code>num1</code> 的每一位时，我们将当前位的商添加到 <code>quotient</code> 中。</li>
+</ul>
+<p><code>remainder</code>（余数）</p>
+<p><code>remainder</code> 用于存储除法运算的余数，即被除数 <code>num1</code> 除以除数 <code>num2</code> 后剩余的部分。具体来说，<code>remainder</code> 是一个字符串，表示当前处理的部分被除数。</p>
+<p>作用：</p>
+<ul>
+<li><strong>存储余数</strong>：<code>remainder</code> 存储了当前处理的部分被除数。</li>
+<li><strong>逐位计算</strong>：在逐位处理被除数 <code>num1</code> 的每一位时，我们将当前位添加到 <code>remainder</code> 中，并通过多次减法计算当前位的商。</li>
+</ul>
+<details>
+<summary>模拟实例</summary>
+<p>假设我们要计算 <code>12345678901234567890</code> 除以 <code>123456789</code> 的结果。</p>
+<p>初始状态：</p>
+<ul>
+<li><code>quotient</code> = &quot;&quot;</li>
+<li><code>remainder</code> = &quot;&quot;</li>
+</ul>
+<p>逐位处理：</p>
+<ol>
+<li>
+<p><strong>处理第一位 <code>1</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;1&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第二位 <code>2</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;12&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第三位 <code>3</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;123&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第四位 <code>4</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;1234&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第五位 <code>5</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;12345&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第六位 <code>6</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;123456&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第七位 <code>7</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;1234567&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第八位 <code>8</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;12345678&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第九位 <code>9</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;123456789&quot;</li>
+<li><code>remainder</code> &gt;= <code>num2</code>，进行减法：<code>remainder</code> = &quot;0&quot;，<code>quotient</code> = &quot;000000001&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十位 <code>0</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;00&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000010&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十一位 <code>1</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;001&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000000100&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十二位 <code>2</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;0012&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000000001000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十三位 <code>3</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;00123&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000010000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十四位 <code>4</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;001234&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000000100000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十五位 <code>5</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;0012345&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000000001000000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十六位 <code>6</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;00123456&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000010000000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十七位 <code>7</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;001234567&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000000100000000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十八位 <code>8</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;0012345678&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000000001000000000&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第十九位 <code>9</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;00123456789&quot;</li>
+<li><code>remainder</code> &gt;= <code>num2</code>，进行减法：<code>remainder</code> = &quot;0&quot;，<code>quotient</code> = &quot;000000001000000001&quot;</li>
+</ul>
+</li>
+<li>
+<p><strong>处理第二十位 <code>0</code></strong>：</p>
+<ul>
+<li><code>remainder</code> = &quot;00&quot;</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000010000000010&quot;</li>
+</ul>
+</li>
+</ol>
+<p>最终结果：</p>
+<ul>
+<li><code>quotient</code> = &quot;1000000000100000000&quot;</li>
+<li><code>remainder</code> = &quot;0&quot;</li>
+</ul>
+<p>总结</p>
+<ul>
+<li><code>quotient</code> 存储了除法运算的整数部分结果。</li>
+<li><code>remainder</code> 存储了当前处理的部分被除数，并通过多次减法计算当前位的商。</li>
+</ul>
+<p>通过逐位处理和进位机制，我们可以正确地计算高精度除法的结果。</p>
+</details>
+<p>下面是具体的实现：</p>
+<pre><code class="language-cpp">for (int i = 0; i &lt; len1; ++i) {
+    remainder.push_back(num1[i]);
+    int count = 0;
+
+    while (isGreaterOrEqual(remainder, num2)) {
+        remainder = subtractStrings(remainder, num2);
+        ++count; // 相减次数即除数
+    }
+
+    // 无法再除便退出
+
+    quotient.push_back(count + '0');
+}
+</code></pre>
+<h3>去除前导0</h3>
+<p>检查字符串长度和第一个字符：</p>
+<p><code>quotient.length() &gt; 1</code>：确保 <code>quotient</code> 字符串的长度大于 1。如果长度为 1，即使第一个字符是 <code>'0'</code>，也不能移除，因为这可能是唯一的字符。</p>
+<p><code>quotient[0] == '0'</code>：检查 quotient 字符串的第一个字符是否为 <code>'0'</code>。</p>
+<pre><code class="language-cpp">while (quotient.length() &gt; 1 &amp;&amp; quotient[0] == '0')
+    quotient.erase(0, 1);
+</code></pre>
+<p>完整样例如下：</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+
+// 辅助函数：比较两个字符串表示的数字大小
+bool isGreaterOrEqual(const std::string&amp; num1, const std::string&amp; num2) {
+    if (num1.length() != num2.length()) {
+        return num1.length() &gt; num2.length();
+    }
+    return num1 &gt;= num2;
+}
+
+// 高精度减法
+std::string subtractStrings(const std::string&amp; num1, const std::string&amp; num2);
+
+// 高精度除法
+std::string divideStrings(const std::string&amp; num1, const std::string&amp; num2) {
+    if (num2 == &quot;0&quot;) {
+        throw std::runtime_error(&quot;Division by zero&quot;);
+    }
+
+    std::string quotient = &quot;&quot;;
+    std::string remainder = &quot;&quot;;
+    int len1 = num1.length();
+    int len2 = num2.length();
+
+    for (int i = 0; i &lt; len1; ++i) {
+        remainder.push_back(num1[i]);
+        int count = 0;
+
+        while (isGreaterOrEqual(remainder, num2)) {
+            remainder = subtractStrings(remainder, num2);
+            ++count;
+        }
+
+        quotient.push_back(count + '0');
+    }
+
+    // 移除前导零
+    while (quotient.length() &gt; 1 &amp;&amp; quotient[0] == '0') {
+        quotient.erase(0, 1);
+    }
+
+    return quotient;
+}
+
+int main() {
+    std::string num1 = &quot;12345678901234567890&quot;;
+    std::string num2 = &quot;123456789&quot;;
+
+    std::string result = divideStrings(num1, num2);
+    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result &lt;&lt; std::endl;
+
+    return 0;
+}
+</code></pre>
+<h2>语言进阶：构建 BigNum Class 并使用重载运算符</h2>
+<pre><code>// TODO
+</code></pre>
+
+  </main>
+  <footer>
+    <p align="center">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+        width="16" height="16">
+        <a href="https://github.com/candlest">
+          <path
+            d="M256 32C132.3 32 32 134.9 32 261.7c0 101.5 64.2 187.5 153.2 217.9a17.56 17.56 0 0 0 3.8.4c8.3 0 11.5-6.1 11.5-11.4c0-5.5-.2-19.9-.3-39.1a102.4 102.4 0 0 1-22.6 2.7c-43.1 0-52.9-33.5-52.9-33.5c-10.2-26.5-24.9-33.6-24.9-33.6c-19.5-13.7-.1-14.1 1.4-14.1h.1c22.5 2 34.3 23.8 34.3 23.8c11.2 19.6 26.2 25.1 39.6 25.1a63 63 0 0 0 25.6-6c2-14.8 7.8-24.9 14.2-30.7c-49.7-5.8-102-25.5-102-113.5c0-25.1 8.7-45.6 23-61.6c-2.3-5.8-10-29.2 2.2-60.8a18.64 18.64 0 0 1 5-.5c8.1 0 26.4 3.1 56.6 24.1a208.21 208.21 0 0 1 112.2 0c30.2-21 48.5-24.1 56.6-24.1a18.64 18.64 0 0 1 5 .5c12.2 31.6 4.5 55 2.2 60.8c14.3 16.1 23 36.6 23 61.6c0 88.2-52.4 107.6-102.3 113.3c8 7.1 15.2 21.1 15.2 42.5c0 30.7-.3 55.5-.3 63c0 5.4 3.1 11.5 11.4 11.5a19.35 19.35 0 0 0 4-.4C415.9 449.2 480 363.1 480 261.7C480 134.9 379.7 32 256 32z"
+            fill="currentColor"></path>
+        </a>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+        width="16" height="16">
+        <a href="mailto:candlest1112@gmail.com">
+          <path
+            d="M464 80H48a16 16 0 0 0-16 16v320a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM265.82 284.63a16 16 0 0 1-19.64 0L89.55 162.81l19.64-25.26L256 251.73l146.81-114.18l19.64 25.26z"
+            fill="currentColor"></path>
+        </a>
+      </svg>
+      <br>
+      <small>
+        <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>.</i>
+      </small>
+    </p>
+  </footer>
+</body>
+
+</html>
