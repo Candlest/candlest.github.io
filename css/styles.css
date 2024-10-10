@@ -9,6 +9,18 @@
   .today:hover {
     background-color: #3e9a59; /* 鼠标悬停时的高亮颜色 */
   }
+  /* 默认样式 */
+  a {
+      text-decoration: none; /* 去掉下划线 */
+      color: blue; /* 设置链接颜色 */
+      font-weight: normal; /* 默认字体不加粗 */
+  }
+
+  /* 鼠标悬浮时的样式 */
+  a:hover {
+      font-weight: bold; /* 鼠标悬浮时字体加粗 */
+      background-color: #f9f9f9;
+  }
 ul#toc {
     margin-top: 0;
     /* 减小上外边距 */
@@ -55,6 +67,9 @@ ul#toc {
     .nav-right {
         display: none;
         /* 这将完全隐藏元素 */
+    }
+    .toc-float {
+        display: none;
     }
 }
 
