@@ -78,22 +78,162 @@
     <!-- class=content 的元素在其他模板-->
     
 <p>Simple is best.</p>
+
+<!-- 分割线 -->
+<hr class="hr-twill-colorful">
+<div class="dropdown">
+    <p>sorted by
+    <select id="sort-select" onchange="sortPosts()">
+        <option value="time">Time</option>
+        <option value="tag">Tags</option>
+        <option value="category">Categories</option>
+    </select>
+    :</p>
+</div>
+
 <!-- 按时间排序的文章列表 -->
+<div id="post-list">
+    
+    <li class="post-li"><a href="./post/bignum.html"><time
+            datetime="2024-10-05T14:55:28">2024-10-05T14:55:28</time> --- 高精度</a></li>
+    
+    <li class="post-li"><a href="./post/quick_pow.html"><time
+            datetime="2024-10-01T15:55:13">2024-10-01T15:55:13</time> --- 快速幂运算</a></li>
+    
+    <li class="post-li"><a href="./post/digit_convert.html"><time
+            datetime="2024-09-24T13:40:36">2024-09-24T13:40:36</time> --- 进制转换</a></li>
+    
+    <li class="post-li"><a href="./post/blog_240731.html"><time
+            datetime="2024-07-31T12:20:49">2024-07-31T12:20:49</time> --- 搭建个人博客六年的一些思考</a></li>
+    
+    <li class="post-li"><a href="./post/arch_on_yilong15pro.html"><time
+            datetime="2024-07-21T13:26:49">2024-07-21T13:26:49</time> ---  在翼龙15PRO上使用 ArchLinux</a></li>
+    
+    <li class="post-li"><a href="./post/windows_tweak.html"><time
+            datetime="2024-07-02T20:01:58">2024-07-02T20:01:58</time> --- Windows优化记录</a></li>
+    
+    <li class="post-li"><a href="./post/test.html"><time
+            datetime="2024-06-20T19:20:17">2024-06-20T19:20:17</time> --- 各插件测试</a></li>
+    
+</div>
 
-<li class="post-li"><a href="./post/bignum.html"><time datetime="2024-10-05T14:55:28">2024-10-05T14:55:28</time> --- 高精度</a></li>
+<!-- JavaScript 实现排序功能 -->
+<script>
+    const posts = [
+        
+        {
+            title: "高精度",
+            filename: "bignum",
+            date: "2024-10-05T14:55:28",
+            tags: [],
+            categories: "algorithm"
+        },
+        
+        {
+            title: "快速幂运算",
+            filename: "quick_pow",
+            date: "2024-10-01T15:55:13",
+            tags: [],
+            categories: "algorithm"
+        },
+        
+        {
+            title: "进制转换",
+            filename: "digit_convert",
+            date: "2024-09-24T13:40:36",
+            tags: [],
+            categories: "algorithm"
+        },
+        
+        {
+            title: "搭建个人博客六年的一些思考",
+            filename: "blog_240731",
+            date: "2024-07-31T12:20:49",
+            tags: ["blog"],
+            categories: "think"
+        },
+        
+        {
+            title: " 在翼龙15PRO上使用 ArchLinux",
+            filename: "arch_on_yilong15pro",
+            date: "2024-07-21T13:26:49",
+            tags: ["linux"],
+            categories: "configs"
+        },
+        
+        {
+            title: "Windows优化记录",
+            filename: "windows_tweak",
+            date: "2024-07-02T20:01:58",
+            tags: ["windows"],
+            categories: "configs"
+        },
+        
+        {
+            title: "各插件测试",
+            filename: "test",
+            date: "2024-06-20T19:20:17",
+            tags: ["测试"],
+            categories: "其他"
+        },
+        
+    ];
 
-<li class="post-li"><a href="./post/quick_pow.html"><time datetime="2024-10-01T15:55:13">2024-10-01T15:55:13</time> --- 快速幂运算</a></li>
+    function sortPosts() {
+        const sortBy = document.getElementById('sort-select').value;
+        const postList = document.getElementById('post-list');
+        postList.innerHTML = '';
 
-<li class="post-li"><a href="./post/digit_convert.html"><time datetime="2024-09-24T13:40:36">2024-09-24T13:40:36</time> --- 进制转换</a></li>
-
-<li class="post-li"><a href="./post/blog_240731.html"><time datetime="2024-07-31T12:20:49">2024-07-31T12:20:49</time> --- 搭建个人博客六年的一些思考</a></li>
-
-<li class="post-li"><a href="./post/arch_on_yilong15pro.html"><time datetime="2024-07-21T13:26:49">2024-07-21T13:26:49</time> ---  在翼龙15PRO上使用 ArchLinux</a></li>
-
-<li class="post-li"><a href="./post/windows_tweak.html"><time datetime="2024-07-02T20:01:58">2024-07-02T20:01:58</time> --- Windows优化记录</a></li>
-
-<li class="post-li"><a href="./post/test.html"><time datetime="2024-06-20T19:20:17">2024-06-20T19:20:17</time> --- 各插件测试</a></li>
-
+        if (sortBy === 'time') {
+            posts.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(post => {
+                const li = document.createElement('li');
+                li.className = 'post-li';
+                li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
+                postList.appendChild(li);
+            });
+        } else if (sortBy === 'tag') {
+            const tagsDict = {};
+            posts.forEach(post => {
+                post.tags.forEach(tag => {
+                    if (!tagsDict[tag]) {
+                        tagsDict[tag] = [];
+                    }
+                    tagsDict[tag].push(post);
+                });
+            });
+            for (const tag in tagsDict) {
+                const h4 = document.createElement('h4');
+                h4.textContent = tag;
+                postList.appendChild(h4);
+                tagsDict[tag].forEach(post => {
+                    const li = document.createElement('li');
+                    li.className = 'post-li';
+                    li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
+                    postList.appendChild(li);
+                });
+            }
+        } else if (sortBy === 'category') {
+            const categoriesDict = {};
+            posts.forEach(post => {
+                if (!categoriesDict[post.categories]) {
+                    categoriesDict[post.categories] = [];
+                }
+                categoriesDict[post.categories].push(post);
+            });
+            for (const category in categoriesDict) {
+                const h4 = document.createElement('h4');
+                h4.textContent = category;
+                postList.appendChild(h4);
+                categoriesDict[category].forEach(post => {
+                    const li = document.createElement('li');
+                    li.className = 'post-li';
+                    li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
+                    postList.appendChild(li);
+                });
+            }
+        }
+    }
+</script>
 
     <script src="https://giscus.app/client.js" data-repo="Candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
       data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="url" data-strict="0"
