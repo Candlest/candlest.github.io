@@ -77,6 +77,83 @@
   <main class="container">
     <!-- class=content 的元素在其他模板-->
     
+
+<!-- JavaScript 实现排序功能 -->
+<script>
+    let posts = []; // 定义一个空数组来存储 posts
+
+    // 使用 fetch 获取 posts.json 数据
+    fetch('posts.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            posts = data; // 将获取到的数据存储在 posts 数组中
+            console.log('Success:', posts);
+            sortPosts(); // 获取数据后立即调用 sortPosts 函数
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+
+    function sortPosts() {
+        const sortBy = document.getElementById('sort-select').value;
+        const postList = document.getElementById('post-list');
+        postList.innerHTML = '';
+
+        if (sortBy === 'time') {
+            posts.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(post => {
+                const li = document.createElement('li');
+                li.className = 'post-li';
+                li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
+                postList.appendChild(li);
+            });
+        } else if (sortBy === 'tag') {
+            const tagsDict = {};
+            posts.forEach(post => {
+                post.tags.forEach(tag => {
+                    if (!tagsDict[tag]) {
+                        tagsDict[tag] = [];
+                    }
+                    tagsDict[tag].push(post);
+                });
+            });
+            for (const tag in tagsDict) {
+                const h4 = document.createElement('h4');
+                h4.textContent = tag;
+                postList.appendChild(h4);
+                tagsDict[tag].forEach(post => {
+                    const li = document.createElement('li');
+                    li.className = 'post-li';
+                    li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
+                    postList.appendChild(li);
+                });
+            }
+        } else if (sortBy === 'category') {
+            const categoriesDict = {};
+            posts.forEach(post => {
+                if (!categoriesDict[post.categories]) {
+                    categoriesDict[post.categories] = [];
+                }
+                categoriesDict[post.categories].push(post);
+            });
+            for (const category in categoriesDict) {
+                const h4 = document.createElement('h4');
+                h4.textContent = category;
+                postList.appendChild(h4);
+                categoriesDict[category].forEach(post => {
+                    const li = document.createElement('li');
+                    li.className = 'post-li';
+                    li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
+                    postList.appendChild(li);
+                });
+            }
+        }
+    }
+</script>
 <h2>关于博客</h2>
 <p>本博客使用自己用 Rust 缝合编写的静态网站生成器 Rigos 生成。</p>
 <p>使用以下插件：</p>
