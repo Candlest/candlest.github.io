@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 引入FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- 插件 -->
   <!--Jquery-->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"
@@ -35,22 +37,16 @@
       });
 
       // KATEX
-      renderMathInElement(document.body, {
-        // customised options
-        // • auto-render specific keys, e.g.:
-        delimiters: [
-          { left: '$$', right: '$$', display: true },
-          { left: '$', right: '$', display: false },
-          { left: '\\(', right: '\\)', display: false },
-          { left: '\\[', right: '\\]', display: true }
-        ],
-        // • rendering keys, e.g.:
-        throwOnError: false
+      const mathElements = document.querySelectorAll('.math, .math-inline, .math-display');
+      mathElements.forEach(element => {
+        katex.render(element.textContent, element, {
+          displayMode: element.classList.contains('math-display')
+        });
       });
     });
   </script>
   <!-- END: 插件 -->
-  <title>各插件测试</title>
+  <title>博客功能测试</title>
 </head>
 
 <body lang="zh-Hans-CN">
@@ -79,13 +75,15 @@
     </div>
   </header>
   <code class="toc-float">
+    <span class="toggle-btn">收起</span>
+    
 <ul id="toc"></ul></code>
   <main class="container">
     <!-- class=content 的元素在其他模板-->
     
 <div class="content">
     <h2>mermaid 绘图</h2>
-<p>直接使用 <code>&lt;pre class=&quot;mermaid&quot;&gt;</code> 标签</p>
+<p>直接使用 <code>&lt;pre class="mermaid"&gt;</code> 标签</p>
 <pre class="mermaid">
 flowchart LR
 
@@ -95,7 +93,23 @@ C -->|One| D[Result 1]
 C -->|Two| E[Result 2]
 </pre>
 <h2>KATEX</h2>
-<p>这是一个数学公式 \(E = mc^2\) 的例子。</p>
+<p>这是一个数学公式 <span class="math math-inline">E = mc^2</span> 的例子。</p>
+<h2>自定义</h2>
+<blockquote class="markdown-alert-note">
+<p>Highlights information that users should take into account, even when skimming.</p>
+</blockquote>
+<blockquote class="markdown-alert-tip">
+<p>Optional information to help a user be more successful.</p>
+</blockquote>
+<blockquote class="markdown-alert-important">
+<p>Crucial information necessary for users to succeed.</p>
+</blockquote>
+<blockquote class="markdown-alert-warning">
+<p>Critical content demanding immediate user attention due to potential risks.</p>
+</blockquote>
+<blockquote class="markdown-alert-caution">
+<p>Negative potential consequences of an action.</p>
+</blockquote>
 
 </div>
 
@@ -134,8 +148,17 @@ C -->|Two| E[Result 2]
     $("#toc").toc({ content: "div.content", headings: "h1,h2,h3,h4" });
   </script>
   <script>
+    document.querySelector('.toggle-btn').addEventListener('click', function () {
+      const tocFloat = document.querySelector('.toc-float');
+      tocFloat.classList.toggle('collapsed');
+      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+    });
+
     function createCalendar(year, month) {
       const calendarEl = document.getElementById('calendar');
+      if (!calendarEl) {
+        return; // 如果元素不存在，则不执行后续代码
+      }
       const table = document.createElement('table');
       const header = table.createTHead();
       const headerRow = header.insertRow();

@@ -1,3 +1,117 @@
+.toc-float.collapsed {
+    max-height: 1rem; /* 收起时的高度 */
+}
+
+/* Note 提示 */
+.markdown-alert-note {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #e9f7ef;
+    color: #155724;
+    position: relative;
+}
+
+/* Tip 提示 */
+.markdown-alert-tip {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #b8daff;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #e2f0fd;
+    color: #004085;
+    position: relative;
+}
+
+/* Important 提示 */
+.markdown-alert-important {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ffeeba;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #fff3cd;
+    color: #856404;
+    position: relative;
+}
+
+/* Warning 提示 */
+.markdown-alert-warning {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #f8d7da;
+    color: #721c24;
+    position: relative;
+}
+
+/* Caution 提示 */
+.markdown-alert-caution {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #e0cffc;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #f3e8ff;
+    color: #6f42c1;
+    position: relative;
+}
+
+/* 内容样式 */
+.markdown-alert-note p,
+.markdown-alert-tip p,
+.markdown-alert-important p,
+.markdown-alert-warning p,
+.markdown-alert-caution p {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 图标样式（可选） */
+.markdown-alert-note::before,
+.markdown-alert-tip::before,
+.markdown-alert-important::before,
+.markdown-alert-warning::before,
+.markdown-alert-caution::before {
+    font-family: "FontAwesome";
+    margin-right: 10px;
+    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    top: 15px;
+    left: 15px;
+}
+
+.markdown-alert-note::before {
+    content: "\f05a"; /* 信息图标 */
+}
+
+.markdown-alert-tip::before {
+    content: "\f0eb"; /* 灯泡图标 */
+}
+
+.markdown-alert-important::before {
+    content: "\f06a"; /* 警告图标 */
+}
+
+.markdown-alert-warning::before {
+    content: "\f071"; /* 警告三角图标 */
+}
+
+.markdown-alert-caution::before {
+    content: "\f0e7"; /* 闪电图标 */
+}
+
 /* 启用连字 */
 body {
     font-variant-ligatures: normal;
@@ -106,8 +220,8 @@ ul#toc {
     }
 }
 
-details,
-blockquote {
+
+details {
     border: 1px solid #ccc !important;
     border-color: #000 !important;
     padding: 14px;

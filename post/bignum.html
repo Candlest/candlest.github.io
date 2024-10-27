@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 引入FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- 插件 -->
   <!--Jquery-->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"
@@ -35,17 +37,11 @@
       });
 
       // KATEX
-      renderMathInElement(document.body, {
-        // customised options
-        // • auto-render specific keys, e.g.:
-        delimiters: [
-          { left: '$$', right: '$$', display: true },
-          { left: '$', right: '$', display: false },
-          { left: '\\(', right: '\\)', display: false },
-          { left: '\\[', right: '\\]', display: true }
-        ],
-        // • rendering keys, e.g.:
-        throwOnError: false
+      const mathElements = document.querySelectorAll('.math, .math-inline, .math-display');
+      mathElements.forEach(element => {
+        katex.render(element.textContent, element, {
+          displayMode: element.classList.contains('math-display')
+        });
       });
     });
   </script>
@@ -79,13 +75,15 @@
     </div>
   </header>
   <code class="toc-float">
+    <span class="toggle-btn">收起</span>
+    
 <ul id="toc"></ul></code>
   <main class="container">
     <!-- class=content 的元素在其他模板-->
     
 <div class="content">
     <h1>高精度算法</h1>
-<p>在 C++ 的整数体系下，整数的数据类型最高占据八字节，即 $2^{64}$，但是往往会遇到超出这个范围的运算。</p>
+<p>在 C++ 的整数体系下，整数的数据类型最高占据八字节，即 <span class="math math-inline">2^{64}</span>，但是往往会遇到超出这个范围的运算。</p>
 <p>下面是定义在 C99 标准 <code>cstdint</code> 下的整型：</p>
 <pre><code class="language-cpp">typedef signed char        int8_t;
 typedef short              int16_t;
@@ -103,34 +101,14 @@ typedef unsigned long long uint64_t;
 <pre><code class="language-cpp">short num = str[i] - '0';
 </code></pre>
 <h2>加法</h2>
-<p>$$a+b=c$$</p>
+<p><span class="math math-display">a+b=c</span></p>
 <p>我们的操作流程如下：</p>
-<table>
-<thead>
-<tr>
-<th>操作</th>
-<th>实例</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>获取数据</td>
-<td>a=100, b=25</td>
-</tr>
-<tr>
-<td>补齐位数</td>
-<td>a=100, b=025</td>
-</tr>
-<tr>
-<td>倒序逐位相加（包含进位操作）</td>
-<td>c=521</td>
-</tr>
-<tr>
-<td>倒转c</td>
-<td>c=125</td>
-</tr>
-</tbody>
-</table>
+<table><thead><tr><th>操作</th><th>实例</th></tr></thead><tbody>
+<tr><td>获取数据</td><td>a=100, b=25</td></tr>
+<tr><td>补齐位数</td><td>a=100, b=025</td></tr>
+<tr><td>倒序逐位相加（包含进位操作）</td><td>c=521</td></tr>
+<tr><td>倒转c</td><td>c=125</td></tr>
+</tbody></table>
 <p>利用 <code>string</code> 头文件提供的方法，我们可以很快地完成大部分步骤：</p>
 <pre><code class="language-cpp">std::string addStrings(std::string num1, std::string num2) {
     // 确保 num1 是较长的字符串
@@ -157,10 +135,10 @@ typedef unsigned long long uint64_t;
 <p>下面我们来实现其中最重要的<strong>逐位相加</strong>步骤。</p>
 <h3>逐位相加</h3>
 <p>在每一步的循环中：</p>
-<p>$$\forall digit_1, digit_2 \in [0,9] $$</p>
-<p>$$digit_3 = digit_1 + digit_2 \in [0, 18]$$</p>
-<p>$$digit_3 \mid 10 = 0 或 1$$</p>
-<p>$$digit_3 \mod 10 \in [0, 9]$$</p>
+<p><span class="math math-display">\forall digit_1, digit_2 \in [0,9] </span></p>
+<p><span class="math math-display">digit_3 = digit_1 + digit_2 \in [0, 18]</span></p>
+<p><span class="math math-display">digit_3 \mid 10 = 0 或 1</span></p>
+<p><span class="math math-display">digit_3 \mod 10 \in [0, 9]</span></p>
 <pre><code class="language-cpp">int sum = (num1[i] - '0') + (num2[i] - '0') + carry; // 处理上一步的进位
 carry = sum / 10; // carry 代表进位
 result.push_back((sum % 10) + '0');
@@ -205,11 +183,11 @@ std::string addStrings(std::string num1, std::string num2) {
 }
 
 int main() {
-    std::string num1 = &quot;12345678901234567890&quot;;
-    std::string num2 = &quot;98765432109876543210&quot;;
+    std::string num1 = "12345678901234567890";
+    std::string num2 = "98765432109876543210";
 
     std::string result = addStrings(num1, num2);
-    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Result: " &lt;&lt; result &lt;&lt; std::endl;
 
     return 0;
 }
@@ -232,8 +210,8 @@ bool isGreaterOrEqual(const std::string&amp; num1, const std::string&amp; num2) 
 }
 </code></pre>
 <h3>借位</h3>
-<p>$$\forall digit_1, digit_2 \in [0,9] $$</p>
-<p>$$digit_3 = digit_1 - digit_2 \in [-9, 9]$$</p>
+<p><span class="math math-display">\forall digit_1, digit_2 \in [0,9] </span></p>
+<p><span class="math math-display">digit_3 = digit_1 - digit_2 \in [-9, 9]</span></p>
 <p>我们可以先直接相减相应位数字，再根据正负号决定是否借位：</p>
 <pre><code class="language-cpp">// 从后往前逐位相减
 for (int i = num1.length() - 1; i &gt;= 0; --i) {
@@ -303,11 +281,11 @@ std::string subtractStrings(std::string num1, std::string num2) {
 }
 
 int main() {
-    std::string num1 = &quot;12345678901234567890&quot;;
-    std::string num2 = &quot;9876543210987654321&quot;;
+    std::string num1 = "12345678901234567890";
+    std::string num2 = "9876543210987654321";
 
     std::string result = subtractStrings(num1, num2);
-    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Result: " &lt;&lt; result &lt;&lt; std::endl;
 
     return 0;
 }
@@ -315,15 +293,15 @@ int main() {
 <h2>乘法</h2>
 <h3>证明 num3.len ≤ num1.len + num2.len</h3>
 <p>要证明两个大整数 <code>num1</code> 和 <code>num2</code> 相乘的结果 <code>num3</code> 的长度最多为 <code>num1.len + num2.len</code>，我们可以通过数学推导来证明这一点。</p>
-<p>$$不妨取最大值： num_1 = 10^m - 1, num_2 = 10^n - 1$$</p>
-<p>$$那么num_3 = num_1 * num_2 = 10^{m+n} - 10^m - 10^n - 1$$</p>
-<p>$$显然 10^{m+n-1} &gt; 10^m + 10^n + 1$$</p>
-<p>$$故 num_3 的最大位数为 m+n$$</p>
+<p><span class="math math-display">不妨取最大值： num_1 = 10^m - 1, num_2 = 10^n - 1</span></p>
+<p><span class="math math-display">那么num_3 = num_1 * num_2 = 10^{m+n} - 10^m - 10^n - 1</span></p>
+<p><span class="math math-display">显然 10^{m+n-1} &gt; 10^m + 10^n + 1</span></p>
+<p><span class="math math-display">故 num_3 的最大位数为 m+n</span></p>
 <h3>进位处理</h3>
-<p>$$\forall digit_1, digit_2 \in [0,9] $$</p>
-<p>$$digit_3 = digit_1 \cdot digit_2 \in [0, 81]$$</p>
-<p>$$digit_3 \mid 10 \in [0, 8]$$</p>
-<p>$$digit_3 \mod 10 \in [0, 9]$$</p>
+<p><span class="math math-display">\forall digit_1, digit_2 \in [0,9] </span></p>
+<p><span class="math math-display">digit_3 = digit_1 \cdot digit_2 \in [0, 81]</span></p>
+<p><span class="math math-display">digit_3 \mid 10 \in [0, 8]</span></p>
+<p><span class="math math-display">digit_3 \mod 10 \in [0, 9]</span></p>
 <p>类似加法，但是此处为双层循环，模拟乘法竖式运算：</p>
 <pre><code class="language-cpp">// 结果的长度最多为 len1 + len2，初始化为 0
 std::vector&lt;int&gt; result(len1 + len2, 0);
@@ -342,8 +320,7 @@ for (int i = len1 - 1; i &gt;= 0; --i) {
 <li>在逐位相乘的过程中，我们需要将每一位的乘积结果累加到正确的位置。具体来说，<code>num1</code> 的第 <code>i</code> 位和 <code>num2</code> 的第 <code>j</code> 位的乘积应该累加到结果数组的 <code>i + j + 1</code> 位置。</li>
 <li>与此同时，进位应该被放置到结果数组的 <code>i + j</code>  位置。</li>
 </ul>
-<blockquote>
-<p>[!TIP]</p>
+<blockquote class="markdown-alert-tip">
 <p>如果还是有点懵懂，列个竖式模拟这个过程是一个好方法。</p>
 </blockquote>
 <h3>vector2string</h3>
@@ -366,9 +343,9 @@ std::string multiplyStrings(const std::string&amp; num1, const std::string&amp; 
     int len1 = num1.length();
     int len2 = num2.length();
 
-    // 如果其中一个数为零，直接返回 &quot;0&quot;
-    if (len1 == 0 || len2 == 0 || num1 == &quot;0&quot; || num2 == &quot;0&quot;) {
-        return &quot;0&quot;;
+    // 如果其中一个数为零，直接返回 "0"
+    if (len1 == 0 || len2 == 0 || num1 == "0" || num2 == "0") {
+        return "0";
     }
 
     // 结果的长度最多为 len1 + len2
@@ -392,20 +369,20 @@ std::string multiplyStrings(const std::string&amp; num1, const std::string&amp; 
         }
     }
 
-    // 如果结果为空，返回 &quot;0&quot;
+    // 如果结果为空，返回 "0"
     if (resultStr.empty()) {
-        return &quot;0&quot;;
+        return "0";
     }
 
     return resultStr;
 }
 
 int main() {
-    std::string num1 = &quot;12345678901234567890&quot;;
-    std::string num2 = &quot;98765432109876543210&quot;;
+    std::string num1 = "12345678901234567890";
+    std::string num2 = "98765432109876543210";
 
     std::string result = multiplyStrings(num1, num2);
-    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Result: " &lt;&lt; result &lt;&lt; std::endl;
 
     return 0;
 }
@@ -475,156 +452,156 @@ int main() {
 <p>假设我们要计算 <code>12345678901234567890</code> 除以 <code>123456789</code> 的结果。</p>
 <p>初始状态：</p>
 <ul>
-<li><code>quotient</code> = &quot;&quot;</li>
-<li><code>remainder</code> = &quot;&quot;</li>
+<li><code>quotient</code> = “”</li>
+<li><code>remainder</code> = “”</li>
 </ul>
 <p>逐位处理：</p>
 <ol>
 <li>
 <p><strong>处理第一位 <code>1</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;1&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0&quot;</li>
+<li><code>remainder</code> = “1”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “0”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第二位 <code>2</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;12&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00&quot;</li>
+<li><code>remainder</code> = “12”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “00”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第三位 <code>3</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;123&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000&quot;</li>
+<li><code>remainder</code> = “123”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第四位 <code>4</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;1234&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000&quot;</li>
+<li><code>remainder</code> = “1234”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “0000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第五位 <code>5</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;12345&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000&quot;</li>
+<li><code>remainder</code> = “12345”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “00000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第六位 <code>6</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;123456&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000000&quot;</li>
+<li><code>remainder</code> = “123456”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “000000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第七位 <code>7</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;1234567&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000&quot;</li>
+<li><code>remainder</code> = “1234567”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “0000000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第八位 <code>8</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;12345678&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000000&quot;</li>
+<li><code>remainder</code> = “12345678”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “00000000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第九位 <code>9</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;123456789&quot;</li>
-<li><code>remainder</code> &gt;= <code>num2</code>，进行减法：<code>remainder</code> = &quot;0&quot;，<code>quotient</code> = &quot;000000001&quot;</li>
+<li><code>remainder</code> = “123456789”</li>
+<li><code>remainder</code> &gt;= <code>num2</code>，进行减法：<code>remainder</code> = “0”，<code>quotient</code> = “000000001”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十位 <code>0</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;00&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000010&quot;</li>
+<li><code>remainder</code> = “00”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “0000000010”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十一位 <code>1</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;001&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000000100&quot;</li>
+<li><code>remainder</code> = “001”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “00000000100”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十二位 <code>2</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;0012&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000000001000&quot;</li>
+<li><code>remainder</code> = “0012”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “000000001000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十三位 <code>3</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;00123&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000010000&quot;</li>
+<li><code>remainder</code> = “00123”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “0000000010000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十四位 <code>4</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;001234&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000000100000&quot;</li>
+<li><code>remainder</code> = “001234”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “00000000100000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十五位 <code>5</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;0012345&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000000001000000&quot;</li>
+<li><code>remainder</code> = “0012345”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “000000001000000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十六位 <code>6</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;00123456&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000010000000&quot;</li>
+<li><code>remainder</code> = “00123456”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “0000000010000000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十七位 <code>7</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;001234567&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;00000000100000000&quot;</li>
+<li><code>remainder</code> = “001234567”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “00000000100000000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十八位 <code>8</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;0012345678&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;000000001000000000&quot;</li>
+<li><code>remainder</code> = “0012345678”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “000000001000000000”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第十九位 <code>9</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;00123456789&quot;</li>
-<li><code>remainder</code> &gt;= <code>num2</code>，进行减法：<code>remainder</code> = &quot;0&quot;，<code>quotient</code> = &quot;000000001000000001&quot;</li>
+<li><code>remainder</code> = “00123456789”</li>
+<li><code>remainder</code> &gt;= <code>num2</code>，进行减法：<code>remainder</code> = “0”，<code>quotient</code> = “000000001000000001”</li>
 </ul>
 </li>
 <li>
 <p><strong>处理第二十位 <code>0</code></strong>：</p>
 <ul>
-<li><code>remainder</code> = &quot;00&quot;</li>
-<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = &quot;0000000010000000010&quot;</li>
+<li><code>remainder</code> = “00”</li>
+<li><code>remainder</code> &lt; <code>num2</code>，所以 <code>quotient</code> = “0000000010000000010”</li>
 </ul>
 </li>
 </ol>
 <p>最终结果：</p>
 <ul>
-<li><code>quotient</code> = &quot;1000000000100000000&quot;</li>
-<li><code>remainder</code> = &quot;0&quot;</li>
+<li><code>quotient</code> = “1000000000100000000”</li>
+<li><code>remainder</code> = “0”</li>
 </ul>
 <p>总结</p>
 <ul>
@@ -673,12 +650,12 @@ std::string subtractStrings(const std::string&amp; num1, const std::string&amp; 
 
 // 高精度除法
 std::string divideStrings(const std::string&amp; num1, const std::string&amp; num2) {
-    if (num2 == &quot;0&quot;) {
-        throw std::runtime_error(&quot;Division by zero&quot;);
+    if (num2 == "0") {
+        throw std::runtime_error("Division by zero");
     }
 
-    std::string quotient = &quot;&quot;;
-    std::string remainder = &quot;&quot;;
+    std::string quotient = "";
+    std::string remainder = "";
     int len1 = num1.length();
     int len2 = num2.length();
 
@@ -703,11 +680,11 @@ std::string divideStrings(const std::string&amp; num1, const std::string&amp; nu
 }
 
 int main() {
-    std::string num1 = &quot;12345678901234567890&quot;;
-    std::string num2 = &quot;123456789&quot;;
+    std::string num1 = "12345678901234567890";
+    std::string num2 = "123456789";
 
     std::string result = divideStrings(num1, num2);
-    std::cout &lt;&lt; &quot;Result: &quot; &lt;&lt; result &lt;&lt; std::endl;
+    std::cout &lt;&lt; "Result: " &lt;&lt; result &lt;&lt; std::endl;
 
     return 0;
 }
@@ -753,8 +730,17 @@ int main() {
     $("#toc").toc({ content: "div.content", headings: "h1,h2,h3,h4" });
   </script>
   <script>
+    document.querySelector('.toggle-btn').addEventListener('click', function () {
+      const tocFloat = document.querySelector('.toc-float');
+      tocFloat.classList.toggle('collapsed');
+      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+    });
+
     function createCalendar(year, month) {
       const calendarEl = document.getElementById('calendar');
+      if (!calendarEl) {
+        return; // 如果元素不存在，则不执行后续代码
+      }
       const table = document.createElement('table');
       const header = table.createTHead();
       const headerRow = header.insertRow();

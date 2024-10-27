@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 引入FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- 插件 -->
   <!--Jquery-->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"
@@ -35,17 +37,11 @@
       });
 
       // KATEX
-      renderMathInElement(document.body, {
-        // customised options
-        // • auto-render specific keys, e.g.:
-        delimiters: [
-          { left: '$$', right: '$$', display: true },
-          { left: '$', right: '$', display: false },
-          { left: '\\(', right: '\\)', display: false },
-          { left: '\\[', right: '\\]', display: true }
-        ],
-        // • rendering keys, e.g.:
-        throwOnError: false
+      const mathElements = document.querySelectorAll('.math, .math-inline, .math-display');
+      mathElements.forEach(element => {
+        katex.render(element.textContent, element, {
+          displayMode: element.classList.contains('math-display')
+        });
       });
     });
   </script>
@@ -79,6 +75,8 @@
     </div>
   </header>
   <code class="toc-float">
+    <span class="toggle-btn">收起</span>
+    
 <ul id="toc"></ul></code>
   <main class="container">
     <!-- class=content 的元素在其他模板-->
@@ -86,12 +84,12 @@
 <div class="content">
     <h1>进制转换</h1>
 <p>进制转换的数学原理基于数的位值表示法。在任何进制系统中，一个数可以表示为一系列数字的和，每个数字乘以它所在位置的位值。位值是基数（进制）的幂，从最右边的位置开始，幂指数从0开始递增。</p>
-<p>$$
+<p><span class="math math-display">
 (56)_{10} = 5 \times 10^1 + 6 \times 10^0
-$$
-$$
+</span>
+<span class="math math-display">
 (1101)_2 = 1 \times 2^3 + 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0
-$$</p>
+</span></p>
 <p>基于以上原理，我们先来写一个简单的 2 进制到 10 进制的程序：</p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 #include &lt;vector&gt;
@@ -137,7 +135,7 @@ int main(){
 <pre><code class="language-cpp">int OthertoDEC(string str, int radix){
     // 错误处理
     if(radix &lt; 2 || radix &gt; 16)
-        return &quot;error&quot;;
+        return "error";
     int n = str.length(), ans = 0;
     for (int i = 0; i &lt; n; i++){
         ans += (str[i] - '0') * pow(radix, n - i - 1);
@@ -148,7 +146,7 @@ int main(){
 string DECtoOther(int dec, int radix){
     // 错误处理
     if(radix &lt; 2 || radix &gt; 16)
-        return &quot;error&quot;;
+        return "error";
     stack&lt;int&gt; place;
     while(true){
         place.push(dec%radix);
@@ -168,7 +166,7 @@ string DECtoOther(int dec, int radix){
 </code></pre>
 <p>目前，我们已经实现了 2 ~ 10 进制的互相转换，接下来讨论涉及到字母的转换。</p>
 <p>// TODO</p>
-<p>最后，我们以10进制为中转站，实现从 n 进制到10进制再到 m 进制的转换，其中 $n, m \in \Z 且 2 \leq n \leq 36$ 。</p>
+<p>最后，我们以10进制为中转站，实现从 n 进制到10进制再到 m 进制的转换，其中 <span class="math math-inline">n, m \in \Z 且 2 \leq n \leq 36</span> 。</p>
 <p>// TODO</p>
 
 </div>
@@ -208,8 +206,17 @@ string DECtoOther(int dec, int radix){
     $("#toc").toc({ content: "div.content", headings: "h1,h2,h3,h4" });
   </script>
   <script>
+    document.querySelector('.toggle-btn').addEventListener('click', function () {
+      const tocFloat = document.querySelector('.toc-float');
+      tocFloat.classList.toggle('collapsed');
+      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+    });
+
     function createCalendar(year, month) {
       const calendarEl = document.getElementById('calendar');
+      if (!calendarEl) {
+        return; // 如果元素不存在，则不执行后续代码
+      }
       const table = document.createElement('table');
       const header = table.createTHead();
       const headerRow = header.insertRow();

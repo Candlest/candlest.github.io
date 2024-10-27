@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 引入FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- 插件 -->
   <!--Jquery-->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"
@@ -35,17 +37,11 @@
       });
 
       // KATEX
-      renderMathInElement(document.body, {
-        // customised options
-        // • auto-render specific keys, e.g.:
-        delimiters: [
-          { left: '$$', right: '$$', display: true },
-          { left: '$', right: '$', display: false },
-          { left: '\\(', right: '\\)', display: false },
-          { left: '\\[', right: '\\]', display: true }
-        ],
-        // • rendering keys, e.g.:
-        throwOnError: false
+      const mathElements = document.querySelectorAll('.math, .math-inline, .math-display');
+      mathElements.forEach(element => {
+        katex.render(element.textContent, element, {
+          displayMode: element.classList.contains('math-display')
+        });
       });
     });
   </script>
@@ -79,6 +75,8 @@
     </div>
   </header>
   <code class="toc-float">
+    <span class="toggle-btn">收起</span>
+    
 <ul id="toc"></ul></code>
   <main class="container">
     <!-- class=content 的元素在其他模板-->
@@ -92,10 +90,10 @@
 <h2>桌面环境</h2>
 <h3>微软拼音输入法：快捷输入标准 DateTime 字符串</h3>
 <p>设置路径：<code>时间和语言 &gt; 语言和区域 &gt; 微软拼音输入法 &gt; 用户自定义短语</code></p>
-<p>添加新条目：<code>[&quot;dt&quot;, &quot;%yyyy%-%MM%-%dd%T%HH%:%mm%:%ss%&quot;]</code></p>
+<p>添加新条目：<code>["dt", "%yyyy%-%MM%-%dd%T%HH%:%mm%:%ss%"]</code></p>
 <h3>Win11：使用旧版右键菜单</h3>
 <p>更改注册表并重启资源管理器：</p>
-<pre><code class="language-bat">reg add &quot;HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32&quot; /f /ve
+<pre><code class="language-bat">reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
 tskill explorer
 explorer
 </code></pre>
@@ -113,8 +111,8 @@ explorer
 winget source add winget https://mirrors.ustc.edu.cn/winget-source
 </code></pre>
 <h4>git 注册邮箱用户</h4>
-<pre><code class="language-bash">git config --global user.name &quot;username&quot;
-git config --global user.email &quot;email&quot;
+<pre><code class="language-bash">git config --global user.name "username"
+git config --global user.email "email"
 </code></pre>
 
 </div>
@@ -154,8 +152,17 @@ git config --global user.email &quot;email&quot;
     $("#toc").toc({ content: "div.content", headings: "h1,h2,h3,h4" });
   </script>
   <script>
+    document.querySelector('.toggle-btn').addEventListener('click', function () {
+      const tocFloat = document.querySelector('.toc-float');
+      tocFloat.classList.toggle('collapsed');
+      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+    });
+
     function createCalendar(year, month) {
       const calendarEl = document.getElementById('calendar');
+      if (!calendarEl) {
+        return; // 如果元素不存在，则不执行后续代码
+      }
       const table = document.createElement('table');
       const header = table.createTHead();
       const headerRow = header.insertRow();

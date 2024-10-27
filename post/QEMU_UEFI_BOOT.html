@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 引入FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- 插件 -->
   <!--Jquery-->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"
@@ -35,17 +37,11 @@
       });
 
       // KATEX
-      renderMathInElement(document.body, {
-        // customised options
-        // • auto-render specific keys, e.g.:
-        delimiters: [
-          { left: '$$', right: '$$', display: true },
-          { left: '$', right: '$', display: false },
-          { left: '\\(', right: '\\)', display: false },
-          { left: '\\[', right: '\\]', display: true }
-        ],
-        // • rendering keys, e.g.:
-        throwOnError: false
+      const mathElements = document.querySelectorAll('.math, .math-inline, .math-display');
+      mathElements.forEach(element => {
+        katex.render(element.textContent, element, {
+          displayMode: element.classList.contains('math-display')
+        });
       });
     });
   </script>
@@ -79,22 +75,20 @@
     </div>
   </header>
   <code class="toc-float">
+    <span class="toggle-btn">收起</span>
+    
 <ul id="toc"></ul></code>
   <main class="container">
     <!-- class=content 的元素在其他模板-->
     
 <div class="content">
     <h1>从 UEFI 启动</h1>
-<p>UEFI<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> 是 BIOS 的继承者，让我们不用再关心实模式和保护模式了， 也不用写读取扇区的汇编了，它也提供了更多的工具和信息为操作系统服务。总之，操作系统的 Boot 环节变得简单了。</p>
+<p>UEFI<sup class="footnote-reference"><a href="#1">1</a></sup> 是 BIOS 的继承者，让我们不用再关心实模式和保护模式了， 也不用写读取扇区的汇编了，它也提供了更多的工具和信息为操作系统服务。总之，操作系统的 Boot 环节变得简单了。</p>
 <h2>UEFI Shell</h2>
 <h2></h2>
-<section data-footnotes="" class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
-<ol>
-<li id="user-content-fn-1">
-<p><a href="https://en.wikipedia.org/wiki/UEFI">https://en.wikipedia.org/wiki/UEFI</a> <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to content" class="data-footnote-backref">↩</a></p>
-</li>
-</ol>
-</section>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>https://en.wikipedia.org/wiki/UEFI</p>
+</div>
 
 </div>
 
@@ -133,8 +127,17 @@
     $("#toc").toc({ content: "div.content", headings: "h1,h2,h3,h4" });
   </script>
   <script>
+    document.querySelector('.toggle-btn').addEventListener('click', function () {
+      const tocFloat = document.querySelector('.toc-float');
+      tocFloat.classList.toggle('collapsed');
+      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+    });
+
     function createCalendar(year, month) {
       const calendarEl = document.getElementById('calendar');
+      if (!calendarEl) {
+        return; // 如果元素不存在，则不执行后续代码
+      }
       const table = document.createElement('table');
       const header = table.createTHead();
       const headerRow = header.insertRow();
