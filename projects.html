@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 引入FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- 插件 -->
   <!--Jquery-->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"
@@ -35,17 +37,11 @@
       });
 
       // KATEX
-      renderMathInElement(document.body, {
-        // customised options
-        // • auto-render specific keys, e.g.:
-        delimiters: [
-          { left: '$$', right: '$$', display: true },
-          { left: '$', right: '$', display: false },
-          { left: '\\(', right: '\\)', display: false },
-          { left: '\\[', right: '\\]', display: true }
-        ],
-        // • rendering keys, e.g.:
-        throwOnError: false
+      const mathElements = document.querySelectorAll('.math, .math-inline, .math-display');
+      mathElements.forEach(element => {
+        katex.render(element.textContent, element, {
+          displayMode: element.classList.contains('math-display')
+        });
       });
     });
   </script>
@@ -62,6 +58,7 @@
             <a href="/">Home</a> |
             <a href="/friends.html">Friends</a> |
             <a href="/projects.html">Projects</a> |
+            <a href="https://channel.candlest.cc">Channel</a> |
             <a href="/about.html">About</a>
             <code class="nav-right">
 <code class="post-meta">@项目</code>
@@ -72,11 +69,90 @@
     </div>
   </header>
   <code class="toc-float">
+    <span class="toggle-btn">收起</span>
+    
     <div id="calendar" class="calendar"></div>
     <ul id="toc"></ul></code>
   <main class="container">
     <!-- class=content 的元素在其他模板-->
     
+
+<!-- JavaScript 实现排序功能 -->
+<script>
+    let posts = []; // 定义一个空数组来存储 posts
+
+    // 使用 fetch 获取 posts.json 数据
+    fetch('posts.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            posts = data; // 将获取到的数据存储在 posts 数组中
+            console.log('Success:', posts);
+            sortPosts(); // 获取数据后立即调用 sortPosts 函数
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+
+    function sortPosts() {
+        const sortBy = document.getElementById('sort-select').value;
+        const postList = document.getElementById('post-list');
+        postList.innerHTML = '';
+
+        if (sortBy === 'time') {
+            posts.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(post => {
+                const li = document.createElement('li');
+                li.className = 'post-li';
+                li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
+                postList.appendChild(li);
+            });
+        } else if (sortBy === 'tag') {
+            const tagsDict = {};
+            posts.forEach(post => {
+                post.tags.forEach(tag => {
+                    if (!tagsDict[tag]) {
+                        tagsDict[tag] = [];
+                    }
+                    tagsDict[tag].push(post);
+                });
+            });
+            for (const tag in tagsDict) {
+                const h4 = document.createElement('h4');
+                h4.textContent = tag;
+                postList.appendChild(h4);
+                tagsDict[tag].forEach(post => {
+                    const li = document.createElement('li');
+                    li.className = 'post-li';
+                    li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
+                    postList.appendChild(li);
+                });
+            }
+        } else if (sortBy === 'category') {
+            const categoriesDict = {};
+            posts.forEach(post => {
+                if (!categoriesDict[post.categories]) {
+                    categoriesDict[post.categories] = [];
+                }
+                categoriesDict[post.categories].push(post);
+            });
+            for (const category in categoriesDict) {
+                const h4 = document.createElement('h4');
+                h4.textContent = category;
+                postList.appendChild(h4);
+                categoriesDict[category].forEach(post => {
+                    const li = document.createElement('li');
+                    li.className = 'post-li';
+                    li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
+                    postList.appendChild(li);
+                });
+            }
+        }
+    }
+</script>
 <h2>项目</h2>
 <ul>
 <li>
@@ -92,6 +168,7 @@
 <p><a href="https://github.com/nakanomikuorg/arch-guide">arch-guide</a>:  archlinux 简明指南#6贡献者</p>
 </li>
 </ul>
+
 
     <script src="https://giscus.app/client.js" data-repo="Candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
       data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="url" data-strict="0"
@@ -128,8 +205,17 @@
     $("#toc").toc({ content: "div.content", headings: "h1,h2,h3,h4" });
   </script>
   <script>
+    document.querySelector('.toggle-btn').addEventListener('click', function () {
+      const tocFloat = document.querySelector('.toc-float');
+      tocFloat.classList.toggle('collapsed');
+      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+    });
+
     function createCalendar(year, month) {
       const calendarEl = document.getElementById('calendar');
+      if (!calendarEl) {
+        return; // 如果元素不存在，则不执行后续代码
+      }
       const table = document.createElement('table');
       const header = table.createTHead();
       const headerRow = header.insertRow();
