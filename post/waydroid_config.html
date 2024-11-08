@@ -46,7 +46,7 @@
     });
   </script>
   <!-- END: 插件 -->
-  <title>Windows 优化记录</title>
+  <title>配置 Waydroid</title>
 </head>
 
 <body lang="zh-Hans-CN">
@@ -63,10 +63,10 @@
             <code class="nav-right">
 <code class="post-meta">
     
-    #windows    
+    #linux    
     
     [configs]
-    <br><time datetime="2024-07-02T20:01:58">N: 2024-07-02T20:01:58</time>
+    <br><time datetime="2024-11-07T21:02:35">N: 2024-11-07T21:02:35</time>
     
 </code>
 </code>
@@ -83,38 +83,43 @@
     <!-- class=content 的元素在其他模板-->
     
 <div class="content">
-    <h1>Windows 优化记录</h1>
-<blockquote>
-<p>Linux 在小文件读写、环境搭建和编译速度等方面显著优于 Windows 系统，但是出于对 QQ, Wechat(Enterprise) etc. 的需要，我们仍然需要一个 Windows 环境。</p>
-</blockquote>
-<p>本记录长期更新，最后更新于 2024年7月2日。</p>
-<h2>桌面环境</h2>
-<h3>微软拼音输入法：快捷输入标准 DateTime 字符串</h3>
-<p>设置路径：<code>时间和语言 &gt; 语言和区域 &gt; 微软拼音输入法 &gt; 用户自定义短语</code></p>
-<p>添加新条目：<code>["dt", "%yyyy%-%MM%-%dd%T%HH%:%mm%:%ss%"]</code></p>
-<h3>Win11：使用旧版右键菜单</h3>
-<p>更改注册表并重启资源管理器：</p>
-<pre><code class="language-bat">reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
-tskill explorer
-explorer
+    <h1>Waydroid 配置</h1>
+<p>一年前在知乎写了一份<a href="https://zhuanlan.zhihu.com/p/643889264">相似的文章</a>，但是现在 Waydroid 的体验已经很不错了。</p>
+<h2>安装 Waydroid</h2>
+<h3>安装内核模块</h3>
+<p>由于我使用 <code>linux-zen</code> 内核，省略了配置 dkms 的步骤，可以在 <a href="https://wiki.archlinux.org/title/Waydroid#Kernel_Modules">wiki</a> 查看</p>
+<h3>安装 Waydroid</h3>
+<pre><code class="language-bash">sudo pacman -S waydroid-image-gapps waydroid lua-filesystem lua-alt-getopt
 </code></pre>
-<p>碎碎念：windows 终端有一点好就是在终端启动程序都是 <code>fork()</code> 而非 <code>exec()</code> 。</p>
-<h3>ContextMenuManager：整理右键菜单</h3>
-<p>ContextMenuManager：<a href="https://github.com/BluePointLilac/ContextMenuManager">一个纯粹的Windows右键菜单管理程序</a></p>
-<h2>常用软件</h2>
-<h3>文件类</h3>
-<p>7zip, Everything, SpaceSniffer</p>
-<h3>（泛）编程类</h3>
-<p><a href="https://winget.run/">winget</a>, git, vscode, windows-terminal</p>
-<h4>winget 启用国内源</h4>
-<p>替换 USTC 镜像：</p>
-<pre><code class="language-powershell">winget source remove winget
-winget source add winget https://mirrors.ustc.edu.cn/winget-source
+<h3>初始化容器（并重启）</h3>
+<pre><code class="language-bash">sudo waydroid init -s GAPPS -f
 </code></pre>
-<h4>git 注册邮箱用户</h4>
-<pre><code class="language-bash">git config --global user.name "username"
-git config --global user.email "email"
+<h3>开启服务</h3>
+<pre><code class="language-bash">sudo systemctl enable --now waydroid-container
 </code></pre>
+<h3>若网络遇到问题，检查内核是否开启转发</h3>
+<pre><code class="language-bash"># 都需要为 1
+sudo sysctl -a | grep net.ipv4.ip_forward
+sudo sysctl -a | grep net.ipv4.conf.all.forwarding
+sudo sysctl -a | grep net.ipv6.conf.all.forwarding
+# 若不为 1 则修改
+sudo sysctl net.ipv6.conf.all.forwarding=1
+</code></pre>
+<h3>解决代理问题</h3>
+<p>由于 Waydroid 走的是内核的 IP 转发，我们需要使用 TUN 模式。</p>
+<h3>注册设备</h3>
+<p>通过 <a href="https://www.apkmirror.com/apk/evozi/device-id">Device ID</a> 获取 Google 框架 ID：</p>
+<pre><code class="language-bash">adb shell settings get secure android_id # 如果已经安装 android-tools 则默认连接
+</code></pre>
+<p><a href="https://www.google.com/android/uncertified/">进入网页进行注册</a></p>
+<h2>其他配置</h2>
+<h3>开启多窗口</h3>
+<pre><code class="language-bash">waydroid prop set persist.waydroid.multi_windows true
+sudo systemctl restart waydroid-container
+</code></pre>
+<h3>切换显卡数据不共享问题</h3>
+<p>不知为何，同一个应用，在 AMD 核显和 NVIDIA(prime-run) 环境下并不共享应用数据。</p>
+<p>TODO: 搜集相关信息</p>
 
 </div>
 

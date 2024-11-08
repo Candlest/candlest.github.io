@@ -1,5 +1,12 @@
 .toc-float.collapsed {
     max-height: 1rem; /* 收起时的高度 */
+    max-width: 2rem; /* 收起时的宽度 */
+    /*隐藏滚动条*/
+    overflow: hidden;
+    /*改变字体颜色为深蓝色*/
+    color: #0000FF;
+    /*改变鼠标指针样式*/
+    cursor: pointer;
 }
 
 /* Note 提示 */

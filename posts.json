@@ -1,35 +1,11 @@
 [
     
         {
-            "title": "高精度",
-            "filename": "bignum",
-            "date": "2024-10-05T14:55:28",
-            "tags": ["cpp"],
-            "categories": "algorithm"
-        },
-    
-        {
-            "title": "快速幂运算",
-            "filename": "quick_pow",
-            "date": "2024-10-01T15:55:13",
-            "tags": ["cpp"],
-            "categories": "algorithm"
-        },
-    
-        {
-            "title": "进制转换",
-            "filename": "digit_convert",
-            "date": "2024-09-24T13:40:36",
-            "tags": ["cpp"],
-            "categories": "algorithm"
-        },
-    
-        {
-            "title": "搭建个人博客六年的一些思考",
-            "filename": "blog_240731",
-            "date": "2024-07-31T12:20:49",
-            "tags": ["blog"],
-            "categories": "think"
+            "title": "配置 Waydroid",
+            "filename": "waydroid_config",
+            "date": "2024-11-07T21:02:35",
+            "tags": ["linux"],
+            "categories": "configs"
         },
     
         {
@@ -41,7 +17,7 @@
         },
     
         {
-            "title": "Windows优化记录",
+            "title": "Windows 优化记录",
             "filename": "windows_tweak",
             "date": "2024-07-02T20:01:58",
             "tags": ["windows"],
