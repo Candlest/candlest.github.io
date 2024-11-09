@@ -1,6 +1,93 @@
+.tag {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #007bff; /* 背景颜色 */
+    color: #ffffff; /* 文字颜色 */
+    border-radius: 15px; /* 圆角 */
+    font-size: 14px; /* 字体大小 */
+    font-family: Arial, sans-serif; /* 字体 */
+    text-align: center; /* 文字居中 */
+    margin: 5px; /* 外边距 */
+}
+
+/* 定义 <key> 元素的基本样式 */
+key {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    color: #333;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+/* 鼠标悬停时的样式 */
+key:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+/* 点击时的样式 */
+key:active {
+    background-color: #d0d0d0;
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 定义 <blockquote> 元素的基本样式 */
+blockquote {
+    position: relative;
+    padding: 20px 30px;
+    margin: 20px 0;
+    background-color: #f9f9f9;
+    border-left: 5px solid #6c757d;
+    font-style: italic;
+    color: #333;
+    line-height: 1.6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 添加引号
+blockquote::before {
+    content: '“';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 40px;
+    color: #6c757d;
+}
+
+blockquote::after {
+    content: '”';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 40px;
+    color: #6c757d;
+} */
+
+/* 引用块的作者 */
+blockquote footer {
+    margin-top: 15px;
+    text-align: right;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* 引用块的作者名字 */
+blockquote footer cite {
+    font-style: normal;
+    font-weight: bold;
+}
+
 .toc-float.collapsed {
     max-height: 1rem; /* 收起时的高度 */
-    max-width: 2rem; /* 收起时的宽度 */
+    max-width: 1rem; /* 收起时的宽度 */
     /*隐藏滚动条*/
     overflow: hidden;
     /*改变字体颜色为深蓝色*/
@@ -262,17 +349,73 @@ pre {
 }
 
 body {
-    color: #000;
     font-family: monospace;
     font-size: 16px;
     line-height: 1.4;
     margin: 0;
     min-height: 100%;
     overflow-wrap: break-word;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
 img {
     max-width: 90%;
     margin-top: 0px;
     margin-bottom: 2.5rem;
+}
+
+/*From gpt*/
+
+/* 容器样式 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 右对齐的代码块 */
+.nav-right {
+    color: #fff;
+    font-size: 14px;
+}
+
+/* 主要内容区域样式 */
+main {
+    padding: 20px 0;
+}
+
+/* 浮动目录样式 */
+.toc-float {
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 250px;
+    transition: max-width 0.3s ease;
+}
+
+.toc-float.collapsed {
+    overflow: hidden;
+}
+
+.toggle-btn {
+    cursor: pointer;
+    display: block;
+    text-align: left;
+}
+
+code {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    color: #333;
 }

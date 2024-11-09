@@ -76,7 +76,7 @@
     </div>
   </header>
   <code class="toc-float">
-    <span class="toggle-btn">收起</span>
+    <span class="toggle-btn" style="font-size: large;">▶</span>
     
 <ul id="toc"></ul></code>
   <main class="container">
@@ -90,6 +90,9 @@
 <h2>解决 systemd-boot 引导 Windows 系统问题</h2>
 <p>详见：<a href="https://linxy.dev/systemd-boot-windows/">systemd-boot添加Windows引导项</a></p>
 <p>手写 <code>hook</code> 可还行。</p>
+<p>附规范：https://uapi-group.org/specifications/specs/boot_loader_specification/#type-1-boot-loader-specification-entries</p>
+<h2>时不时失效的 Win(Super) Key</h2>
+<p>原因是 <key>Fn</key> + <key>F2</key> 会关闭 <key>Win</key> 键。</p>
 
 </div>
 
@@ -131,7 +134,7 @@
     document.querySelector('.toggle-btn').addEventListener('click', function () {
       const tocFloat = document.querySelector('.toc-float');
       tocFloat.classList.toggle('collapsed');
-      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+      this.textContent = tocFloat.classList.contains('collapsed') ? '▼' : '▶';
     });
 
     function createCalendar(year, month) {

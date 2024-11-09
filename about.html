@@ -69,7 +69,7 @@
     </div>
   </header>
   <code class="toc-float">
-    <span class="toggle-btn">收起</span>
+    <span class="toggle-btn" style="font-size: large;">▶</span>
     
     <div id="calendar" class="calendar"></div>
     <ul id="toc"></ul></code>
@@ -165,7 +165,7 @@
 <p>Candlest 是 Candlestick 的缩写，有以下两层含义：</p>
 <ul>
 <li>
-<p>本意为烛台，由闻一多先生的《红烛》<sup class="footnote-reference"><a href="#1">1</a></sup>联想而来：或许我没有发光发亮的能力，但是我能为红烛创造条件。</p>
+<p>本意为烛台，由闻一多先生的<a href="https://www.gushiwen.cn/shiwenv_8d1dbb2a8cfe.aspx">《红烛》</a>联想而来：或许我没有发光发亮的能力，但是我希望能为红烛创造条件。</p>
 </li>
 <li>
 <p>引申意为 Candlestick Chart 即 <a href="https://zh.wikipedia.org/zh-cn/K%E7%BA%BF">K 线</a>，希望能通过严谨的数据分析和调查实践，更加深入地认识这个世界。</p>
@@ -180,9 +180,6 @@
 <li>Linux</li>
 </ul>
 <p>参见：<a href="/projects.html">Projects</a></p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>原文见<a href="https://www.gushiwen.cn/shiwenv_8d1dbb2a8cfe.aspx">此</a></p>
-</div>
 
 
     <script src="https://giscus.app/client.js" data-repo="Candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
@@ -223,7 +220,7 @@
     document.querySelector('.toggle-btn').addEventListener('click', function () {
       const tocFloat = document.querySelector('.toc-float');
       tocFloat.classList.toggle('collapsed');
-      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+      this.textContent = tocFloat.classList.contains('collapsed') ? '▼' : '▶';
     });
 
     function createCalendar(year, month) {

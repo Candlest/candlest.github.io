@@ -69,7 +69,7 @@
     </div>
   </header>
   <code class="toc-float">
-    <span class="toggle-btn">收起</span>
+    <span class="toggle-btn" style="font-size: large;">▶</span>
     
     <div id="calendar" class="calendar"></div>
     <ul id="toc"></ul></code>
@@ -198,7 +198,7 @@
     document.querySelector('.toggle-btn').addEventListener('click', function () {
       const tocFloat = document.querySelector('.toc-float');
       tocFloat.classList.toggle('collapsed');
-      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+      this.textContent = tocFloat.classList.contains('collapsed') ? '▼' : '▶';
     });
 
     function createCalendar(year, month) {
