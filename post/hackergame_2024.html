@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <!-- 引入FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- 插件 -->
+  <!--Jquery-->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <script src="/js/jquery.toc.min.js"></script>
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- hightlight -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/default.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/go.min.js"></script>
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <!-- KaTex-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+    integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
+    integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
+    crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+    crossorigin="anonymous"></script>
+  <!-- 统一加载 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // 初始化 Mermaid 以渲染图表
+      mermaid.initialize({
+        startOnLoad: true
+      });
+
+      // KATEX
+      const mathElements = document.querySelectorAll('.math, .math-inline, .math-display');
+      mathElements.forEach(element => {
+        katex.render(element.textContent, element, {
+          displayMode: element.classList.contains('math-display')
+        });
+      });
+    });
+  </script>
+  <!-- END: 插件 -->
+  <title>Hackergame 2024 个人 writeups & summary</title>
+</head>
+
+<body lang="zh-Hans-CN">
+  <header>
+    <div class="container">
+      <div class="nav-container">
+        <nav>
+          <p>
+            <a href="/">Home</a> |
+            <a href="/friends.html">Friends</a> |
+            <a href="/projects.html">Projects</a> |
+            <a href="https://channel.candlest.cc">Channel</a> |
+            <a href="/about.html">About</a>
+            <code class="nav-right">
+<code class="post-meta">
+    
+    #ctf    
+    
+    [hackergame]
+    <br><time datetime="2024-11-09T12:25:53">N: 2024-11-09T12:25:53</time>
+    
+    <br><time datetime="2024-11-09T13:59:31">M: 2024-11-09T13:59:31</time>
+    
+</code>
+</code>
+          </p>
+        </nav>
+      </div>
+    </div>
+  </header>
+  <code class="toc-float">
+    <span class="toggle-btn">收起</span>
+    
+<ul id="toc"></ul></code>
+  <main class="container">
+    <!-- class=content 的元素在其他模板-->
+    
+<div class="content">
+    <h1>Hackergame 2024 个人 writeups &amp; summary</h1>
+<p>有幸能够参加 hackergame，需要感谢 MSC 的前辈们的指引。这是我第一次尝试 CTF 类型的比赛！</p>
+<p>虽然我并没有做出多少题，但是还是玩得很开心。</p>
+<blockquote>
+<p>当前分数：1700， 总排名：364 / 2460 ，中山大学组内排名：23 / 90</p>
+<p>AI：0 ， binary：0 ， general：750 ， math：550 ， web：400</p>
+</blockquote>
+<p>本次比赛共 34 道题目：</p>
+<ul>
+<li>我在 11-02 ~ 11-05 完整做出来的有4题，完成部分小问的有7题，放在<strong>题解</strong></li>
+<li>截止 11-09 ，赛后通过学习 writeups 通过的题目有0题，放在<strong>复现</strong></li>
+</ul>
+<h2>题解</h2>
+<h3>签到题</h3>
+<blockquote>
+<p>拿不到 flag 我就会吼叫 🎶</p>
+</blockquote>
+<h4>法一：更改url参数</h4>
+<p>通过直接点击 <code>启动</code> 我们发现我们进入了 <code>http://202.38.93.141:12024/?pass=false</code></p>
+<p>所以我们不妨直接访问：http://202.38.93.141:12024/?pass=true，拿到 flag</p>
+<h4>法二：js脚本</h4>
+<pre><code class="language-javascript">// 定义输入框 ID 和对应的内容，其实，其实key直接读&lt;input&gt;的属性
+const inputData = {
+    'zh': '启动',
+    'en': 'Start',
+    'ja': '起動',
+    'ko': '시작',
+    'fr': 'Démarrer',
+    'de': 'Starten',
+    'es': 'Iniciar',
+    'ru': 'Запуск',
+    'it': 'Avviare',
+    'eo': 'Startigi',
+    'vi': 'Khởi động',
+    'ak': '𒁺'
+};
+
+// 遍历输入框 ID 和内容，填充输入框
+for (const [inputId, value] of Object.entries(inputData)) {
+    const inputField = document.getElementById(inputId);
+    if (inputField) {
+        inputField.value = value;
+    }
+}
+</code></pre>
+<h3>喜欢做签到的 CTFer 你们好呀</h3>
+<p>这是一道信息收集题，分解成三个部分：</p>
+<ul>
+<li>找到 USTC CTF 战队招新的页面</li>
+<li>找到第一个 flag（about）</li>
+<li>找到第二个 flag（见<strong>复现</strong>）</li>
+</ul>
+<p>通过科大官网、ustclug 等站点，定位到 <code>https://www.nebuu.la/</code></p>
+<p><del> 站点疑似在模仿一个 NixOS 的 terminal </del></p>
+<p>输入 <code>env</code> 我们可以得到第一个 flag：</p>
+<pre><code class="language-bash">ctfer@ustc-nebula:$ ~ env
+---
+PWD=/root/Nebula-Homepage
+ARCH=loong-arch
+NAME=Nebula-Dedicated-High-Performance-Workstation
+OS=NixOS❄️
+FLAG=flag{actually_theres_another_flag_here_trY_to_f1nD_1t_y0urself___join_us_ustc_nebula}
+REQUIREMENTS=1. you must come from USTC; 2. you must be interested in security!
+</code></pre>
+<h3>猫咪问答（Hackergame 十周年纪念版）</h3>
+<blockquote>
+<ol>
+<li>在 Hackergame 2015 比赛开始前一天晚上开展的赛前讲座是在哪个教室举行的？（30 分）</li>
+</ol>
+</blockquote>
+<p>通过搜索科大官网的新闻，发现是 <code>3A204</code></p>
+<blockquote>
+<ol start="2">
+<li>众所周知，Hackergame 共约 25 道题目。近五年（不含今年）举办的 Hackergame 中，题目数量最接近这个数字的那一届比赛里有多少人注册参加？（30 分）</li>
+</ol>
+</blockquote>
+<p>往届的题解都公布在 <a href="https://github.com/ustclug">ustclug</a> 或 <a href="https://github.com/ustc-hackergame">ustc-hackergame</a> 的 repos 里，确定到题目<del>最少的一年</del>数量最接近 25 的是 2020年。</p>
+<p>从 <a href="https://blog.sustcra.com/p/ustc-hackergame-2020/">ustclug</a> 站点得到人数数据为2682。</p>
+<blockquote>
+<ol start="3">
+<li>Hackergame 2018 让哪个热门检索词成为了科大图书馆当月热搜第一？（20 分）</li>
+</ol>
+</blockquote>
+<p>查看 Hackergame 2018 题解和参加者的博客即可倒推：<code>程序员的自我修养</code></p>
+<blockquote>
+<ol start="4">
+<li>在今年的 USENIX Security 学术会议上中国科学技术大学发表了一篇关于电子邮件伪造攻击的论文，在论文中作者提出了 6 种攻击方法，并在多少个电子邮件服务提供商及客户端的组合上进行了实验？（10 分）</li>
+</ol>
+</blockquote>
+<p>关键词：<code>USTC</code> <code>USENIX Security 2024</code> <code>email</code></p>
+<p>找到这样一篇论文：<a href="https://www.usenix.org/conference/usenixsecurity24/presentation/ma-jinrui">FakeBehalf: Imperceptible Email Spoofing Attacks
+against the Delegation Mechanism in Email Systems</a></p>
+<p>通过阅读，知晓有6种组合。</p>
+<blockquote>
+<ol start="5">
+<li>10 月 18 日 Greg Kroah-Hartman 向 Linux 邮件列表提交的一个 patch 把大量开发者从 MAINTAINERS 文件中移除。这个 patch 被合并进 Linux mainline 的 commit id 是多少？（5 分）</li>
+</ol>
+</blockquote>
+<p><del>也算是恰到最新的瓜了</del></p>
+<p>在 github 上面的 <a href="https://github.com/torvalds/linux/commit/6e90b675cf942e50c70e8394dfb5862975c3b3b2">linux 内核 git 记录</a> 记载的 <code>commit id</code> 为 <code>6e90b67</code>，但是题目要求6位，我们取<code>6e90b6</code>。</p>
+<blockquote>
+<ol start="6">
+<li>大语言模型会把输入分解为一个一个的 token 后继续计算，请问这个网页的 HTML 源代码会被 Meta 的 Llama 3 70B 模型的 tokenizer 分解为多少个 token？（5 分）</li>
+</ol>
+</blockquote>
+<p>去申请 Llama 3 70B 被拒绝了（悲）</p>
+<p>好在在百度网盘找到了文件。我们只需要用到 <code>tokenizer</code>，不需要把整个模型全部下下来！（说的就是你！<code>*.safetensors</code>）</p>
+<p>代码如下：</p>
+<pre><code class="language-python">from transformers import LlamaTokenizer, PreTrainedTokenizerFast
+
+# 本地文件路径
+local_tokenizer_path = "./meta-llama"
+
+# 加载本地 tokenizer
+# 加载本地 tokenizer
+tokenizer = PreTrainedTokenizerFast.from_pretrained(local_tokenizer_path, legacy=False)
+
+# 从 source.html 文件中读取 HTML 代码
+with open("source.html", "r", encoding="utf-8") as file:
+    html_code = file.read()
+
+# 使用 tokenizer 解析 HTML 代码
+tokens = tokenizer.encode(html_code)
+num_tokens = len(tokens)
+
+print(f"HTML 代码被分解为 {num_tokens} 个 token。")
+</code></pre>
+<p>得到答案: <code>1833</code></p>
+<p>自此，顺利拿下两个 flag 。</p>
+<h3>打不开的盒</h3>
+<p>下载 <code>*.stl</code> 文件，找一个 3D 查看器即可。</p>
+<p>第一次输入的时候，把 <code>0</code> 错认成 <code>O</code> 了。其他的倒是还好。</p>
+<h3>比大小王</h3>
+<p>紧跟小猿口算的时事。抓包当然是最快的。</p>
+<p>通过分析网页源代码，发现早在打开网页的时候，100组比大小的数据已经被请求并储存在变量里面了。</p>
+<p>在 console 输入如下代码：</p>
+<pre><code class="language-javascript">// 确保 state.values 已经加载
+if (state.values) {
+    // 获取 state.values
+    let stateValues = state.values;
+    let inputs = [];
+  
+    // 遍历 state.values 并根据 value1 和 value2 的大小关系选择答案
+    stateValues.forEach(valuePair =&gt; {
+      let value1 = valuePair[0];
+      let value2 = valuePair[1];
+  
+      if (value1 &lt; value2) {
+        inputs.push('&lt;');
+      } else {
+        inputs.push('&gt;');
+      }
+    });
+  
+    // 自动提交结果
+    fetch('/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({inputs}),
+    })
+    .then(response =&gt; response.json())
+    .then(data =&gt; {
+      console.log('提交结果:', data.message);
+      document.getElementById('dialog').textContent = data.message;
+      document.getElementById('dialog').style.display = 'flex';
+    });
+  }
+</code></pre>
+<p>得到 flag 。</p>
+<h3>旅行照片 4.0</h3>
+<blockquote>
+<p>问题 1: 照片拍摄的位置距离中科大的哪个校门更近？（格式：X校区Y门，均为一个汉字）</p>
+</blockquote>
+<p>查阅百度地图，“科里科气科创驿站”离东校区东门最近。</p>
+<blockquote>
+<p>问题 2: 话说 Leo 酱上次出现在桁架上是……科大今年的 ACG 音乐会？活动日期我没记错的话是？（格式：YYYYMMDD）</p>
+</blockquote>
+<p>查阅 Bilibili，锁定日期 <code>20240519</code></p>
+<blockquote>
+<p>问题 3: 这个公园的名称是什么？（不需要填写公园所在市区等信息）</p>
+</blockquote>
+<p>大概在合肥，穷举法得：<code>中央森林公园</code></p>
+<blockquote>
+<p>问题 4: 这个景观所在的景点的名字是？（三个汉字）</p>
+</blockquote>
+<p>谷歌 lens 得到：<code>坛子岭</code></p>
+<p>题目 5~6 不会</p>
+<p><del>怎么出题人是铁道吃啊</del></p>
+<h3>PaoluGPT</h3>
+<p>第一问暴力穷举：</p>
+<pre><code class="language-javascript">(async function() {
+    // 获取当前页面的基础 URL
+    const baseUrl = window.location.origin;
+
+    // 获取所有文章链接
+    const articleLinks = [];
+    document.querySelectorAll('a').forEach(link =&gt; {
+        const href = link.getAttribute('href');
+        if (href &amp;&amp; href.includes('/view')) {
+            // 将相对链接转换为绝对链接
+            const absoluteUrl = new URL(href, baseUrl).href;
+            articleLinks.push(absoluteUrl);
+        }
+    });
+
+    // 只取前999个链接
+    const limitedArticleLinks = articleLinks.slice(0, 999);
+
+    // 遍历每个文章链接并查找"flag"
+    for (const link of limitedArticleLinks) {
+        try {
+            const response = await fetch(link);
+            const html = await response.text();
+            if (html.includes('flag')) {
+                console.log(`Found 'flag' in article: ${link}`);
+                break; // 如果找到"flag"，可以停止进一步的搜索
+            } else {
+                console.log("next\n");
+            }
+            await new Promise(resolve =&gt; setTimeout(resolve, 1000)); // 延迟1秒
+        } catch (error) {
+            console.error(`Error fetching ${link}:`, error);
+        }
+    }
+})();
+</code></pre>
+<p>第二问不知道怎么做。</p>
+<h3>惜字如金 3.0</h3>
+<p>在 llm 的帮助下完成 de-xzrj 的操作，并通过下面的脚本填充至80字符：</p>
+<pre><code class="language-python">def pad_to_80_chars(line):
+    """填充一行代码到 80 个字符"""
+    return line.ljust(80)
+
+def process_file(input_file, output_file):
+    """处理文件，逐行填充到 80 个字符"""
+    with open(input_file, 'r') as infile, open(output_file, 'w') as outfile:
+        for line in infile:
+            padded_line = pad_to_80_chars(line.rstrip())
+            outfile.write(padded_line + '\n')
+
+if __name__ == "__main__":
+    input_file = "de-xzrj.py"  # 还原后的代码文件
+    output_file = "de-xzrj-80.py"   # 填充后的代码文件
+    process_file(input_file, output_file)
+</code></pre>
+<p>第二问第七行始终不过：</p>
+<pre><code class="language-python">poly, poly_degree = 'B', 48 
+</code></pre>
+<p>以及</p>
+<pre><code class="language-python">poly, poly_degree = 'BbbbbbBbbbBBbbbbBBBBbbbBBBbBbBBBBbBBBbbBbbBbbBbbB', 48 
+</code></pre>
+<p>似乎都不行</p>
+<h3>优雅的不等式</h3>
+<p>通过 Geogebra 完成第一问的构造，大抵分为两步：</p>
+<p>设 <span class="math math-inline">f(x) = \frac{4}{1+x^2}</span></p>
+<ul>
+<li>找到 [0,1]上为 8/3 的多项式定积分 <span class="math math-inline">g(x)</span></li>
+<li>假如它是一次的，找出能够使 <span class="math math-inline">f(x) - g(x)</span> 在 [0,1] 非负的系数</li>
+</ul>
+<p>得到 <span class="math math-inline">g(x) = ax + b, -\frac{8}{3} \leq a \leq -\frac{4}{9}, \quad b = \frac{8}{3} - \frac{a}{2}</span></p>
+<p>选择一个顺眼的 <span class="math math-inline">a</span> 即可。</p>
+<p>解得 difficulty = 1 的情况</p>
+<h3>不太分布式的软总线</h3>
+<p>第一问只需要学会 <code>dbus-send</code> :</p>
+<pre><code class="language-bash">#!/bin/bash
+
+# 使用 dbus-send 调用 GetFlag1 方法
+response=$(dbus-send --system --dest=cn.edu.ustc.lug.hack.FlagService \
+                     --type=method_call --print-reply \
+                     /cn/edu/ustc/lug/hack/FlagService \
+                     cn.edu.ustc.lug.hack.FlagService.GetFlag1 \
+                     string:"Please give me flag1")
+
+# 提取返回的 flag1
+flag1=$(echo "$response" | grep -oP '(?&lt;=string ")[^"]+')
+
+echo "Flag1: $flag1"
+</code></pre>
+<h3>零知识数独</h3>
+<p>第一问只要会求解数独即可。</p>
+<p>第二问只要能读懂电路即可，构造一个 <code>input.json</code>:</p>
+<pre><code class="language-json">{
+  "unsolved_grid": [
+    [7, 0, 0, 0, 0, 0, 6, 0, 0],
+    [0, 0, 0, 0, 0, 9, 0, 1, 0],
+    [0, 8, 0, 7, 0, 2, 0, 0, 0],
+    [3, 2, 0, 0, 0, 0, 4, 0, 0],
+    [0, 5, 0, 0, 0, 0, 0, 0, 1],
+    [0, 7, 0, 6, 9, 0, 0, 0, 0],
+    [0, 0, 0, 0, 5, 8, 9, 0, 0],
+    [5, 0, 1, 0, 0, 0, 0, 8, 0],
+    [0, 0, 0, 2, 0, 0, 0, 6, 0]
+  ],
+  "solved_grid": [
+    [7, 1, 3, 8, 4, 5, 6, 2, 9],
+    [2, 4, 5, 3, 6, 9, 7, 1, 8],
+    [9, 8, 6, 7, 1, 2, 5, 4, 3],
+    [3, 2, 9, 5, 8, 1, 4, 7, 6],
+    [6, 5, 8, 4, 2, 7, 3, 9, 1],
+    [1, 7, 4, 6, 9, 3, 8, 5, 2],
+    [4, 6, 2, 1, 5, 8, 9, 3, 7],
+    [5, 3, 1, 9, 7, 6, 2, 8, 4],
+    [8, 9, 7, 2, 3, 4, 1, 6, 5]
+  ]
+}
+</code></pre>
+<p>自此，会做的题大抵就做完了。11-05 后便不再关注比赛。</p>
+<h2>复现</h2>
+<p>周四晚上梦见已经到周六公布 writeups 了，希望能看看我不会的题目到底是什么个思路，尤其是大家都会但是我不会的 web 题。</p>
+
+</div>
+
+    <script src="https://giscus.app/client.js" data-repo="Candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
+      data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="url" data-strict="0"
+      data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light"
+      data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+      </script>
+  </main>
+  <footer>
+    <p align="center">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+        width="16" height="16">
+        <a href="https://github.com/candlest">
+          <path
+            d="M256 32C132.3 32 32 134.9 32 261.7c0 101.5 64.2 187.5 153.2 217.9a17.56 17.56 0 0 0 3.8.4c8.3 0 11.5-6.1 11.5-11.4c0-5.5-.2-19.9-.3-39.1a102.4 102.4 0 0 1-22.6 2.7c-43.1 0-52.9-33.5-52.9-33.5c-10.2-26.5-24.9-33.6-24.9-33.6c-19.5-13.7-.1-14.1 1.4-14.1h.1c22.5 2 34.3 23.8 34.3 23.8c11.2 19.6 26.2 25.1 39.6 25.1a63 63 0 0 0 25.6-6c2-14.8 7.8-24.9 14.2-30.7c-49.7-5.8-102-25.5-102-113.5c0-25.1 8.7-45.6 23-61.6c-2.3-5.8-10-29.2 2.2-60.8a18.64 18.64 0 0 1 5-.5c8.1 0 26.4 3.1 56.6 24.1a208.21 208.21 0 0 1 112.2 0c30.2-21 48.5-24.1 56.6-24.1a18.64 18.64 0 0 1 5 .5c12.2 31.6 4.5 55 2.2 60.8c14.3 16.1 23 36.6 23 61.6c0 88.2-52.4 107.6-102.3 113.3c8 7.1 15.2 21.1 15.2 42.5c0 30.7-.3 55.5-.3 63c0 5.4 3.1 11.5 11.4 11.5a19.35 19.35 0 0 0 4-.4C415.9 449.2 480 363.1 480 261.7C480 134.9 379.7 32 256 32z"
+            fill="currentColor"></path>
+        </a>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+        width="16" height="16">
+        <a href="mailto:candlest1112@gmail.com">
+          <path
+            d="M464 80H48a16 16 0 0 0-16 16v320a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM265.82 284.63a16 16 0 0 1-19.64 0L89.55 162.81l19.64-25.26L256 251.73l146.81-114.18l19.64 25.26z"
+            fill="currentColor"></path>
+        </a>
+      </svg>
+      <br>
+      <small>
+        <i>generated by <a href="https://github.com/Candlest/rigos">rigos</a>.</i>
+      </small>
+    </p>
+  </footer>
+  <script>hljs.highlightAll();</script>
+  <script type="text/javascript">
+    $("#toc").toc({ content: "div.content", headings: "h1,h2,h3,h4" });
+  </script>
+  <script>
+    document.querySelector('.toggle-btn').addEventListener('click', function () {
+      const tocFloat = document.querySelector('.toc-float');
+      tocFloat.classList.toggle('collapsed');
+      this.textContent = tocFloat.classList.contains('collapsed') ? '展开' : '收起';
+    });
+
+    function createCalendar(year, month) {
+      const calendarEl = document.getElementById('calendar');
+      if (!calendarEl) {
+        return; // 如果元素不存在，则不执行后续代码
+      }
+      const table = document.createElement('table');
+      const header = table.createTHead();
+      const headerRow = header.insertRow();
+      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      daysOfWeek.forEach(day => {
+        const th = document.createElement('th');
+        th.textContent = day;
+        headerRow.appendChild(th);
+      });
+
+      const date = new Date(year, month - 1, 1);
+      const daysInMonth = new Date(year, month, 0).getDate();
+      const firstDay = date.getDay();
+
+      const tbody = table.createTBody();
+      let day = 1;
+      for (let i = 0; i < 6; i++) {
+        const row = tbody.insertRow();
+        for (let j = 0; j < 7; j++) {
+          const cell = row.insertCell();
+          if (i === 0 && j < firstDay) {
+            cell.textContent = '';
+          } else if (day > daysInMonth) {
+            cell.textContent = '';
+          } else {
+            cell.textContent = day;
+            // 检查当前日期是否是今天
+            const today = new Date();
+            if (today.getFullYear() === year && today.getMonth() === month - 1 && today.getDate() === day) {
+              cell.classList.add('today'); // 添加高亮样式
+              cell.addEventListener('click', function () {
+                // 获取今天的日期并跳转到维基百科的“历史上的今天”页面
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                const todayMonth = monthNames[today.getMonth()];
+                const todayDate = `${todayMonth}_${today.getDate()}`;
+                const wikipediaUrl = `https://en.wikipedia.org/wiki/${todayDate}`;
+                window.open(wikipediaUrl, '_blank');
+              });
+            }
+            day++;
+          }
+        }
+      }
+
+      calendarEl.innerHTML = '';
+      calendarEl.appendChild(table);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const now = new Date();
+      createCalendar(now.getFullYear(), now.getMonth() + 1);
+    });
+  </script>
+</body>
+
+</html>
