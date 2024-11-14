@@ -105,6 +105,9 @@
 <h4>法一：更改url参数</h4>
 <p>通过直接点击 <code>启动</code> 我们发现我们进入了 <code>http://202.38.93.141:12024/?pass=false</code></p>
 <p>所以我们不妨直接访问：http://202.38.93.141:12024/?pass=true，拿到 flag</p>
+<blockquote>
+<p>flag{welcOme-T0-hAcKER94M3-4nD-ENjOY-hACkinG-ZoZ4}</p>
+</blockquote>
 <h4>法二：js脚本</h4>
 <pre><code class="language-javascript">// 定义输入框 ID 和对应的内容，其实，其实key直接读&lt;input&gt;的属性
 const inputData = {
@@ -135,7 +138,7 @@ for (const [inputId, value] of Object.entries(inputData)) {
 <ul>
 <li>找到 USTC CTF 战队招新的页面</li>
 <li>找到第一个 flag（about）</li>
-<li>找到第二个 flag（见<strong>复现</strong>）</li>
+<li>找到第二个 flag（没写出来）</li>
 </ul>
 <p>通过科大官网、ustclug 等站点，定位到 <code>https://www.nebuu.la/</code></p>
 <p><del> 站点疑似在模仿一个 NixOS 的 terminal </del></p>
@@ -214,9 +217,16 @@ print(f"HTML 代码被分解为 {num_tokens} 个 token。")
 </code></pre>
 <p>得到答案: <code>1833</code></p>
 <p>自此，顺利拿下两个 flag 。</p>
+<blockquote>
+<p>flag{A_9ØØd_©αt_is_tHE_©@t_ωh0_cαn_p4SS_7HE_QบI2}</p>
+<p>flag{TEn_Ye4R5_Øƒ_HΛ©KERg4m3_oM3DETOU_WItH_NeK0_qบIz}</p>
+</blockquote>
 <h3>打不开的盒</h3>
 <p>下载 <code>*.stl</code> 文件，找一个 3D 查看器即可。</p>
 <p>第一次输入的时候，把 <code>0</code> 错认成 <code>O</code> 了。其他的倒是还好。</p>
+<blockquote>
+<p>flag{Dr4W_Us!nG_fR3E_C4D!!w0W}</p>
+</blockquote>
 <h3>比大小王</h3>
 <p>紧跟小猿口算的时事。抓包当然是最快的。</p>
 <p>通过分析网页源代码，发现早在打开网页的时候，100组比大小的数据已经被请求并储存在变量里面了。</p>
@@ -256,11 +266,14 @@ if (state.values) {
   }
 </code></pre>
 <p>得到 flag 。</p>
+<blockquote>
+<p>flag{I-4m-TH3-h@Ck3R-K1NG-OF-C0MP@R!ng-Num63rs-ZOZ4}</p>
+</blockquote>
 <h3>旅行照片 4.0</h3>
 <blockquote>
 <p>问题 1: 照片拍摄的位置距离中科大的哪个校门更近？（格式：X校区Y门，均为一个汉字）</p>
 </blockquote>
-<p>查阅百度地图，“科里科气科创驿站”离东校区东门最近。</p>
+<p>查阅百度地图，“科里科气科创驿站”离<code>东校区西门</code>最近。</p>
 <blockquote>
 <p>问题 2: 话说 Leo 酱上次出现在桁架上是……科大今年的 ACG 音乐会？活动日期我没记错的话是？（格式：YYYYMMDD）</p>
 </blockquote>
@@ -275,6 +288,10 @@ if (state.values) {
 <p>谷歌 lens 得到：<code>坛子岭</code></p>
 <p>题目 5~6 不会</p>
 <p><del>怎么出题人是铁道吃啊</del></p>
+<blockquote>
+<p>flag{5UB5CR1B3_T0_L30_CH4N_0N_B1L1B1L1_PLZ_acd7ac6e30}</p>
+<p>flag{D3T41LS_M4TT3R_1F_R3V3RS3_S34RCH_1S_1MP0SS1BL3_d2c74f7b34}</p>
+</blockquote>
 <h3>PaoluGPT</h3>
 <p>第一问暴力穷举：</p>
 <pre><code class="language-javascript">(async function() {
@@ -296,23 +313,35 @@ if (state.values) {
     const limitedArticleLinks = articleLinks.slice(0, 999);
 
     // 遍历每个文章链接并查找"flag"
+    let flag = null; // 用于存储找到的flag
     for (const link of limitedArticleLinks) {
         try {
             const response = await fetch(link);
             const html = await response.text();
             if (html.includes('flag')) {
                 console.log(`Found 'flag' in article: ${link}`);
+                flag = html.match(/flag\{.*?\}/)[0]; // 假设flag的格式是flag{...}
                 break; // 如果找到"flag"，可以停止进一步的搜索
             } else {
                 console.log("next\n");
             }
-            await new Promise(resolve =&gt; setTimeout(resolve, 1000)); // 延迟1秒
+            await new Promise(resolve =&gt; setTimeout(resolve, 10)); // 延迟0.01秒
         } catch (error) {
             console.error(`Error fetching ${link}:`, error);
         }
     }
+
+    // 输出找到的flag
+    if (flag) {
+        console.log(`Flag found: ${flag}`);
+    } else {
+        console.log("No flag found.");
+    }
 })();
 </code></pre>
+<blockquote>
+<p>flag{zU1_xiA0_de_11m_Pa0lule!!!_0dfe5b2d41}</p>
+</blockquote>
 <p>第二问不知道怎么做。</p>
 <h3>惜字如金 3.0</h3>
 <p>在 llm 的帮助下完成 de-xzrj 的操作，并通过下面的脚本填充至80字符：</p>
@@ -332,6 +361,9 @@ if __name__ == "__main__":
     output_file = "de-xzrj-80.py"   # 填充后的代码文件
     process_file(input_file, output_file)
 </code></pre>
+<blockquote>
+<p>flag{C0mpl3ted-Th3-Pyth0n-C0de-N0w}</p>
+</blockquote>
 <p>第二问第七行始终不过：</p>
 <pre><code class="language-python">poly, poly_degree = 'B', 48 
 </code></pre>
@@ -347,10 +379,13 @@ if __name__ == "__main__":
 <li>假如它是一次的，找出能够使 <span class="math math-inline">f(x) - g(x)</span> 在 [0,1] 非负的系数</li>
 </ul>
 <p>得到 <span class="math math-inline">g(x) = ax + b, -\frac{8}{3} \leq a \leq -\frac{4}{9}, \quad b = \frac{8}{3} - \frac{a}{2}</span></p>
-<p>选择一个顺眼的 <span class="math math-inline">a</span> 即可。</p>
+<p>不妨选择：<span class="math math-inline">a=-\frac{8}{5}</span> 的情况 <code>4/(1+x**2) - (-(8/5)*x + 52/15)</code></p>
 <p>解得 difficulty = 1 的情况</p>
+<blockquote>
+<p>flag{y0u_ar3_g0od_at_constructi0n_259fc06be3}</p>
+</blockquote>
 <h3>不太分布式的软总线</h3>
-<p>第一问只需要学会 <code>dbus-send</code> :</p>
+<p>第一问只需要 <code>dbus-send</code> :</p>
 <pre><code class="language-bash">#!/bin/bash
 
 # 使用 dbus-send 调用 GetFlag1 方法
@@ -365,9 +400,12 @@ flag1=$(echo "$response" | grep -oP '(?&lt;=string ")[^"]+')
 
 echo "Flag1: $flag1"
 </code></pre>
+<blockquote>
+<p>flag{every_11nuxdeskT0pU5er_uSeDBUS_bUtn0NeknOwh0w_0833b13a4e}</p>
+</blockquote>
 <h3>零知识数独</h3>
-<p>第一问只要会求解数独即可。</p>
-<p>第二问只要能读懂电路即可，构造一个 <code>input.json</code>:</p>
+<p>第一问只要会求解数独即可。<del>直接上数独求解器</del></p>
+<p>第二问只要能读懂电路即可，构造一个类似的 <code>input.json</code>:</p>
 <pre><code class="language-json">{
   "unsolved_grid": [
     [7, 0, 0, 0, 0, 0, 6, 0, 0],
@@ -393,9 +431,20 @@ echo "Flag1: $flag1"
   ]
 }
 </code></pre>
+<p>证明，并上传 <code>proof.json</code>：</p>
+<pre><code class="language-bash">snarkjs groth16 fullprove input.json sudoku.wasm sudoku.zkey proof.json public.json
+snarkjs groth16 verify verification_key.json public.json proof.json
+</code></pre>
+<p>得到 flag ：</p>
+<blockquote>
+<p>flag{you_are_a_5udoku_expert_and_pr0ved_your_kn0wledge_42ffd2ccfb}</p>
+</blockquote>
 <p>自此，会做的题大抵就做完了。11-05 后便不再关注比赛。</p>
 <h2>复现</h2>
 <p>周四晚上梦见已经到周六公布 writeups 了，希望能看看我不会的题目到底是什么个思路，尤其是大家都会但是我不会的 web 题。</p>
+<h2>教训：期待 Hackergame 2025</h2>
+<pre><code>TODO
+</code></pre>
 
 </div>
 
