@@ -46,7 +46,7 @@
     });
   </script>
   <!-- END: 插件 -->
-  <title>关于</title>
+  <title>配置 Micromamba</title>
 </head>
 
 <body lang="zh-Hans-CN">
@@ -61,7 +61,14 @@
             <a href="https://channel.candlest.cc">Channel</a> |
             <a href="/about.html">About</a>
             <code class="nav-right">
-<code class="post-meta">@关于</code>
+<code class="post-meta">
+    
+    #linux    
+    
+    [configs]
+    <br><time datetime="2024-11-16T17:04:07">N: 2024-11-16T17:04:07</time>
+    
+</code>
 </code>
           </p>
         </nav>
@@ -71,120 +78,32 @@
   <code class="toc-float">
     <span class="toggle-btn" style="font-size: large;">▶</span>
     
-    <div id="calendar" class="calendar"></div>
-    <ul id="toc"></ul></code>
+<ul id="toc"></ul></code>
   <main class="container">
     <!-- class=content 的元素在其他模板-->
     
-
-<!-- JavaScript 实现排序功能 -->
-<script>
-    let posts = []; // 定义一个空数组来存储 posts
-
-    // 使用 fetch 获取 posts.json 数据
-    fetch('posts.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            posts = data; // 将获取到的数据存储在 posts 数组中
-            console.log('Success:', posts);
-            sortPosts(); // 获取数据后立即调用 sortPosts 函数
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-
-    function sortPosts() {
-        const sortBy = document.getElementById('sort-select').value;
-        const postList = document.getElementById('post-list');
-        postList.innerHTML = '';
-
-        if (sortBy === 'time') {
-            posts.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(post => {
-                const li = document.createElement('li');
-                li.className = 'post-li';
-                li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
-                postList.appendChild(li);
-            });
-        } else if (sortBy === 'tag') {
-            const tagsDict = {};
-            posts.forEach(post => {
-                post.tags.forEach(tag => {
-                    if (!tagsDict[tag]) {
-                        tagsDict[tag] = [];
-                    }
-                    tagsDict[tag].push(post);
-                });
-            });
-            for (const tag in tagsDict) {
-                const h4 = document.createElement('h4');
-                h4.textContent = tag;
-                postList.appendChild(h4);
-                tagsDict[tag].forEach(post => {
-                    const li = document.createElement('li');
-                    li.className = 'post-li';
-                    li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
-                    postList.appendChild(li);
-                });
-            }
-        } else if (sortBy === 'category') {
-            const categoriesDict = {};
-            posts.forEach(post => {
-                if (!categoriesDict[post.categories]) {
-                    categoriesDict[post.categories] = [];
-                }
-                categoriesDict[post.categories].push(post);
-            });
-            for (const category in categoriesDict) {
-                const h4 = document.createElement('h4');
-                h4.textContent = category;
-                postList.appendChild(h4);
-                categoriesDict[category].forEach(post => {
-                    const li = document.createElement('li');
-                    li.className = 'post-li';
-                    li.innerHTML = `<a href="./post/${post.filename}.html"><time datetime="${post.date}">${post.date}</time> --- ${post.title}</a>`;
-                    postList.appendChild(li);
-                });
-            }
-        }
-    }
-</script>
-<h2>关于博客</h2>
-<p>本博客使用自己用 Rust 缝合编写的静态网站生成器 Rigos 生成。</p>
-<p>使用以下插件：</p>
-<ul>
-<li>mermaid.js 以绘制图像</li>
-<li>KaTeX 以支持 <span class="math math-inline">\KaTeX</span></li>
-</ul>
-<h2>关于我</h2>
-<h3>名字的由来</h3>
-<p>Candlest 是 Candlestick 的缩写，有以下两层含义：</p>
-<ul>
-<li>
-<p>本意为烛台，由闻一多先生的<a href="https://www.gushiwen.cn/shiwenv_8d1dbb2a8cfe.aspx">《红烛》</a>联想而来：或许我没有发光发亮的能力，但是我希望能为红烛创造条件。</p>
-</li>
-<li>
-<p>引申意为 Candlestick Chart 即 <a href="https://zh.wikipedia.org/zh-cn/K%E7%BA%BF">K 线</a>，希望能通过严谨的数据分析和调查实践，更加深入地认识这个世界。</p>
-</li>
-</ul>
-<p><del>果然表意越模糊，表意越全面。</del></p>
-<h3>技术栈</h3>
-<p>相对熟练地使用：</p>
-<ul>
-<li>C++/Qt</li>
-<li>Rust</li>
-<li>Linux</li>
-</ul>
-<p>参见：<a href="/projects.html">Projects</a></p>
-<h3>其他想贴在这的东西</h3>
+<div class="content">
+    <h1>配置 Micromamba</h1>
+<h2>安装并设置环境变量以及相关权限</h2>
+<pre><code class="language-bash">sudo pacman -S micromamba
+mkdir /opt/mamba
+sudo chown -R root:wheel /opt/mamba
+sudo chmod -R 775 /opt/mamba
+</code></pre>
+<p>根据提示，添加 <code>micromamba shell init --shell fish --root-prefix=/opt/mamba</code> 到 <code>~/.config/fish/config.fish</code> 。</p>
+<h2>创建环境</h2>
+<h3>Sagemath</h3>
+<pre><code class="language-bash">micromamba create -n sage sage python=3.9
+</code></pre>
+<p>下载速度好快，无须多余的配置，开箱即用。</p>
 <blockquote>
-<p>Work, Right and Fast</p>
+<p>To activate this environment, use:</p>
+<p><code>micromamba activate sage</code></p>
+<p>Or to execute a single command in this environment, use:</p>
+<p><code>micromamba run -n sage mycommand</code></p>
 </blockquote>
 
+</div>
 
     <script src="https://giscus.app/client.js" data-repo="Candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
       data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="url" data-strict="0"

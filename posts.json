@@ -1,6 +1,14 @@
 [
     
         {
+            "title": "解决双系统蓝牙连接问题",
+            "filename": "bt-connect_config",
+            "date": "2024-11-19T14:46:03",
+            "tags": ["linux"],
+            "categories": "configs"
+        },
+    
+        {
             "title": "Hackergame 2024 个人 writeups & summary",
             "filename": "hackergame_2024",
             "date": "2024-11-09T12:25:53",
