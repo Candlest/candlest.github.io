@@ -50,37 +50,43 @@
 </head>
 
 <body lang="zh-Hans-CN">
+  
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
   <header>
     <div class="container">
       <div class="nav-container">
         <nav>
           <p>
-            <a href="/">Home</a> |
-            <a href="/friends.html">Friends</a> |
-            <a href="/projects.html">Projects</a> |
-            <a href="https://channel.candlest.cc">Channel</a> |
+            <a href="/">Home</a>
+            <a href="/friends.html">Friends</a>
+            <a href="/projects.html">Projects</a>
+            <a href="https://channel.candlest.cc">Channel</a>
             <a href="/about.html">About</a>
-            <code class="nav-right">
-<code class="post-meta">
+            
+<span class="post-meta">
     
     #blog    
     
     [think]
-    <br><time datetime="2024-07-31T12:20:49">N: 2024-07-31T12:20:49</time>
+     | <time datetime="2024-07-31T12:20:49">N: 2024-07-31T12:20:49 </time>
     
-    <br><time datetime="2024-08-01T16:41:12">M: 2024-08-01T16:41:12</time>
+     | <time datetime="2024-08-01T16:41:12">M: 2024-08-01T16:41:12</time>
     
-</code>
-</code>
+</span>
+
           </p>
         </nav>
       </div>
     </div>
   </header>
-  <code class="toc-float">
-    <span class="toggle-btn" style="font-size: large;">▶</span>
+  <div class="toc-float">
+    <span class="toggle-btn">▶</span>
     
-<ul id="toc"></ul></code>
+<ul id="toc"></ul>
+  </div>
   <main class="container">
     <!-- class=content 的元素在其他模板-->
     
@@ -111,6 +117,16 @@
 <p>今天看到这样一篇博客，印证了本文的观点：<a href="https://www.jabed.dev/posts/from-knee-socks-wearing-arch-btw-with-waifu-pillow-to-an-apple-sheep">From knee socks 🏳️‍🌈 wearing Arch BTW with waifu pillow to an apple sheep🐑</a></p>
 
 </div>
+<script>
+    window.addEventListener('scroll', function () {
+        const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPosition = window.scrollY;
+        const progressPercentage = (scrollPosition / totalHeight) * 100;
+
+        document.getElementById('progressBar').style.width = progressPercentage + '%';
+        console.log(progressPercentage);
+    });
+</script>
 
     <script src="https://giscus.app/client.js" data-repo="Candlest/candlest.github.io" data-repo-id="R_kgDOJ_ICfw"
       data-category="Announcements" data-category-id="DIC_kwDOJ_ICf84CYNFn" data-mapping="url" data-strict="0"
