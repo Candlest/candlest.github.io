@@ -481,7 +481,7 @@ nav p {
 }
 
 nav p a {
-    margin-right: 10px;
+    /* margin-right: 10px; */
     /* 添加间距 */
     padding: 5px 10px;
     /* 添加内边距以增加点击区域 */
@@ -491,15 +491,6 @@ nav p a {
     /* 设置文字颜色 */
     transition: background-color 0.3s ease;
     /* 添加过渡效果 */
-}
-
-nav p a:not(:last-child)::after {
-    content: '|';
-    /* 在每个 <a> 后面添加分隔符 */
-    margin-left: 10px;
-    /* 分隔符与 <a> 之间的间距 */
-    color: #3e9a59;
-    /* 设置分隔符颜色 */
 }
 
 nav p a:hover {
